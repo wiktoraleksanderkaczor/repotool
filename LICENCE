@@ -1,5 +1,5 @@
-License text copyright (c) 2025 Wiktor Kaczor, All Rights Reserved.
-"Business Source License" is a trademark of Wiktor Kaczor.
+License text copyright (c) 2020 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
 
 
 Definitions
@@ -12,7 +12,7 @@ Definitions
 Parameters
 
 Licensor: Wiktor Kaczor
-Licensed Work: RepoTool Version 1.0 or later. The Licensed Work is (c) 2025 Wiktor Kaczor.
+Licensed Work: RepoTool Version 0.0.1 or later. The Licensed Work is (c) 2025 Wiktor Kaczor.
 Additional Use Grant: You may make production use of the Licensed Work, provided Your use is for personal, educational, or research purposes. For purposes of this license: "Personal Use" means use of the Licensed Work for your own individual projects or activities. "Educational Use" means use of the Licensed Work for teaching, learning, or academic research. "Research Use" means use of the Licensed Work for scientific or commercial research and development.
 Change Date: January 1, 2025
 Change License: GNU AGPLv3 (Affero GPL)
