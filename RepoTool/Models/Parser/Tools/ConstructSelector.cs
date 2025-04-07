@@ -1,0 +1,69 @@
+// Reuse for inline selections too...
+using RepoTool.Attributes;
+
+/// <summary>
+/// Defines the possible tool selections.
+/// </summary>
+public enum EnConstructType
+{
+    /// <summary>
+    /// Represents a scroll down action.
+    /// </summary>
+    [ToolChoice(typeof(ScrollDown))]
+    ScrollDown,
+
+    /// <summary>
+    /// Represents a preprocessor directive selection.
+    /// </summary>
+    [ToolChoice(typeof(DirectiveSelector))]
+    PreprocessorDirective,
+    
+    /// <summary>
+    /// Represents the start of a named block of code
+    /// </summary>
+    [ToolChoice(typeof(BlockSelector))]
+    Block,
+
+    /// <summary>
+    /// Represents a statement selection.
+    /// </summary>
+    [ToolChoice(typeof(StatementSelector))]
+    Statement,
+
+    /// <summary>
+    /// Represents a declaration selection.
+    /// </summary>
+    [ToolChoice(typeof(DeclarationSelector))]
+    Declaration,
+
+    /// <summary>
+    /// Represents a Expression selection.
+    /// </summary>
+    [ToolChoice(typeof(ExpressionSelector))]
+    Expression,
+
+    /// <summary>
+    /// Represents the end of a construct.
+    /// e.g. end of a class, method, or namespace.
+    /// or expression or statement depending on the context.
+    /// </summary>
+    EndConstruct,
+
+    /// <summary>
+    /// Represents the finish action.
+    /// i.e. completion of the parsing process.
+    /// This is the final selection in the parser.
+    /// </summary>
+    Finish,
+}
+
+/// <summary>
+/// Represents a selection in the parser.
+/// </summary>
+public record ConstructSelector : IToolSelector<EnConstructType>
+{
+    /// <summary>
+    /// The selected tool.
+    /// </summary>
+    public required EnConstructType ToolSelection { get; init; }
+}

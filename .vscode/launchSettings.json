@@ -1,0 +1,11 @@
+{
+    "profiles": {
+        "Development": {
+            "executablePath": "",
+            "commandName": "Project",
+            "environmentVariables": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        }
+    }
+}

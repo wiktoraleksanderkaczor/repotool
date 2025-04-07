@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Python",
+        "patterns": ["**/*.py"]
+    },
+    {
+        "name": "JavaScript",
+        "patterns": ["**/*.js"]
+    },
+    {
+        "name": "TypeScript",
+        "patterns": ["**/*.ts", "**/*.tsx"]
+    },
+    {
+        "name": "Java",
+        "patterns": ["**/*.java"]
+    },
+    {
+        "name": "C++",
+        "patterns": ["**/*.cpp", "**/*.h"]
+    },
+    {
+        "name": "C#",
+        "patterns": ["**/*.cs"]
+    },
+    {
+        "name": "Go",
+        "patterns": ["**/*.go"]
+    }
+]

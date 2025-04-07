@@ -1,0 +1,18 @@
+# Ignore the build output
+**/bin
+**/obj
+
+# Ignore the generated files for development
+.repotool
+
+# Environment files 
+.env
+
+# Anything with .ignore on the end
+**/*.ignore
+**/.ignore/
+
+# Ignore Cline/Roo/Copilot configuration files
+.clinerules*
+.github/copilot-instructions.md
+

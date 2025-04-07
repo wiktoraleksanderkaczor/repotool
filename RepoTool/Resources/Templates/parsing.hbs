@@ -1,0 +1,234 @@
+{{#*inline "Documentation"}}
+    {{#if BaseItem.Summary}}
+    Summary:
+        {{{BaseItem.Summary}}}
+    {{/if}}
+    {{#if BaseItem.Remarks}}
+    Remarks:
+        {{{BaseItem.Remarks}}}
+    {{/if}}
+    {{#if BaseItem.Example}}
+    Example:
+        {{{BaseItem.Example}}}
+    {{/if}}
+{{/inline~}}
+
+{{#*inline "TypedDocumentation"}}
+    Type: {{{BaseItem.TypeName}}}
+    {{> Documentation BaseItem=BaseItem }}
+{{/inline~}}
+
+{{#*inline "MemberDocumentation"}}
+    - {{{Member.Name}}}
+        {{> TypedDocumentation BaseItem=Member }}
+        {{#if Member.Value}}
+        Value: {{{Member.Value}}}
+        {{/if}}
+{{/inline~}}
+
+{{#*inline "GenericDocumentation"}}
+    {{> TypedDocumentation BaseItem=Parameter }}
+    {{#if Parameter.Properties}}
+    Properties:
+        {{#each Parameter.Properties}}
+        {{> MemberDocumentation Member=this}}
+        {{/each}}
+    {{/if~}}
+
+    {{#if Parameter.Fields}}
+    Fields:
+        {{#each Parameter.Fields}}
+        {{> MemberDocumentation Member=this}}
+        {{/each}}
+    {{/if~}}
+{{/inline~}}
+
+{{#*inline "ClassDocumentation"}}
+    {{#if Class.DerivesFrom}}
+    Derives From:
+        {{#each Class.DerivesFrom}}
+        - {{{this}}}
+        {{/each}}
+    {{/if}}
+    {{#if Class.Properties}}
+    Properties:
+        {{#each Class.Properties}}
+        {{> MemberDocumentation Member=this }}
+        {{/each}}
+    {{/if~}}
+    {{#if Class.Fields}}
+    Fields:
+        {{#each Class.Fields}}
+        {{> MemberDocumentation Member=this }}
+        {{/each}}
+    {{/if}}
+    {{#if Class.Generics}}
+    Generic Parameters:
+        {{#each Class.Generics}}
+        {{#if this}}
+        {{> GenericDocumentation Parameter=this}}
+        {{else}}
+        - (Unknown Generic Type)
+        {{/if}}
+        {{/each}}
+    {{/if}}
+{{/inline~}}
+
+{{#*inline "PropertyDocumentation"}}
+Documentation for `{{{Property.PropertyName}}}` property:
+    {{> TypedDocumentation BaseItem=Property }}
+    {{#if Property.Handling}}
+    Special handling:
+    {{#each Property.Handling}}
+        - {{{this.Name}}}
+            {{> Documentation BaseItem=this }}
+    {{/each}}
+    {{/if}}
+{{/inline}}
+
+{{#*inline "TypeDocumentation"}}
+{{#unless Type.IsAbstract}}
+{{#unless Type.IsInterface}}
+Documentation for `{{{Type.TypeName}}}` type:
+    {{> TypedDocumentation BaseItem=Type }}
+    {{> ClassDocumentation Class=Type }}
+{{/unless}}
+{{/unless}}
+
+{{#if Type.Structs}}
+Structure documentation:
+    {{#each Type.Structs}}
+    {{> TypedDocumentation BaseItem=this }}
+    {{#if this.Fields}}
+    Options:
+        {{#each this.Fields}}
+        {{> MemberDocumentation Member=this }}
+        {{/each}}
+    {{/if}}
+    {{/each}}
+{{/if}}
+
+{{#if Type.DerivedTypes}}
+Types that derive from `{{{Type.TypeName}}}`:
+    {{#each Type.DerivedTypes}}
+    {{#unless this.IsAbstract}}
+    {{#unless this.IsInterface}}
+    {{> TypedDocumentation BaseItem=this }}
+    {{> ClassDocumentation Class=this }}
+    {{/unless}}
+    {{/unless}}
+    {{/each}}
+{{/if}}
+{{/inline~}}
+
+<System>
+##### SYSTEM INFORMATION #####
+
+{{! CURRENT FULL FILE PATH }}
+File Path: `{{{Request.Context.FilePath}}}`
+
+{{! VISIBLE CODE WINDOW }}
+Current Code Window (Finished: {{Request.Context.CodeWindow.IsFinished}}, Lines Left: {{Request.Context.CodeWindow.LinesLeft}}):
+```
+{{#each Request.Context.CodeWindow.WindowContent}}
+{{{this.LineNumber}}}: {{{this.Content}}}
+{{/each}}
+```
+
+{{! PARSER OUTPUT DOCUMENTATION }}
+DOCUMENTATION FOR ITEM OUTPUT (ACTUAL OUTPUT):
+{{> TypeDocumentation Type=Documentation.ItemOutput }}
+
+{{~#if Documentation.PropertyInfo}}
+
+DOCUMENTATION FOR PROPERTY OF THE ITEM OUTPUT (I.E. ITEM OUTPUT THAT IS MEANT TO CREATE A PROPERTY):
+{{> PropertyDocumentation Property=Documentation.PropertyInfo }}
+{{/if}}
+
+{{~#if Documentation.ToolOutput}}
+
+TOOL OUTPUT DOCUMENTATION (I.E. TOOL OUTPUT THAT IS MEANT TO CREATE ITEM):
+{{> TypeDocumentation Type=Documentation.ToolOutput }}
+{{/if}}
+
+{{! OUTPUT FORMAT JSON SCHEMA }}
+{{~#if Documentation.JsonSchema}}
+
+You are to generate output fitting the following JSON schema according to the user instructions:
+```json
+{{{Documentation.JsonSchema}}}
+```
+{{/if}}
+
+{{! WINDOW OF LATEST ACTIONS }}
+{{#if Request.Context.ActionWindow.Window}}
+
+Up to {{{Request.Context.ActionWindow.WindowSize}}} of the latest actions taken:
+{{#each Request.Context.ActionWindow.Window}}
+- Message: `{{{this.Message}}}`
+- IsSuccess: `{{{this.IsSuccess}}}`
+    {{#if this.ItemPath}}
+    {{#if this.ItemPath.Components}}
+    - Path: {{{this.ItemPath.FullPath}}}
+    {{/if}}
+    {{#if this.IsSuccess}}
+    - Data:
+    {{#each this.ItemPath.Components}}
+    {{#if @last}}
+    {{#if this.CurrentObject}}
+    ```json
+    {{{this.CurrentObjectJson}}}
+    ```
+    {{/if}}
+    {{/if}}
+    {{/each}}
+    {{/if}}
+    {{/if}}
+{{/each}}
+{{/if}}
+
+{{! ITEM PATH WITH CURRENT PARTIAL OBJECT }}
+{{#if Request.Context.ItemPath.Components}}
+Current parsing path, last is latest, property names are for objects and indexes for iterables, later components will eventually be merged into their parents:
+{{#each Request.Context.ItemPath.Components}}
+{{#if this.Index}}
+- index: {{{this.Index}}}
+{{else}}
+- name: {{{this.PropertyName}}}
+{{/if}}
+    {{#if this.CurrentObject}}
+    Data: 
+    ```json
+    {{{this.CurrentObjectJson}}}
+    ```
+    {{/if}}
+{{/each}}
+{{/if}}
+</System>
+
+<User>
+You are RepoTool, an AI assistant specialized in polyglot code analysis and parsing. Your task is to analyze the provided code snippet within the current window and generate structured output according to the specified JSON schema.
+
+Your instructions:
+- Utilize the available tools for parsing, including parts, builders, and navigation tools.
+- Focus your analysis on the code currently visible in the window. Use the action history and current item path to understand the context and your position.
+- Proceed meticulously, line by line, from top to bottom. Do not skip lines or jump ahead.
+- Actions are final; you cannot undo previous steps. Ensure accuracy before committing to an action.
+- When navigating file content, prefer going past the code you have already parsed.
+- You can infer which building blocks (e.g., class, method) you are currently inside by examining the item path.
+- Refer to the provided documentation for details on the expected output structures.
+- Strictly adhere to the provided JSON schema for your output. Validate your generated JSON before finalizing.
+- Format your JSON output with appropriate whitespace and indentation for readability.
+- Ensure your final output concludes with exactly one newline character.
+- You have no memory of past interactions, so treat each request independently, everything you wish to parse must be added immediately.
+- Follow all instructions carefully to ensure accurate parsing.
+
+Following system information is available:
+- **Available Tools:** Builders for code elements (blocks, statements, expressions, directives), tools for selecting parts of these elements, and navigation tools (scrolling and page down).
+- **Current Code Window:** The code snippet to be analyzed. Code above this window is already processed.
+- **Action History:** A log of recent parsing actions taken.
+- **Current Item Path:** The nested structure (e.g., class > method > statement) currently being built. Partially parsed data for the current structure is available here.
+- **Full File Path:** The complete path of the file being parsed.
+- **Output Documentation:** Descriptions of the expected output structures for tools and items.
+- **JSON Schema:** The required structure for your JSON output.
+</User>

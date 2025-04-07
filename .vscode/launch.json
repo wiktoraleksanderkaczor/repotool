@@ -1,0 +1,47 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C#: RepoTool Parse Current File",
+            "type": "coreclr",
+            "request": "launch",
+            "launchSettingsFilePath": "${workspaceFolder}/.vscode/launchSettings.json",
+            "launchSettingsProfile": "Development",
+            "preLaunchTask": "dotnet: build",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/RepoTool/bin/Debug/net8.0/RepoTool.dll",
+            "args": ["parse", "${file}"],
+            "logging": {
+                "moduleLoad": false
+            }
+        },
+        {
+            "name": "C#: RepoTool Add C# Language",
+            "type": "coreclr",
+            "request": "launch",
+            "launchSettingsFilePath": "${workspaceFolder}/.vscode/launchSettings.json",
+            "launchSettingsProfile": "Development",
+            "preLaunchTask": "dotnet: build",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/RepoTool/bin/Debug/net8.0/RepoTool.dll",
+            "args": ["language", "available", "add", "C#"],
+            "logging": {
+                "moduleLoad": false
+            }
+        },
+        {
+            "name": "C#: RepoTool Init",
+            "type": "coreclr",
+            "request": "launch",
+            "launchSettingsFilePath": "${workspaceFolder}/.vscode/launchSettings.json",
+            "launchSettingsProfile": "Development",
+            "preLaunchTask": "dotnet: build",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/RepoTool/bin/Debug/net8.0/RepoTool.dll",
+            "args": ["init"],
+            "logging": {
+                "moduleLoad": false
+            }
+        }
+    ]
+}
