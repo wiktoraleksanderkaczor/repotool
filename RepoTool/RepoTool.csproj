@@ -7,15 +7,11 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>Resources/Models.xml</DocumentationFile>
-    <!-- <AllowUnsafeBlocks>true</AllowUnsafeBlocks> -->
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- <PackageReference Include="Autofac" Version="8.2.1" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" /> -->
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DeepCloner" Version="0.10.4" />
-    <PackageReference Include="Handlebars.Net" Version="2.1.6" />
     <PackageReference Include="JsonPointer.Net" Version="5.3.1" />
     <PackageReference Include="JsonSchema.Net" Version="7.3.4" />
     <PackageReference Include="JsonSchema.Net.Generation" Version="5.0.0" />
@@ -27,22 +23,24 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.AI" Version="9.3.0-preview.1.25161.3" />
-    <PackageReference Include="Microsoft.Extensions.AI.Ollama" Version="9.3.0-preview.1.25161.3" />
-    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.3.0-preview.1.25161.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.KeyPerFile" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.3" />
-    <!-- <PackageReference Include="OllamaSharp" Version="5.1.9" /> -->
-    <!-- <PackageReference Include="OpenAI" Version="2.1.0" /> -->
-    <!-- <PackageReference Include="Scrutor" Version="6.0.1" /> -->
+    <PackageReference Include="OllamaSharp" Version="5.1.10" />
+    <PackageReference Include="OpenAI" Version="2.1.0" />
+    <PackageReference Include="Scriban" Version="6.2.0" />
     <PackageReference Include="Spectre.Console" Version="0.49.1" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
     <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.6.0" />
     <PackageReference Include="Spectre.Console.Json" Version="0.49.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include licences as part of distribution -->
+    <None Update="../LICENCES.md" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
