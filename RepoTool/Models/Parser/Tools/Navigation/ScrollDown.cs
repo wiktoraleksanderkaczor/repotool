@@ -7,7 +7,7 @@ using Json.Schema.Generation;
 public record ScrollDown
 {
     /// <summary>
-    /// The number of lines to scroll, must be a positive integer.
+    /// The number of lines to scroll, must be a positive integer greater than or equal to 1.
     /// </summary>
     [Minimum(1)]
     public required int NumberOfLines { get; init; }
