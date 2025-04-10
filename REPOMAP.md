@@ -7,10 +7,13 @@ This document outlines the structure of the repository, separated by project and
 Contains configuration, documentation, and solution files at the root of the repository.
 
 - `.editorconfig` - Defines coding styles and formatting rules.
+- `.env.template` - Template file for environment variable configuration.
 - `.gitignore` - Specifies intentionally untracked files that Git should ignore.
 - `.repomixignore` - Specifies files to be ignored by the Repomix tool.
 - `.rooignore` - Specifies files and directories that Roo should ignore (marked as 🔒).
+- `CODE_OF_CONDUCT.md` - Outlines standards for community participation.
 - `DECISIONS.md` - Records architectural and design decisions.
+- `docker-compose.yml` - Defines services, networks, and volumes for Docker application setup.
 - `ISSUES.md` - Tracks known issues or areas for improvement.
 - `LICENCE` - Contains the primary software license for the repository.
 - `LICENCES.md` - Contains license information for third-party dependencies.
@@ -18,7 +21,6 @@ Contains configuration, documentation, and solution files at the root of the rep
 - `REPOMAP.md` - This file, documenting the repository structure.
 - `RepoTool.sln` - Visual Studio Solution file grouping the projects.
 - `SBOM.md` - Software Bill of Materials, listing dependencies.
-- `template.env` - Template file for environment variable configuration.
 - `TODO.md` - Tracks pending tasks and future work.
 
 ## Common Project (`Common/`)
@@ -80,6 +82,8 @@ Contains enumeration types used for categorization and flags.
     - `EnInferenceProvider.cs` - Defines the available AI inference providers.
     - `EnInferenceReason.cs` - Defines reasons for performing inference.
     - `EnInferenceRole.cs` - Defines roles within an inference conversation (e.g., User, Assistant).
+  - `Json/` - Contains enums related to JSON handling.
+    - `EnOutputHandlingType.cs` - Defines how JSON output should be handled.
   - `Parser/` - Contains enums related to code parsing.
     - `EnLanguageParadigm.cs` - Defines programming language paradigms.
     - `Common/` - Contains common enums for parsing across languages.
@@ -87,17 +91,58 @@ Contains enumeration types used for categorization and flags.
       - `EnGenericConstraintTypeFlag.cs` - Defines flags for generic type constraint types.
       - `EnParameterModifierFlag.cs` - Defines flags for parameter modifiers (e.g., ref, out).
       - `EnTypeInfoModifierFlag.cs` - Defines flags for type information modifiers (e.g., nullable).
+    - `Items/` - Contains enums related to specific parsed code items.
+      - `Blocks/` - Contains enums for block-level items.
+        - `EnInheritanceType.cs` - Defines types of inheritance (e.g., inherits, implements).
+        - `EnStructModifierFlag.cs` - Defines flags for struct modifiers (e.g., union).
+      - `Common/` - Contains common enums for parsed items.
+        - `EnAttributeTarget.cs` - Defines possible targets for attributes.
+      - `Directives/` - Contains enums for directive items.
+        - `EnDefinitionType.cs` - Defines types for definition directives (#define, #undef).
+        - `EnDiagnosticLevel.cs` - Defines levels for diagnostic directives (#error, #warning).
+        - `EnLineDirectiveModifierFlag.cs` - Defines flags for line directive modifiers.
+      - `Expressions/` - Contains enums for expression items.
+        - `EnBracketType.cs` - Defines types of brackets used in expressions.
+        - `EnCallableUseModifierFlag.cs` - Defines flags for callable use modifiers.
+        - `EnFormatStringComponentType.cs` - Defines types of components within format strings.
+        - `Operators/` - Contains enums for operator expression items.
+          - `EnBinaryOperator.cs` - Defines specific binary operators.
+          - `EnTernaryOperator.cs` - Defines specific ternary operators.
+          - `EnUnaryOperator.cs` - Defines specific unary operators.
+          - `Common/` - Contains common enums for operator items.
+            - `EnOperatorAssociativity.cs` - Defines associativity for operators.
+      - `Statements/` - Contains enums for statement items.
+        - `EnControlFlowStatementType.cs` - Defines types of control flow statements.
+        - `EnImportModifierFlag.cs` - Defines flags for import statement modifiers.
+        - `EnMarkingStatementType.cs` - Defines types of marking statements (goto, labels).
     - `Tools/` - Contains enums related to parser tooling models.
-      - `Blocks/` - Contains enums for block-level constructs.
+      - `EnConstructType.cs` - Defines the primary types of code constructs the parser can identify.
+      - `Blocks/` - Contains enums for block-level constructs within tools.
         - `EnClassModifierFlag.cs` - Defines flags for class modifiers (e.g., abstract, sealed).
         - `EnTypeModifierFlag.cs` - Defines flags for general type modifiers.
+      - `Builders/` - Contains enums for builder tools.
+        - `EnIterableBuilderTool.cs` - Defines tool choices for the iterable builder.
+        - `EnObjectBuilderTool.cs` - Defines tool choices for the object builder.
+        - `Iterable/` - Contains enums specific to the iterable builder.
+          - `EnIterableInsertAt.cs` - Defines insertion points for iterable items.
       - `Common/` - Contains common enums for parser tooling.
         - `EnAccessModifierFlag.cs` - Defines flags for access modifiers (e.g., public, private).
         - `EnInheritanceModifierFlag.cs` - Defines flags for inheritance modifiers (e.g., virtual, override).
         - `EnVariableModifierFlag.cs` - Defines flags for variable modifiers (e.g., const, readonly).
-      - `Declarations/` - Contains enums for declaration-level constructs.
+      - `Declarations/` - Contains enums for declaration-level constructs within tools.
         - `EnDeclarationModifierFlag.cs` - Defines flags for general declaration modifiers.
         - `EnPropertyModifierFlag.cs` - Defines flags for property modifiers (e.g., init, required).
+      - `Selectors/` - Contains enums for selector tools.
+        - `EnBlockType.cs` - Defines types of code blocks (class, struct, etc.).
+        - `EnDeclarationType.cs` - Defines types of declarations (property, field, etc.).
+        - `EnDirectiveType.cs` - Defines types of preprocessor directives.
+        - `EnExpressionType.cs` - Defines types of expressions.
+        - `EnStatementType.cs` - Defines types of statements.
+        - `Expressions/` - Contains enums specific to expression selectors.
+          - `EnOperatorType.cs` - Defines categories of operators (unary, binary, ternary).
+  - `Schemas/` - Contains enums related to JSON schema generation.
+    - `EnOllamaType.cs` - Defines data types allowed in Ollama output schemas.
+    - `EnOpenAiType.cs` - Defines data types allowed in OpenAI output schemas.
 
 ### Extensions
 
@@ -128,7 +173,6 @@ Contains utility classes providing reusable logic for various tasks.
   - `DocumentationHelper.cs` - Handles generation of documentation from parsed code structures.
   - `InferenceHelper.cs` - Handles interactions with AI inference providers.
   - `JsonHelper.cs` - Provides utilities for JSON serialization and deserialization.
-  - `PARSER.md` - Documentation related to the parser helper or parsing process.
   - `ParserHelper.cs` - Handles the code parsing process orchestration.
   - `RepositoryHelper.cs` - Provides utilities for interacting with Git repositories.
   - `ResourceHelper.cs` - Provides utilities for accessing embedded resources.
@@ -321,8 +365,8 @@ Contains embedded static resources like templates and configuration files.
 Contains classes defining the expected structure of data, particularly for API responses or configuration.
 
 - `Schemas/` - Contains schema definitions.
-  - `OllamaOutputSchema.cs` - Defines the expected output schema for Ollama responses.
-  - `OpenAiOutputSchema.cs` - Defines the expected output schema for OpenAI responses.
+  - `OllamaOutputSchema.cs` - Defines helper methods for generating Ollama-compatible JSON schemas.
+  - `OpenAiOutputSchema.cs` - Defines helper methods for generating OpenAI-compatible JSON schemas.
   - `Generators/` - Contains schema generation logic.
     - `CharSchemaGenerator.cs` - Defines a schema generator for characters to be handled as one-char length strings.
   - `Refiners/` - Contains logic for refining or modifying generated schemas.
