@@ -166,11 +166,6 @@ public record ItemPath
             Components[^1].CurrentObject = currentObject;
         }
     }
-
-    /// <summary>
-    /// Get documentation for the current item path components
-    /// </summary>
-    /// <returns>List of documentation strings</returns>
 }
 
 public abstract record ItemPathComponent
@@ -304,9 +299,4 @@ public record ItemPathToolComponent : ItemPathComponent
             _toolType = value;
         }
     }
-
-    /// <summary>
-    /// Represents the item type for the property, ignores tools.
-    /// </summary>
-    // public required Type ItemType { get; init; }
 }
