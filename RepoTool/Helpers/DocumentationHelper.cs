@@ -67,9 +67,9 @@ namespace RepoTool.Helpers
 
                 TypeComments? typeComments = _docXmlReader.GetTypeComments(typeToDocument);
 
-                List<MemberDocumentation> fields = GetMembersDocumentationModel(type, MemberTypes.Field);
-                List<MemberDocumentation> properties = GetMembersDocumentationModel(type, MemberTypes.Property);
-                List<StructDocumentation> structs = GetStructMembersDocumentationModel(type);
+                List<MemberDocumentation>? fields = GetMembersDocumentationModel(type, MemberTypes.Field);
+                List<MemberDocumentation>? properties = GetMembersDocumentationModel(type, MemberTypes.Property);
+                List<StructDocumentation>? structs = GetStructMembersDocumentationModel(type);
 
                 // Get derived types only if the type is abstract or an interface
                 List<TypeDocumentation>? derivedTypes = (type.IsAbstract || type.IsInterface)
@@ -126,9 +126,9 @@ namespace RepoTool.Helpers
                         }
                     ).ToList(),
                 TypeName = GetTypeName(propertyInfo.PropertyType),
-                Summary = propertyComments.Summary,
-                Remarks = propertyComments.Remarks,
-                Example = propertyComments.Example
+                Summary = string.IsNullOrWhiteSpace(propertyComments.Summary) ? null : propertyComments.Summary,
+                Remarks = string.IsNullOrWhiteSpace(propertyComments.Remarks) ? null : propertyComments.Remarks,
+                Example = string.IsNullOrWhiteSpace(propertyComments.Example) ? null : propertyComments.Example
             };
         }
 
@@ -195,7 +195,7 @@ namespace RepoTool.Helpers
         /// <returns>A HashSet of types that directly derive from the specified type.</returns>
         private HashSet<Type> GetDirectlyDerivedTypes(Type baseType)
         {
-            HashSet<Type> derivedTypes = new();
+            HashSet<Type> derivedTypes = [];
 
             // Get all loaded assemblies
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -294,9 +294,9 @@ namespace RepoTool.Helpers
         /// <summary>
         /// Gets documentation for members (Fields or Properties) of a type as a list of MemberDocumentation objects.
         /// </summary>
-        private List<MemberDocumentation> GetMembersDocumentationModel(Type type, MemberTypes memberType)
+        private List<MemberDocumentation>? GetMembersDocumentationModel(Type type, MemberTypes memberType)
         {
-            List<MemberDocumentation> memberDocs = new();
+            List<MemberDocumentation> memberDocs = [];
             MemberInfo[] members = type.GetMembers(TypeConstants.DefaultBindingFlags)
                                        .Where(m => m.MemberType == memberType)
                                        .Where(m => m.GetCustomAttribute<JsonExcludeAttribute>() == null)
@@ -312,7 +312,7 @@ namespace RepoTool.Helpers
                     memberDocs.Add(memberDoc);
                 }
             }
-            return memberDocs;
+            return memberDocs.Count > 0 ? memberDocs : null;
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace RepoTool.Helpers
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private List<StructDocumentation> GetStructMembersDocumentationModel(Type type)
+        private List<StructDocumentation>? GetStructMembersDocumentationModel(Type type)
         {
             MemberInfo[] members = type.GetMembers(TypeConstants.DefaultBindingFlags)
                                        .Where(m => m.MemberType == MemberTypes.Property)
@@ -329,7 +329,7 @@ namespace RepoTool.Helpers
                                        .OrderBy(m => m.Name) // Ensure consistent order
                                        .ToArray();
 
-            List<StructDocumentation> structDocs = new();
+            List<StructDocumentation> structDocs = [];
             foreach (MemberInfo member in members)
             {
                 CommonComments? comments = _docXmlReader.GetMemberComments(member);
@@ -373,7 +373,7 @@ namespace RepoTool.Helpers
                 }
             }
 
-            return structDocs;
+            return structDocs.Count > 0 ? structDocs : null;
         }
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace RepoTool.Helpers
                 return null;
             }
 
-            List<string> derivesFrom = new();
+            List<string> derivesFrom = [];
 
             // Add base class if it's not Object (which is the implicit base class for all classes)
             if (type.BaseType != null && type.BaseType != typeof(object))

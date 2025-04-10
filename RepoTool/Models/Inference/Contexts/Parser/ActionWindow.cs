@@ -8,7 +8,7 @@ public record ActionWindow
     /// <summary>
     /// Currently visible window of actions.
     /// </summary>
-    public List<Action> Window => CalculateWindow();
+    public List<Action>? Window => CalculateWindow();
 
     /// <summary>
     /// The number of actions to show in the window.
@@ -21,7 +21,7 @@ public record ActionWindow
     /// </summary>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    private List<Action> CalculateWindow()
+    private List<Action>? CalculateWindow()
     {
         // Validate the window size
         if (WindowSize < 1)
@@ -31,7 +31,7 @@ public record ActionWindow
         // Ensure the Actions list is not null or empty
         if (Actions == null || Actions.Count == 0)
         {
-            return [];
+            return null;
         }
 
         // Get latest actions based on the window size
@@ -84,7 +84,7 @@ public record ActionWindow
         }
 
         // Ensure the Actions list is initialized
-        Actions ??= new List<Action>();
+        Actions ??= [];
 
         // Add the action to the Actions list
         Actions.Add(action);

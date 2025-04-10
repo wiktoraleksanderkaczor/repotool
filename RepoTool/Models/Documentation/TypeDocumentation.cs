@@ -45,12 +45,12 @@ namespace RepoTool.Models.Documentation
         /// <summary>
         /// List of documentation details for the type's fields.
         /// </summary>
-        public required List<MemberDocumentation> Fields { get; set; }
+        public required List<MemberDocumentation>? Fields { get; set; }
 
         /// <summary>
         /// List of documentation details for the type's properties.
         /// </summary>
-        public required List<MemberDocumentation> Properties { get; set; }
+        public required List<MemberDocumentation>? Properties { get; set; }
 
         /// <summary>
         /// Generic type parameters for the type, if any.
@@ -66,6 +66,6 @@ namespace RepoTool.Models.Documentation
         /// <summary>
         /// List of documentation details for the type's properties' structs.
         /// </summary>
-        public required List<StructDocumentation> Structs { get; set; }
+        public required List<StructDocumentation>? Structs { get; set; }
     }
 }
