@@ -1,0 +1,26 @@
+{{~ if !$1.IsAbstract && !$1.IsInterface ~}}
+Documentation for `{{ $1.TypeName }}` type:
+  {{ include 'base_documentation' $1 ~}}
+  {{ include 'class_documentation' $1 ~}}
+{{~ end ~}}
+{{~ if $1.Structs ~}}
+Structure documentation:
+  {{~ for struct in $1.Structs ~}}
+  {{ include 'typed_documentation' struct ~}}
+  {{~ if struct.Fields ~}}
+  Options:
+  {{~ for field in struct.Fields ~}}
+    {{ include 'member_documentation' field ~}}
+  {{~ end ~}}
+  {{~ end ~}}
+  {{~ end ~}}
+{{~ end ~}}
+{{~ if $1.DerivedTypes ~}}
+Types that derive from `{{ $1.TypeName }}`:
+  {{~ for dtype in $1.DerivedTypes ~}}
+  {{~ if !(dtype.IsAbstract) && !(dtype.IsInterface) ~}}
+  {{ include 'typed_documentation' dtype ~}}
+  {{ include 'class_documentation' dtype ~}}
+  {{~ end ~}}
+  {{~ end ~}}
+{{~ end ~}}

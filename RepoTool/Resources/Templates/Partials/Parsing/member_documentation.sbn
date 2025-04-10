@@ -1,0 +1,5 @@
+- {{ $1.Name }}
+  {{ include 'typed_documentation' $1 ~}}
+  {{~ if $1.Value ~}}
+  Value: {{ $1.Value }}
+  {{~ end ~}}

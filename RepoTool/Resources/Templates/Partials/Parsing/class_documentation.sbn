@@ -1,0 +1,12 @@
+{{~ if $1.Properties ~}}
+Properties:
+  {{~ for property in $1.Properties ~}}
+  {{ include 'member_documentation' property ~}}
+  {{~ end ~}}
+{{~ end ~}}
+{{~ if $1.Fields ~}}
+Fields:
+  {{~ for field in $1.Fields ~}}
+  {{ include 'member_documentation' field ~}}
+  {{~ end ~}}
+{{~ end ~}}

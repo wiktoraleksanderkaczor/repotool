@@ -1,38 +1,34 @@
 <System>
 Following are the contents of the original files before the change:
-{{#SourceChanges}}
-{{#OldPath}}
-`{{OldPath}} -> {{Path}}`:
-{{/OldPath}}
-{{^OldPath}}
-`{{Path}}`:
-{{/OldPath}}
-{{#if OriginalContent}}
+{{~ for change in SourceChanges ~}}
+{{~ if change.OldPath ~}}
+`{{ change.OldPath }} -> {{ change.Path }}`:
+{{~ else ~}}
+`{{ change.Path }}`:
+{{~ end ~}}
+{{~ if change.OriginalContent ~}}
 ```
-{{{OriginalContent}}}
+{{ change.OriginalContent }}
 ```
-{{/if}}
-{{^if OriginalContent}}
+{{~ else ~}}
 Original content not found.
-{{/if}}
-{{/SourceChanges}}
-</System>
+{{~ end ~}}
+{{~ end ~}}
 
-<System>
 Following are the diffs of the changes to those files:
-{{#SourceChanges}}
-`{{Path}}`:
+{{~ for change in SourceChanges ~}}
+`{{ change.Path }}`:
 ```
-{{PatchContent}}
+{{ change.PatchContent }}
 ```
-{{/SourceChanges}}
+{{~ end ~}}
 </System>
 
 <User>
 Create a changelog for the above changes with the below guidelines:
 - Use the original files for context around a change.
 - Do not make the reason a copy of the description, it is to be a reasonable point of why the change was or might have been made
-- Do not include redundant changes like adding and removing the same file, only the end result. 
+- Do not include redundant changes like adding and removing the same file, only the end result.
 - Surround code-like names with `backticks`.
 - Be quite strict with the quality assessments, only mark highly if the implementation is truly exceptional.
 - Consider ratings with only the code introduced in the commit, not the context original files.

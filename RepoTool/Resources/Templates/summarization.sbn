@@ -1,0 +1,21 @@
+<System>
+Content:
+{{~ if Request.Context.Content ~}}
+```
+{{ Request.Context.Content }}
+```
+{{~ else ~}}
+No content provided.
+{{~ end ~}}
+
+{{~ if JsonSchema ~}}
+You are to generate output in the following schema:
+```json
+{{ JsonSchema }}
+```
+{{~ end ~}}
+</System>
+
+<User>
+Please summarize the content of the above into something fitting the schema.
+</User>

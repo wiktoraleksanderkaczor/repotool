@@ -49,5 +49,21 @@ namespace RepoTool.Helpers
                 }
             }
         }
+
+        /// <summary>
+        /// Get all template resource names
+        /// </summary>
+        /// <returns>List of template embedded resource names
+        public static List<string> GetTemplateResourceNames()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            
+            List<string> resourceNames = assembly
+                .GetManifestResourceNames()
+                .Where(r => r.EndsWith(".sbn"))
+                .ToList();
+
+            return resourceNames;
+        }
     }
 }

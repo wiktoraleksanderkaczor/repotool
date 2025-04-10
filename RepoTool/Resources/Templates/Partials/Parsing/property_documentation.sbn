@@ -1,0 +1,9 @@
+Documentation for `{{ $1.PropertyName }}` property:
+  {{ include 'typed_documentation' $1 ~}}
+  {{~ if $1.Handling ~}}
+  Special handling:
+    {{~ for handle in $1.Handling ~}}
+    - {{ handle.Name }}
+      {{ include 'base_documentation' handle ~}}
+    {{~ end ~}}
+  {{~ end ~}}

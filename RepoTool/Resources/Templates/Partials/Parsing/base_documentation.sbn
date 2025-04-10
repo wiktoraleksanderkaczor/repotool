@@ -1,0 +1,12 @@
+{{~ if $1.Summary ~}}
+Summary:
+  {{ $1.Summary }}
+{{~ end ~}}
+{{~ if $1.Remarks ~}}
+Remarks:
+  {{ $1.Remarks }}
+{{~ end ~}}
+{{~ if $1.Example ~}}
+Example:
+  {{ $1.Example }}
+{{~ end ~}}
