@@ -132,7 +132,7 @@ Contains utility classes providing reusable logic for various tasks.
   - `ParserHelper.cs` - Handles the code parsing process orchestration.
   - `RepositoryHelper.cs` - Provides utilities for interacting with Git repositories.
   - `ResourceHelper.cs` - Provides utilities for accessing embedded resources.
-  - `TemplateHelper.cs` - Handles processing of Scriban/Handlebars templates.
+  - `TemplateHelper.cs` - Handles processing of Scriban templates.
   - `ToolingHelper.cs` - Provides miscellaneous helper methods for the tool's operations.
 
 ### Models
@@ -302,10 +302,10 @@ Contains embedded static resources like templates and configuration files.
   - `Models.xml` - Contains XML definitions or data, possibly related to models.
   - `parser-languages.json` - Defines configurations for supported languages and their parsers.
   - `Templates/` - Contains template files used for generation tasks.
-    - `changelog.hbs` - Handlebars template for generating changelog entries.
+    - `changelog.sbn` - Scriban template for generating changelog entries.
     - `parsing.sbn` - Scriban template used in the parsing process.
     - `README.md` - Template for generating README files (potentially).
-    - `summarization.hbs` - Handlebars template for generating code summaries.
+    - `summarization.sbn` - Scriban template for generating code summaries.
     - `Partials/` - Contains partial templates included in main templates.
       - `Parsing/` - Contains partial Scriban templates for parsing documentation.
         - `base_documentation.sbn` - Partial template for base documentation elements.
