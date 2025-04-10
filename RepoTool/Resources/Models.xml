@@ -667,6 +667,492 @@
             Other less common paradigms.
             </summary>
         </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Blocks.EnInheritanceType">
+            <summary>
+            Defines the possible types of inheritance.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Blocks.EnInheritanceType.Inherits">
+            <summary>
+            Represents class inheritance.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Blocks.EnInheritanceType.Implements">
+            <summary>
+            Represents interface implementation.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Blocks.EnStructModifierFlag">
+            <summary>
+            Defines the possible modifier flags for a struct.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Blocks.EnStructModifierFlag.Union">
+            <summary>
+            Indicates that the struct represents a union.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget">
+            <summary>
+            Defines the possible targets for an attribute.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Assembly">
+            <summary>
+            The attribute target is an assembly.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Module">
+            <summary>
+            The attribute target is a module.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Class">
+            <summary>
+            The attribute target is a class.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Struct">
+            <summary>
+            The attribute target is a struct.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Enum">
+            <summary>
+            The attribute target is an enum.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Constructor">
+            <summary>
+            The attribute target is a constructor.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Callable">
+            <summary>
+            The attribute target is a callable (method, function, etc.).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Property">
+            <summary>
+            The attribute target is a property.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Field">
+            <summary>
+            The attribute target is a field.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Event">
+            <summary>
+            The attribute target is an event.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Interface">
+            <summary>
+            The attribute target is an interface.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Parameter">
+            <summary>
+            The attribute target is a parameter.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.Delegate">
+            <summary>
+            The attribute target is a delegate.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.ReturnValue">
+            <summary>
+            The attribute target is a return value.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Common.EnAttributeTarget.GenericParameter">
+            <summary>
+            The attribute target is a generic parameter.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Directives.EnDefinitionType">
+            <summary>
+            Represents symbol definition directives (#define, #undef)
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnDefinitionType.Define">
+            <summary>
+            Represents a #define directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnDefinitionType.Undefine">
+            <summary>
+            Represents an #undef directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnDiagnosticLevel.Warning">
+            <summary>
+            Represents a warning diagnostic.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnDiagnosticLevel.Error">
+            <summary>
+            Represents an error diagnostic.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnDiagnosticLevel.Other">
+            <summary>
+            Represents other types of diagnostics.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag">
+            <summary>
+            Represents flags for line preprocessor directive modifiers (hidden, default).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.SetNumber">
+            <summary>
+            Represents setting a specific line number.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.Hidden">
+            <summary>
+            Represents the #line hidden directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.Default">
+            <summary>
+            Represents the #line default directive.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.EnBracketType">
+            <summary>
+            Defines the possible types of brackets.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnBracketType.Square">
+            <summary>
+            Represents square brackets [].
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnBracketType.Round">
+            <summary>
+            Represents round brackets ().
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnBracketType.Angle">
+            <summary>
+            Represents angle brackets &lt;&gt;.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnBracketType.Curly">
+            <summary>
+            Represents curly brackets {}.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifierFlag">
+            <summary>
+            Defines the possible modifier flags for a callable use.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifierFlag.IsBuiltIn">
+            <summary>
+            Indicates that the callable is a built-in function.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.EnFormatStringComponentType">
+            <summary>
+            Defines the possible types of format string components.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnFormatStringComponentType.Text">
+            <summary>
+            Represents a text component.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnFormatStringComponentType.Expression">
+            <summary>
+            Represents an expression component.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity">
+            <summary>
+            Defines the possible associativities of operators.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity.LeftToRight">
+            <summary>
+            Left-to-right associativity.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity.RightToLeft">
+            <summary>
+            Right-to-left associativity.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator">
+            <summary>
+            Assignment operators to be covered by translating to full assignment statements.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Add">
+            <summary>
+            Represents the addition operator (+).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Subtract">
+            <summary>
+            Represents the subtraction operator (-).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Multiply">
+            <summary>
+            Represents the multiplication operator (*).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Divide">
+            <summary>
+            Represents the division operator (/).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Modulo">
+            <summary>
+            Represents the modulo operator (%).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Power">
+            <summary>
+            Represents the power operator (**).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.Equal">
+            <summary>
+            Represents the equality operator (==).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.NotEqual">
+            <summary>
+            Represents the inequality operator (!=).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.GreaterThan">
+            <summary>
+            Represents the greater than operator (>).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.LessThan">
+            <summary>
+            Represents the less than operator (&lt;).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.GreaterThanOrEqual">
+            <summary>
+            Represents the greater than or equal to operator (>=).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.LessThanOrEqual">
+            <summary>
+            Represents the less than or equal to operator (&lt;=).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.LogicalAnd">
+            <summary>
+            Represents the logical AND operator (&amp;&amp;).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.LogicalOr">
+            <summary>
+            Represents the logical OR operator (||).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseAnd">
+            <summary>
+            Represents the bitwise AND operator (&amp;).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseOr">
+            <summary>
+            Represents the bitwise OR operator (|).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseXor">
+            <summary>
+            Represents the bitwise XOR operator (^).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseLeftShift">
+            <summary>
+            Represents the bitwise left shift operator (&lt;&lt;).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseRightShift">
+            <summary>
+            Represents the bitwise right shift operator (>>).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.NullCoalescing">
+            <summary>
+            Represents the null coalescing operator (??).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.ReferenceEqual">
+            <summary>
+            Represents reference equality (===).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.ReferenceNotEqual">
+            <summary>
+            Represents reference inequality (!==).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.PointerToMember">
+            <summary>
+            Represents pointer to member operator (->).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.RangeBetween">
+            <summary>
+            Represents the range between operator (..).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnBinaryOperator.SliceStartEnd">
+            <summary>
+            Represents the slice with start and end (a:b).
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.Operators.EnTernaryOperator">
+            <summary>
+            Defines the possible ternary operators.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnTernaryOperator.ConditionalTernary">
+            <summary>
+            Represents the conditional ternary operator (?:).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnTernaryOperator.RangeBetweenWithStep">
+            <summary>
+            Represents a range with a step operator.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnTernaryOperator.SliceStartEndWithStep">
+            <summary>
+            Represents a slice with start, end, and step operator.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator">
+            <summary>
+            Defines the possible unary operators.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.LogicalNot">
+            <summary>
+            Represents the logical NOT operator (!).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.BitwiseNot">
+            <summary>
+            Represents the bitwise NOT operator (~).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.Increment">
+            <summary>
+            Represents the increment operator (++).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.Decrement">
+            <summary>
+            Represents the decrement operator (--).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.UnaryPlus">
+            <summary>
+            Represents the unary plus operator (+).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.UnaryMinus">
+            <summary>
+            Represents the unary minus operator (-).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.AddressOf">
+            <summary>
+            Address-of operator (&amp;) in C++.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.Dereference">
+            <summary>
+            Dereference operator (*) in C++.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.Operators.EnUnaryOperator.Unpacking">
+            <summary>
+            Python-style unpacking operator (*).
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType">
+            <summary>
+            Defines the possible types of control flow statements.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Break">
+            <summary>
+            Represents a break statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Continue">
+            <summary>
+            Represents a continue statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Goto">
+            <summary>
+            Represents a goto statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Return">
+            <summary>
+            Represents a return statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Yield">
+            <summary>
+            Represents a yield statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnControlFlowStatementType.Throw">
+            <summary>
+            Represents a throw statement.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag">
+            <summary>
+            Defines the possible modifier flags for an import statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.System">
+            <summary>
+            Import is a system module.
+            Part of the standard library.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.Relative">
+            <summary>
+            Import is a relative path.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.Wildcard">
+            <summary>
+            Import is a wildcard import.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Items.Statements.EnMarkingStatementType">
+            <summary>
+            Defines the possible types of marking statements.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnMarkingStatementType.Label">
+            <summary>
+            Represents a label.
+            </summary>
+        </member>
         <member name="F:RepoTool.Enums.Parser.EnClassModifierFlag.Partial">
             <summary>
             Indicates that a class is partial (can be split across multiple files)
@@ -695,6 +1181,360 @@
         <member name="F:RepoTool.Enums.Parser.EnTypeModifierFlag.Unsafe">
             <summary>
             Indicates that type allows unsafe code
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnIterableBuilderTool.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnIterableBuilderTool.PageDown">
+            <summary>
+            Represents a page down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnIterableBuilderTool.NewItem">
+            <summary>
+            Represents a new item.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnIterableBuilderTool.EndItem">
+            <summary>
+            Represents the end of an iterable.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.PageDown">
+            <summary>
+            Represents a page down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.NewProperty">
+            <summary>
+            Represents a new property.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.EndItem">
+            <summary>
+            Represents the end of an object.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.Iterable.EnIterableInsertAt.End">
+            <summary>
+            Indicates that the item should be inserted at the end of the iterable.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.Iterable.EnIterableInsertAt.Start">
+            <summary>
+            Indicates that the item should be inserted at the beginning of the iterable.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.EnConstructType">
+            <summary>
+            Defines the possible tool selections.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.PreprocessorDirective">
+            <summary>
+            Represents a preprocessor directive selection.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.Block">
+            <summary>
+            Represents the start of a named block of code
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.Statement">
+            <summary>
+            Represents a statement selection.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.Declaration">
+            <summary>
+            Represents a declaration selection.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.Expression">
+            <summary>
+            Represents a Expression selection.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.EndConstruct">
+            <summary>
+            Represents the end of a construct.
+            e.g. end of a class, method, or namespace.
+            or expression or statement depending on the context.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.EnConstructType.Finish">
+            <summary>
+            Represents the finish action.
+            i.e. completion of the parsing process.
+            This is the final selection in the parser.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType">
+            <summary>
+            Defines the possible types of code blocks.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Namespace">
+            <summary>
+            Represents a namespace block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Class">
+            <summary>
+            Represents a class block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Struct">
+            <summary>
+            Represents a struct block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Interface">
+            <summary>
+            Represents an interface block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Enum">
+            <summary>
+            Represents an enum block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Record">
+            <summary>
+            Represents a record block.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnBlockType.Callable">
+            <summary>
+            Represents a callable block (e.g., method, function).
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType">
+            <summary>
+            Defines the possible types of declarations.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType.Delegate">
+            <summary>
+            Represents a delegate declaration.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType.Property">
+            <summary>
+            Represents a property declaration.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType.Field">
+            <summary>
+            Represents a field declaration.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDeclarationType.Event">
+            <summary>
+            Represents an event declaration.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType">
+            <summary>
+            Defines the possible types of preprocessor directives.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Custom">
+            <summary>
+            Represents a custom directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Diagnostic">
+            <summary>
+            Represents a diagnostic directive (covers both Warning and Error).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Line">
+            <summary>
+            Represents a line directive (covers hidden, default, and value).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Region">
+            <summary>
+            Represents a region directive (also covers endregion).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Include">
+            <summary>
+            Represents an include directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Branching">
+            <summary>
+            Represents a branching directive.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Definition">
+            <summary>
+            Represents a definition directive (for defining and undefining symbols).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnDirectiveType.Pragma">
+            <summary>
+            Stores the full command as a List&lt;string&gt; because they are compiler-dependent.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType">
+            <summary>
+            Defines the possible types of expressions.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.LiteralValue">
+            <summary>
+            Represents a literal value expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.VariableUse">
+            <summary>
+            Represents a variable use expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.NewVariable">
+            <summary>
+            Represents a new variable expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.CallableUse">
+            <summary>
+            Represents a callable use expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.Bracket">
+            <summary>
+            Represents a bracket expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.Lambda">
+            <summary>
+            Represents a lambda expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.FormatString">
+            <summary>
+            Represents a format string expression.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.Operator">
+            <summary>
+            Represents an operator expression selector.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnExpressionType.Comprehension">
+            <summary>
+            Represents a comprehension expression.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType">
+            <summary>
+            Defines the possible types of statements.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.ScrollDown">
+            <summary>
+            Represents a scroll down action.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Expression">
+            <summary>
+            Represents an expression statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.ControlFlow">
+            <summary>
+            Represents a control flow statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.ExceptionHandling">
+            <summary>
+            Represents an exception handling statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Marking">
+            <summary>
+            Represents a marking statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Looping">
+            <summary>
+            Represents a looping statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Branching">
+            <summary>
+            Represents a branching statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Import">
+            <summary>
+            Represents an import statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Export">
+            <summary>
+            Represents an export statement.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.EnStatementType.Custom">
+            <summary>
+            Represents a custom statement.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Selectors.Expressions.EnOperatorType">
+            <summary>
+            Defines the possible types of operators.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.Expressions.EnOperatorType.Unary">
+            <summary>
+            Represents a unary operator (e.g., -, !).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.Expressions.EnOperatorType.Binary">
+            <summary>
+            Represents a binary operator (e.g., +, -, *, /).
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Selectors.Expressions.EnOperatorType.Ternary">
+            <summary>
+            Represents a ternary operator (e.g., the conditional operator ?:)
             </summary>
         </member>
         <member name="T:RepoTool.Enums.Parser.EnAccessModifierFlag">
@@ -798,12 +1638,92 @@
             i.e. compiler automatically provides the backing field
             </summary>
         </member>
+        <member name="T:RepoTool.Enums.Schemas.EnOllamaType">
+            <summary>
+            Enum representing the allowed data types in Ollama output schema.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.String">
+            <summary>
+            Represents a string type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Number">
+            <summary>
+            Represents a numeric (floating-point) type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Integer">
+            <summary>
+            Represents an integer type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Boolean">
+            <summary>
+            Represents a boolean type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Array">
+            <summary>
+            Represents an array type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Object">
+            <summary>
+            Represents an object type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Null">
+            <summary>
+            Represents a null type.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Schemas.EnOpenAiType">
+            <summary>
+            Enum representing the allowed data types in OpenAI output schema.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.String">
+            <summary>
+            Represents a string type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Number">
+            <summary>
+            Represents a numeric (floating-point) type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Integer">
+            <summary>
+            Represents an integer type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Boolean">
+            <summary>
+            Represents a boolean type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Array">
+            <summary>
+            Represents an array type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Object">
+            <summary>
+            Represents an object type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Null">
+            <summary>
+            Represents a null type.
+            </summary>
+        </member>
         <member name="T:RepoTool.Extensions.JsonDocumentExtensions">
             <summary>
             Extension methods for <see cref="T:System.Text.Json.JsonDocument"/>.
             </summary>
         </member>
-        <member name="M:RepoTool.Extensions.JsonDocumentExtensions.UpdateJsonDocument(System.Text.Json.JsonDocument,System.Object,RepoTool.Models.Parser.Tools.Builders.EnIterableInsertAt)">
+        <member name="M:RepoTool.Extensions.JsonDocumentExtensions.UpdateJsonDocument(System.Text.Json.JsonDocument,System.Object,RepoTool.Enums.Parser.Tools.Builders.Iterable.EnIterableInsertAt)">
             <summary>
             Updates a JsonDocument containing an iterable with addition of the provided object. 
             This version optimizes performance by directly serializing values to JsonNode instead of intermediate strings.
@@ -1136,7 +2056,7 @@
             Gets the primary JSON schema value handling type for the specified C# type.
             </summary>
             <param name="type">The C# type.</param>
-            <returns>A task representing the asynchronous operation, containing the <see cref="T:RepoTool.Helpers.EnOutputHandlingType"/> representing the root type(s) of the generated JSON schema.</returns>
+            <returns>A task representing the asynchronous operation, containing the <see cref="T:RepoTool.Enums.Json.EnOutputHandlingType"/> representing the root type(s) of the generated JSON schema.</returns>
             <exception cref="T:System.InvalidOperationException">Thrown if the schema type cannot be determined.</exception>
         </member>
         <member name="M:RepoTool.Helpers.ParserHelper.ParseRecursively(RepoTool.Models.Inference.Contexts.ParserContext)">
@@ -1713,21 +2633,6 @@
             Information about the callable.
             </summary>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Blocks.EnInheritanceType">
-            <summary>
-            Defines the possible types of inheritance.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Blocks.EnInheritanceType.Inherits">
-            <summary>
-            Represents class inheritance.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Blocks.EnInheritanceType.Implements">
-            <summary>
-            Represents interface implementation.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Blocks.InheritanceInfo">
             <summary>
             Represents information about inheritance for a class or interface.
@@ -1996,16 +2901,6 @@
         <member name="T:RepoTool.Models.Parser.Items.Blocks.RecordBlock">
             <inheritdoc />
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Blocks.EnStructModifierFlag">
-            <summary>
-            Defines the possible modifier flags for a struct.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Blocks.EnStructModifierFlag.Union">
-            <summary>
-            Indicates that the struct represents a union.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Blocks.StructBlock">
             <inheritdoc />
         </member>
@@ -2024,86 +2919,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Common.EnAttributeTarget">
-            <summary>
-            Defines the possible targets for an attribute.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Assembly">
-            <summary>
-            The attribute target is an assembly.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Module">
-            <summary>
-            The attribute target is a module.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Class">
-            <summary>
-            The attribute target is a class.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Struct">
-            <summary>
-            The attribute target is a struct.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Enum">
-            <summary>
-            The attribute target is an enum.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Constructor">
-            <summary>
-            The attribute target is a constructor.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Callable">
-            <summary>
-            The attribute target is a callable (method, function, etc.).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Property">
-            <summary>
-            The attribute target is a property.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Field">
-            <summary>
-            The attribute target is a field.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Event">
-            <summary>
-            The attribute target is an event.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Interface">
-            <summary>
-            The attribute target is an interface.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Parameter">
-            <summary>
-            The attribute target is a parameter.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.Delegate">
-            <summary>
-            The attribute target is a delegate.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.ReturnValue">
-            <summary>
-            The attribute target is a return value.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnAttributeTarget.GenericParameter">
-            <summary>
-            The attribute target is a generic parameter.
-            </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Common.AttributeDefinition">
             <summary>
@@ -2157,41 +2972,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Common.EnConstructItemType">
-            <summary>
-            Defines the possible types of code constructs.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Block">
-            <summary>
-            Represents a block of code.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Statement">
-            <summary>
-            Represents a statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Declaration">
-            <summary>
-            Represents a declaration.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Expression">
-            <summary>
-            Represents an expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Directive">
-            <summary>
-            Represents a preprocessor directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Common.EnConstructItemType.Custom">
-            <summary>
-            Represents a custom construct.
-            </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Common.Construct">
             <summary>
@@ -2563,21 +3343,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Directives.EnDefinitionType">
-            <summary>
-            Represents symbol definition directives (#define, #undef)
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnDefinitionType.Define">
-            <summary>
-            Represents a #define directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnDefinitionType.Undefine">
-            <summary>
-            Represents an #undef directive.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Directives.DefinitionDirective">
             <summary>
             Represents a preprocessor definition directive (#define, #undef).
@@ -2646,21 +3411,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnDiagnosticLevel.Warning">
-            <summary>
-            Represents a warning diagnostic.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnDiagnosticLevel.Error">
-            <summary>
-            Represents an error diagnostic.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnDiagnosticLevel.Other">
-            <summary>
-            Represents other types of diagnostics.
-            </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Directives.DiagnosticDirective">
             <summary>
@@ -2753,26 +3503,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Directives.EnLineDirectiveModifierFlag">
-            <summary>
-            Represents flags for line preprocessor directive modifiers (hidden, default).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnLineDirectiveModifierFlag.SetNumber">
-            <summary>
-            Represents setting a specific line number.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnLineDirectiveModifierFlag.Hidden">
-            <summary>
-            Represents the #line hidden directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Directives.EnLineDirectiveModifierFlag.Default">
-            <summary>
-            Represents the #line default directive.
-            </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Directives.LineDirective">
             <summary>
@@ -2924,31 +3654,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.EnBracketType">
-            <summary>
-            Defines the possible types of brackets.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnBracketType.Square">
-            <summary>
-            Represents square brackets [].
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnBracketType.Round">
-            <summary>
-            Represents round brackets ().
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnBracketType.Angle">
-            <summary>
-            Represents angle brackets &lt;&gt;.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnBracketType.Curly">
-            <summary>
-            Represents curly brackets {}.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.BracketExpression">
             <inheritdoc />
         </member>
@@ -2971,16 +3676,6 @@
         <member name="P:RepoTool.Models.Parser.Items.Expressions.BracketExpression.Expression">
             <summary>
             Expression within the brackets.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.EnCallableUseModifierFlag">
-            <summary>
-            Defines the possible modifier flags for a callable use.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnCallableUseModifierFlag.IsBuiltIn">
-            <summary>
-            Indicates that the callable is a built-in function.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.CallableUseExpression">
@@ -3099,21 +3794,6 @@
         <member name="P:RepoTool.Models.Parser.Items.Expressions.ComprehensionExpression.ResultTypeInfo">
             <summary>
             The type information for the result of the comprehension.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.EnFormatStringComponentType">
-            <summary>
-            Defines the possible types of format string components.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnFormatStringComponentType.Text">
-            <summary>
-            Represents a text component.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.EnFormatStringComponentType.Expression">
-            <summary>
-            Represents an expression component.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.FormatStringExpression">
@@ -3323,136 +4003,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator">
-            <summary>
-            Assignment operators to be covered by translating to full assignment statements.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Add">
-            <summary>
-            Represents the addition operator (+).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Subtract">
-            <summary>
-            Represents the subtraction operator (-).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Multiply">
-            <summary>
-            Represents the multiplication operator (*).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Divide">
-            <summary>
-            Represents the division operator (/).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Modulo">
-            <summary>
-            Represents the modulo operator (%).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Power">
-            <summary>
-            Represents the power operator (**).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.Equal">
-            <summary>
-            Represents the equality operator (==).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.NotEqual">
-            <summary>
-            Represents the inequality operator (!=).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.GreaterThan">
-            <summary>
-            Represents the greater than operator (>).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.LessThan">
-            <summary>
-            Represents the less than operator (&lt;).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.GreaterThanOrEqual">
-            <summary>
-            Represents the greater than or equal to operator (>=).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.LessThanOrEqual">
-            <summary>
-            Represents the less than or equal to operator (&lt;=).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.LogicalAnd">
-            <summary>
-            Represents the logical AND operator (&amp;&amp;).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.LogicalOr">
-            <summary>
-            Represents the logical OR operator (||).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseAnd">
-            <summary>
-            Represents the bitwise AND operator (&amp;).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseOr">
-            <summary>
-            Represents the bitwise OR operator (|).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseXor">
-            <summary>
-            Represents the bitwise XOR operator (^).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseLeftShift">
-            <summary>
-            Represents the bitwise left shift operator (&lt;&lt;).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.BitwiseRightShift">
-            <summary>
-            Represents the bitwise right shift operator (>>).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.NullCoalescing">
-            <summary>
-            Represents the null coalescing operator (??).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.ReferenceEqual">
-            <summary>
-            Represents reference equality (===).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.ReferenceNotEqual">
-            <summary>
-            Represents reference inequality (!==).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.PointerToMember">
-            <summary>
-            Represents pointer to member operator (->).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.RangeBetween">
-            <summary>
-            Represents the range between operator (..).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnBinaryOperator.SliceStartEnd">
-            <summary>
-            Represents the slice with start and end (a:b).
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.BinaryOperatorExpression">
             <inheritdoc />
         </member>
@@ -3480,21 +4030,6 @@
         <member name="P:RepoTool.Models.Parser.Items.Expressions.Operators.BinaryOperatorExpression.Right">
             <summary>
             The right operand of the binary operator.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity">
-            <summary>
-            Defines the possible associativities of operators.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity.LeftToRight">
-            <summary>
-            Left-to-right associativity.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.Common.EnOperatorAssociativity.RightToLeft">
-            <summary>
-            Right-to-left associativity.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.Common.OperatorExpression">
@@ -3532,26 +4067,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.EnTernaryOperator">
-            <summary>
-            Defines the possible ternary operators.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnTernaryOperator.ConditionalTernary">
-            <summary>
-            Represents the conditional ternary operator (?:).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnTernaryOperator.RangeBetweenWithStep">
-            <summary>
-            Represents a range with a step operator.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnTernaryOperator.SliceStartEndWithStep">
-            <summary>
-            Represents a slice with start, end, and step operator.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.TernaryOperatorExpression">
             <inheritdoc />
         </member>
@@ -3584,56 +4099,6 @@
         <member name="P:RepoTool.Models.Parser.Items.Expressions.Operators.TernaryOperatorExpression.Right">
             <summary>
             The right operand of the ternary operator.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator">
-            <summary>
-            Defines the possible unary operators.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.LogicalNot">
-            <summary>
-            Represents the logical NOT operator (!).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.BitwiseNot">
-            <summary>
-            Represents the bitwise NOT operator (~).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.Increment">
-            <summary>
-            Represents the increment operator (++).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.Decrement">
-            <summary>
-            Represents the decrement operator (--).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.UnaryPlus">
-            <summary>
-            Represents the unary plus operator (+).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.UnaryMinus">
-            <summary>
-            Represents the unary minus operator (-).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.AddressOf">
-            <summary>
-            Address-of operator (&amp;) in C++.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.Dereference">
-            <summary>
-            Dereference operator (*) in C++.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Expressions.Operators.EnUnaryOperator.Unpacking">
-            <summary>
-            Python-style unpacking operator (*).
             </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Expressions.Operators.UnaryOperatorExpression">
@@ -3801,41 +4266,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType">
-            <summary>
-            Defines the possible types of control flow statements.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Break">
-            <summary>
-            Represents a break statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Continue">
-            <summary>
-            Represents a continue statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Goto">
-            <summary>
-            Represents a goto statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Return">
-            <summary>
-            Represents a return statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Yield">
-            <summary>
-            Represents a yield statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnControlFlowStatementType.Throw">
-            <summary>
-            Represents a throw statement.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Statements.ControlFlowStatement">
             <inheritdoc />
         </member>
@@ -3988,27 +4418,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Statements.EnImportModifierFlag">
-            <summary>
-            Defines the possible modifier flags for an import statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnImportModifierFlag.System">
-            <summary>
-            Import is a system module.
-            Part of the standard library.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnImportModifierFlag.Relative">
-            <summary>
-            Import is a relative path.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnImportModifierFlag.Wildcard">
-            <summary>
-            Import is a wildcard import.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Statements.ImportStatement">
             <inheritdoc />
         </member>
@@ -4160,16 +4569,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Items.Statements.EnMarkingStatementType">
-            <summary>
-            Defines the possible types of marking statements.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Items.Statements.EnMarkingStatementType.Label">
-            <summary>
-            Represents a label.
-            </summary>
-        </member>
         <member name="T:RepoTool.Models.Parser.Items.Statements.MarkingStatement">
             <inheritdoc />
         </member>
@@ -4211,62 +4610,12 @@
             Indicates why the end of the item has been reached.
             </summary>
         </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableBuilderTool.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableBuilderTool.PageDown">
-            <summary>
-            Represents a page down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableBuilderTool.NewItem">
-            <summary>
-            Represents a new item.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableBuilderTool.EndItem">
-            <summary>
-            Represents the end of an iterable.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableInsertAt.End">
-            <summary>
-            Indicates that the item should be inserted at the end of the iterable.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnIterableInsertAt.Start">
-            <summary>
-            Indicates that the item should be inserted at the beginning of the iterable.
-            </summary>
-        </member>
-        <member name="P:RepoTool.Models.Parser.Tools.Builders.NewItem.InsertAt">
+        <member name="P:RepoTool.Models.Parser.Tools.Builders.Iterable.NewItem.InsertAt">
             <summary>
             Indicates whether a new item has been created.
             </summary>
         </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnObjectBuilderTool.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnObjectBuilderTool.PageDown">
-            <summary>
-            Represents a page down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnObjectBuilderTool.NewProperty">
-            <summary>
-            Represents a new property.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Builders.EnObjectBuilderTool.EndItem">
-            <summary>
-            Represents the end of an object.
-            </summary>
-        </member>
-        <member name="P:RepoTool.Models.Parser.Tools.Builders.NewProperty.PropertyName">
+        <member name="P:RepoTool.Models.Parser.Tools.Builders.Object.NewProperty.PropertyName">
             <summary>
             Indicates the name of the property.
             </summary>
@@ -4293,35 +4642,21 @@
             The number of lines to scroll, must be a positive integer greater than or equal to 1.
             </summary>
         </member>
-        <member name="T:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType">
+        <member name="P:RepoTool.Models.Parser.Tools.Selectors.BlockSelector.ToolSelection">
             <summary>
-            Defines the possible types of declarations.
+            The type of the block.
             </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType.Delegate">
-            <summary>
-            Represents a delegate declaration.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType.Property">
-            <summary>
-            Represents a property declaration.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType.Field">
-            <summary>
-            Represents a field declaration.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDeclarationType.Event">
-            <summary>
-            Represents an event declaration.
-            </summary>
+            <example>
+            <code>
+            public class MyClass { }
+            </code>
+            Would be parsed as:
+            <code>
+            {
+                "ToolSelection": "Class"
+            }
+            </code>
+            </example>
         </member>
         <member name="P:RepoTool.Models.Parser.Tools.Selectors.DeclarationSelector.ToolSelection">
             <summary>
@@ -4339,56 +4674,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType">
-            <summary>
-            Defines the possible types of preprocessor directives.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Custom">
-            <summary>
-            Represents a custom directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Diagnostic">
-            <summary>
-            Represents a diagnostic directive (covers both Warning and Error).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Line">
-            <summary>
-            Represents a line directive (covers hidden, default, and value).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Region">
-            <summary>
-            Represents a region directive (also covers endregion).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Include">
-            <summary>
-            Represents an include directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Branching">
-            <summary>
-            Represents a branching directive.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Definition">
-            <summary>
-            Represents a definition directive (for defining and undefining symbols).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnDirectiveType.Pragma">
-            <summary>
-            Stores the full command as a List&lt;string&gt; because they are compiler-dependent.
-            </summary>
-        </member>
         <member name="P:RepoTool.Models.Parser.Tools.Selectors.DirectiveSelector.ToolSelection">
             <summary>
             The type of the preprocessor directive.
@@ -4404,26 +4689,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Tools.Selectors.Expressions.EnOperatorType">
-            <summary>
-            Defines the possible types of operators.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.Expressions.EnOperatorType.Unary">
-            <summary>
-            Represents a unary operator (e.g., -, !).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.Expressions.EnOperatorType.Binary">
-            <summary>
-            Represents a binary operator (e.g., +, -, *, /).
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.Expressions.EnOperatorType.Ternary">
-            <summary>
-            Represents a ternary operator (e.g., the conditional operator ?:)
-            </summary>
         </member>
         <member name="P:RepoTool.Models.Parser.Tools.Selectors.Expressions.OperatorSelector.OperatorType">
             <summary>
@@ -4441,61 +4706,6 @@
             </code>
             </example>
         </member>
-        <member name="T:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType">
-            <summary>
-            Defines the possible types of expressions.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.LiteralValue">
-            <summary>
-            Represents a literal value expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.VariableUse">
-            <summary>
-            Represents a variable use expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.NewVariable">
-            <summary>
-            Represents a new variable expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.CallableUse">
-            <summary>
-            Represents a callable use expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.Bracket">
-            <summary>
-            Represents a bracket expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.Lambda">
-            <summary>
-            Represents a lambda expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.FormatString">
-            <summary>
-            Represents a format string expression.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.Operator">
-            <summary>
-            Represents an operator expression selector.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnExpressionType.Comprehension">
-            <summary>
-            Represents a comprehension expression.
-            </summary>
-        </member>
         <member name="P:RepoTool.Models.Parser.Tools.Selectors.ExpressionSelector.ToolSelection">
             <summary>
             The type of the expression.
@@ -4511,61 +4721,6 @@
             }
             </code>
             </example>
-        </member>
-        <member name="T:RepoTool.Models.Parser.Tools.Selectors.EnStatementType">
-            <summary>
-            Defines the possible types of statements.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Expression">
-            <summary>
-            Represents an expression statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.ControlFlow">
-            <summary>
-            Represents a control flow statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.ExceptionHandling">
-            <summary>
-            Represents an exception handling statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Marking">
-            <summary>
-            Represents a marking statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Looping">
-            <summary>
-            Represents a looping statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Branching">
-            <summary>
-            Represents a branching statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Import">
-            <summary>
-            Represents an import statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Export">
-            <summary>
-            Represents an export statement.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Models.Parser.Tools.Selectors.EnStatementType.Custom">
-            <summary>
-            Represents a custom statement.
-            </summary>
         </member>
         <member name="P:RepoTool.Models.Parser.Tools.Selectors.StatementSelector.ToolSelection">
             <summary>
@@ -4896,46 +5051,6 @@
             potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
             </summary>
         </member>
-        <member name="T:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType">
-            <summary>
-            Enum representing the allowed data types in Ollama output schema.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.String">
-            <summary>
-            Represents a string type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Number">
-            <summary>
-            Represents a numeric (floating-point) type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Integer">
-            <summary>
-            Represents an integer type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Boolean">
-            <summary>
-            Represents a boolean type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Array">
-            <summary>
-            Represents an array type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Object">
-            <summary>
-            Represents an object type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OllamaOutputSchema.EnOllamaType.Null">
-            <summary>
-            Represents a null type.
-            </summary>
-        </member>
         <member name="M:RepoTool.Schemas.OllamaOutputSchema.CreateSchemaBuilder">
             <summary>
             Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the Ollama schema.
@@ -4957,46 +5072,6 @@
             NOTE: OpenAI's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
             'not', and 'uniqueItems' have been removed from this definition to ensure compatibility,
             potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType">
-            <summary>
-            Enum representing the allowed data types in OpenAI output schema.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.String">
-            <summary>
-            Represents a string type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Number">
-            <summary>
-            Represents a numeric (floating-point) type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Integer">
-            <summary>
-            Represents an integer type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Boolean">
-            <summary>
-            Represents a boolean type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Array">
-            <summary>
-            Represents an array type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Object">
-            <summary>
-            Represents an object type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Null">
-            <summary>
-            Represents a null type.
             </summary>
         </member>
         <member name="M:RepoTool.Schemas.OpenAiOutputSchema.CreateSchemaBuilder">
@@ -5207,55 +5282,6 @@
             </code>
             </example>
         </member>
-        <member name="T:EnConstructType">
-            <summary>
-            Defines the possible tool selections.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.PreprocessorDirective">
-            <summary>
-            Represents a preprocessor directive selection.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.Block">
-            <summary>
-            Represents the start of a named block of code
-            </summary>
-        </member>
-        <member name="F:EnConstructType.Statement">
-            <summary>
-            Represents a statement selection.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.Declaration">
-            <summary>
-            Represents a declaration selection.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.Expression">
-            <summary>
-            Represents a Expression selection.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.EndConstruct">
-            <summary>
-            Represents the end of a construct.
-            e.g. end of a class, method, or namespace.
-            or expression or statement depending on the context.
-            </summary>
-        </member>
-        <member name="F:EnConstructType.Finish">
-            <summary>
-            Represents the finish action.
-            i.e. completion of the parsing process.
-            This is the final selection in the parser.
-            </summary>
-        </member>
         <member name="T:ConstructSelector">
             <summary>
             Represents a selection in the parser.
@@ -5265,67 +5291,6 @@
             <summary>
             The selected tool.
             </summary>
-        </member>
-        <member name="T:EnBlockType">
-            <summary>
-            Defines the possible types of code blocks.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.ScrollDown">
-            <summary>
-            Represents a scroll down action.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Namespace">
-            <summary>
-            Represents a namespace block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Class">
-            <summary>
-            Represents a class block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Struct">
-            <summary>
-            Represents a struct block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Interface">
-            <summary>
-            Represents an interface block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Enum">
-            <summary>
-            Represents an enum block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Record">
-            <summary>
-            Represents a record block.
-            </summary>
-        </member>
-        <member name="F:EnBlockType.Callable">
-            <summary>
-            Represents a callable block (e.g., method, function).
-            </summary>
-        </member>
-        <member name="P:BlockSelector.ToolSelection">
-            <summary>
-            The type of the block.
-            </summary>
-            <example>
-            <code>
-            public class MyClass { }
-            </code>
-            Would be parsed as:
-            <code>
-            {
-                "ToolSelection": "Class"
-            }
-            </code>
-            </example>
         </member>
     </members>
 </doc>
