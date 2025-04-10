@@ -4,42 +4,6 @@ using RepoTool.Attributes;
 namespace RepoTool.Models.Parser.Items.Common
 {
     /// <summary>
-    /// Defines the possible types of code constructs.
-    /// </summary>
-    public enum EnConstructItemType
-    {
-        /// <summary>
-        /// Represents a block of code.
-        /// </summary>
-        Block,
-
-        /// <summary>
-        /// Represents a statement.
-        /// </summary>
-        Statement,
-
-        /// <summary>
-        /// Represents a declaration.
-        /// </summary>
-        Declaration,
-
-        /// <summary>
-        /// Represents an expression.
-        /// </summary>
-        Expression,
-
-        /// <summary>
-        /// Represents a preprocessor directive.
-        /// </summary>
-        Directive,
-
-        /// <summary>
-        /// Represents a custom construct.
-        /// </summary>
-        Custom
-    }
-
-    /// <summary>
     /// Represents a base construct in the code.
     /// </summary>
     [ToolChoice(typeof(ConstructSelector))]

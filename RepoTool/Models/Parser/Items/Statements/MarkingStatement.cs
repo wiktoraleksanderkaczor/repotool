@@ -1,25 +1,9 @@
+using RepoTool.Enums.Parser.Items.Statements;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 using RepoTool.Models.Parser.Items.Statements.Common;
 
 namespace RepoTool.Models.Parser.Items.Statements
 {
-    /// <summary>
-    /// Defines the possible types of marking statements.
-    /// </summary>
-    public enum EnMarkingStatementType
-    {
-        /// <summary>
-        /// Represents a label.
-        /// </summary>
-        Label,
-
-        // TODO: Worry about SQL-like query languages later...
-        // Transaction,
-        // Rollback,
-        // Commit,
-        // Savepoint,
-    }
-
     /// <inheritdoc />
     public record MarkingStatement : StatementConstruct
     {

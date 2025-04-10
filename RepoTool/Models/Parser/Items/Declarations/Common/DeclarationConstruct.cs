@@ -1,6 +1,7 @@
 
 using RepoTool.Attributes;
 using RepoTool.Enums.Parser;
+using RepoTool.Enums.Parser.Tools.Selectors;
 using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Tools.Selectors;
 

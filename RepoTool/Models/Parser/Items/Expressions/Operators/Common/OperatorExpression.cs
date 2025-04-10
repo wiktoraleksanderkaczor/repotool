@@ -1,24 +1,9 @@
+using RepoTool.Enums.Parser.Items.Expressions.Operators.Common;
+using RepoTool.Enums.Parser.Tools.Selectors.Expressions;
 using RepoTool.Models.Parser.Items.Expressions.Common;
-using RepoTool.Models.Parser.Tools.Selectors.Expressions;
 
 namespace RepoTool.Models.Parser.Items.Expressions.Operators.Common
 {
-    /// <summary>
-    /// Defines the possible associativities of operators.
-    /// </summary>
-    public enum EnOperatorAssociativity
-    {
-        /// <summary>
-        /// Left-to-right associativity.
-        /// </summary>
-        LeftToRight,
-
-        /// <summary>
-        /// Right-to-left associativity.
-        /// </summary>
-        RightToLeft
-    }
-
     /// <inheritdoc />
     public abstract record OperatorExpression : ExpressionConstruct
     {

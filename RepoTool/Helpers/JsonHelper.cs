@@ -8,6 +8,7 @@ using Json.Schema;
 using Json.Schema.Generation;
 using Microsoft.Extensions.AI;
 using RepoTool.Constants;
+using RepoTool.Enums.Json;
 using RepoTool.Extensions;
 using RepoTool.Schemas;
 using RepoTool.Schemas.Generators;
@@ -15,13 +16,6 @@ using RepoTool.Schemas.Refiners;
 
 namespace RepoTool.Helpers
 {
-    public enum EnOutputHandlingType
-    {
-        Object,
-        Iterable,
-        Value
-    }
-
     /// <summary>
     /// Provides helper methods for JSON serialization, deserialization, and schema generation.
     /// </summary>

@@ -1,25 +1,8 @@
+using RepoTool.Enums.Parser.Items.Directives;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
 namespace RepoTool.Models.Parser.Items.Directives
 {
-    public enum EnDiagnosticLevel
-    {
-        /// <summary>
-        /// Represents a warning diagnostic.
-        /// </summary>
-        Warning,
-        
-        /// <summary>
-        /// Represents an error diagnostic.
-        /// </summary>
-        Error,
-        
-        /// <summary>
-        /// Represents other types of diagnostics.
-        /// </summary>
-        Other
-    }
-
     /// <summary>
     /// Represents a diagnostic preprocessor directive covering both warning and error directives.
     /// </summary>

@@ -1,16 +1,7 @@
+using RepoTool.Enums.Parser.Items.Blocks;
+
 namespace RepoTool.Models.Parser.Items.Blocks
 {
-    /// <summary>
-    /// Defines the possible modifier flags for a struct.
-    /// </summary>
-    public enum EnStructModifierFlag
-    {
-        /// <summary>
-        /// Indicates that the struct represents a union.
-        /// </summary>
-        Union,
-    }
-
     /// <inheritdoc />
     public record StructBlock : ClassBlock
     {

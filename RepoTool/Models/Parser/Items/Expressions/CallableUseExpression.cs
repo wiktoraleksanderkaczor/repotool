@@ -1,18 +1,8 @@
+using RepoTool.Enums.Parser.Items.Expressions;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
 namespace RepoTool.Models.Parser.Items.Expressions
 {
-    /// <summary>
-    /// Defines the possible modifier flags for a callable use.
-    /// </summary>
-    public enum EnCallableUseModifierFlag
-    {
-        /// <summary>
-        /// Indicates that the callable is a built-in function.
-        /// </summary>
-        IsBuiltIn,
-    }
-
     /// <summary>
     /// Represents a callable use.
     /// </summary>

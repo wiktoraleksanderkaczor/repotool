@@ -1,24 +1,9 @@
 using RepoTool.Enums.Parser;
+using RepoTool.Enums.Parser.Items.Blocks;
 using RepoTool.Models.Parser.Items.Blocks.Common;
 
 namespace RepoTool.Models.Parser.Items.Blocks
 {
-    /// <summary>
-    /// Defines the possible types of inheritance.
-    /// </summary>
-    public enum EnInheritanceType
-    {
-        /// <summary>
-        /// Represents class inheritance.
-        /// </summary>
-        Inherits,
-        
-        /// <summary>
-        /// Represents interface implementation.
-        /// </summary>
-        Implements
-    }
-
     /// <summary>
     /// Represents information about inheritance for a class or interface.
     /// </summary>

@@ -1,23 +1,8 @@
+using RepoTool.Enums.Parser.Items.Directives;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
 namespace RepoTool.Models.Parser.Items.Directives
 {
-    /// <summary>
-    /// Represents symbol definition directives (#define, #undef)
-    /// </summary>
-    public enum EnDefinitionType
-    {
-        /// <summary>
-        /// Represents a #define directive.
-        /// </summary>
-        Define,
-        
-        /// <summary>
-        /// Represents an #undef directive.
-        /// </summary>
-        Undefine
-    }
-
     /// <summary>
     /// Represents a preprocessor definition directive (#define, #undef).
     /// </summary>
