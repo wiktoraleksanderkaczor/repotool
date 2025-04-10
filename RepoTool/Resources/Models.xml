@@ -1048,10 +1048,10 @@
         </member>
         <member name="M:RepoTool.Helpers.InferenceHelper.ParseMessages(System.String)">
             <summary>
-            Method to parse raw message strings into a list of ChatMessage objects.
+            Method to parse raw message strings into a list of message objects.
             </summary>
             <param name="rawMessages">The raw message string containing message role tags.</param>
-            <returns>A list of chat message objects.</returns>
+            <returns>A list of message objects.</returns>
             <exception cref="T:System.ArgumentOutOfRangeException">Thrown when an unsupported message role is encountered.</exception>
         </member>
         <member name="P:RepoTool.Helpers.InferenceValueWrapper`1.Value">
@@ -1157,6 +1157,7 @@
             <param name="path">The path of the resource file.</param>
             <returns>The content of the resource file, or null if not found.</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:RepoTool.Helpers.ResourceHelper.GetTemplateResourceNames" -->
         <member name="T:RepoTool.Helpers.ToolingHelper">
             <summary>
             Helper class for tool-related operations.
@@ -1391,6 +1392,18 @@
         <member name="M:RepoTool.Persistence.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:RepoTool.Persistence.Migrations.UpdateInferenceCache">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.UpdateInferenceCache.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.UpdateInferenceCache.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.UpdateInferenceCache.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:RepoTool.Schemas.OllamaOutputSchema">
             <summary>
             Provides functionality to build a JSON Schema that validates output structures for Ollama API responses.
@@ -1453,6 +1466,69 @@
             This schema ensures any provided output conforms to the supported structure and constraints.
             </summary>
             <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance for Ollama output validation.</returns>
+        </member>
+        <member name="T:RepoTool.Schemas.OpenAiOutputSchema">
+            <summary>
+            Provides functionality to build a JSON Schema that validates output structures for OpenAI API responses.
+            This schema builder follows known constraints and limitations of the OpenAI schema processing.
+            NOTE: OpenAI's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
+            'not', and 'uniqueItems' have been removed from this definition to ensure compatibility,
+            potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType">
+            <summary>
+            Enum representing the allowed data types in OpenAI output schema.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.String">
+            <summary>
+            Represents a string type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Number">
+            <summary>
+            Represents a numeric (floating-point) type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Integer">
+            <summary>
+            Represents an integer type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Boolean">
+            <summary>
+            Represents a boolean type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Array">
+            <summary>
+            Represents an array type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Object">
+            <summary>
+            Represents an object type.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Schemas.OpenAiOutputSchema.EnOpenAiType.Null">
+            <summary>
+            Represents a null type.
+            </summary>
+        </member>
+        <member name="M:RepoTool.Schemas.OpenAiOutputSchema.CreateSchemaBuilder">
+            <summary>
+            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the OpenAI schema.
+            This builder defines the structure and constraints of the schema following OpenAI's requirements.
+            </summary>
+            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance.</returns>
+        </member>
+        <member name="M:RepoTool.Schemas.OpenAiOutputSchema.BuildSchema">
+            <summary>
+            Builds the JSON Schema that defines and validates the OpenAI output structure.
+            This schema ensures any provided output conforms to the supported structure and constraints.
+            </summary>
+            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance for OpenAI output validation.</returns>
         </member>
         <member name="T:EnChangeSize">
             <summary>
@@ -4748,7 +4824,7 @@
         </member>
         <member name="P:ScrollDown.NumberOfLines">
             <summary>
-            The number of lines to scroll, must be a positive integer.
+            The number of lines to scroll, must be a positive integer greater than or equal to 1.
             </summary>
         </member>
         <member name="T:EnBlockType">
