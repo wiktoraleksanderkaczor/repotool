@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    runtime: nvidia
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - "~/.cache/huggingface:/root/.cache/huggingface"
+    ipc: host
+    command: [
+      # "Gemma is provided under and subject to the Gemma Terms of Use found at ai.google.dev/gemma/terms"
+      "--model=gaunernst/gemma-3-12b-it-int4-awq",
+      "--enable-reasoning",
+      "--reasoning-parser=deepseek_r1", # Possible choices (required for enable): deepseek_r1, granite
+      "--cpu-offload-gb=2",  # Specify the amount of CPU offload in GB
+      "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 4}",
+      "--trust-remote-code",
+      "--kv-cache-dtype=fp8_e4m3",
+      "--guided-decoding-backend=outlines",
+      "--enable-prefix-caching",
+      "--seed=666",
+      "--override-generation-config={\"temperature\": 0}",  # Add your generation config here
+      "--max-model-len=8192" # Model context length. If unspecified, will be automatically derived from the model config.
+    ]
