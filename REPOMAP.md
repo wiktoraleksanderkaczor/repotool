@@ -370,11 +370,7 @@ Contains code related to the command-line interface (CLI) using Spectre.Console.
       - `RemoveLanguageCommand.cs` - Defines the command to remove a language configuration.
       - `Available/` - Contains commands related to available (built-in) language support.
         - `AddAvailableLanguageCommand.cs` - Defines the command to add a language from the available list.
-        - `ListAvailableLanguagesCommand.cs` - Defines the command to list available languages.  - `CommandInterceptor.cs` - Defines an interceptor for modifying command execution behavior.
-  - `SpectreRunner.cs` - Defines a custom runner for Spectre.Console commands.
-  - `TypeRegistrar.cs` - Defines the type registrar for Spectre.Console's dependency injection.
-  - `TypeResolver.cs` - Defines the type resolver for Spectre.Console's dependency injection.
-  - `Commands/` - Contains CLI command definitions.
+        - `ListAvailableLanguagesCommand.cs` - Defines the command to list available languages.
     - `DefaultCommand.cs` - Defines the default command executed when no specific command is provided.
     - `InitCommand.cs` - Defines the command for initializing the repository or tool.
     - `ParseCommand.cs` - Defines the command for parsing source code.
