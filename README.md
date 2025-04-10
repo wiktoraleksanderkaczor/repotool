@@ -1,53 +1,79 @@
-# Project Brief
+# RepoTool
 
 ## Overview
 
-This project, RepoTool, is a command-line utility designed to analyze and interact with code repositories. It provides functionalities such as parsing code, searching for specific patterns, summarizing code changes, and managing repository metadata. The core of RepoTool's functionality relies on a novel approach to code analysis, leveraging a Large Language Model (LLM) with structured output and tool-calling capabilities. This enables a highly interactive and granular parsing process, operating on code blocks and individual statements within those blocks.
+RepoTool is a command-line utility built with .NET/C# designed to analyze and interact with code repositories. It provides functionalities such as LLM-driven code parsing, pattern searching, code summarization, index management for analysis, language configuration, caching, and potentially changelog generation based on repository history.
+
+The core of RepoTool's parsing functionality relies on a novel approach leveraging a Large Language Model (LLM) with structured output (JSON schema) and tool-calling capabilities. This enables a highly interactive and granular parsing process, operating on code blocks and individual statements within those blocks, aiming for detailed, language-agnostic analysis.
+
+## Table of Contents
+- [Overview](#overview)
+- [Goals](#goals)
+- [Key Features](#key-features)
+- [Technologies](#technologies)
+- [Project Status & Usage](#project-status--usage)
+- [Future Considerations](#future-considerations)
+- [Licences](#licences)
 
 ## Goals
 
 - Provide a robust and efficient tool for code analysis.
-- Offer various commands for different repository-related tasks.
-- Support multiple programming languages.
+- Offer various commands for different repository-related tasks (parsing, searching, summarization, indexing, etc.).
+- Support multiple programming languages through configuration.
 - Maintain a clear and well-documented codebase.
 - Ensure extensibility for future features.
 
 ## Key Features
 
-- **Parsing:**
+- **Parsing (`ParseCommand`):**
     - **LLM-Driven Analysis:** Utilizes an LLM to analyze code structure and extract relevant information.
-    - **Structured Output:** Employs a JSON schema for all LLM responses, ensuring accuracy, consistency, and enabling complex data representation without the limitations of polymorphic function calls.
+    - **Structured Output:** Employs a JSON schema for all LLM responses, ensuring accuracy, consistency, and enabling complex data representation.
     - **Interactive Parsing:** The parsing process is interactive, allowing the LLM to request specific actions and information from the system through tool calls.
-    - **Code Navigation Tools:**
-        - *Scroll Tool:* Allows the LLM to advance the displayed code window, providing context for analysis.
-        - *Line-Numbered Windows:* Code is presented in line-numbered windows with a configurable number of lines, providing precise location information.
-    - **Block-Based Processing:**
-        - *Block Definition:* Code is divided into logical blocks (e.g., functions, classes, methods).
-        - *Block Start/End Tools:* Tools are provided for the LLM to explicitly start and end blocks, specifying the block type (from a predefined enum) and name. The starting line number is included.
-        - *Nested Blocks:* Supports nested blocks to represent hierarchical code structures.
-        - *Block Context:* The current block hierarchy (including parameters, if any) is included in the LLM's action context.
-    - **Statement-Level Processing:**
-        - *Statement Types:* Individual statements within blocks are processed separately.
-        - *Statement Part Decomposition:* Statements may be parsed in multiple parts to avoid polymorphism in the JSON schema.
-        - *Block Statements:* Special "block statements" allow for control flow constructs within blocks (branching, looping, error handling).
-    - **Language-Agnostic Querying:**
-        - *Unified Query Language:* A custom query language is used to interact with the parsed code, treating code blocks as standard statements. This allows for consistent querying across different programming languages.
-        - *Language-Specific Tags:* Language-specific features that don't fit into the standard block structure are represented as "tags."
-        - *Cross-Language Comparisons:* Tags can be compared across languages based on their embedding (relative position within the file), enabling analysis of similar features even without explicit implementation.
-    - **Action History:**
-        - *Contextual Awareness:* A list of previous actions taken by the LLM is provided as context.
-- **Searching:** Find specific patterns or code elements within the repository, utilizing LLM-powered analysis and tool calls.
-- **Summarization:** Generate concise summaries of code changes, driven by LLM analysis and structured data.
-- **Indexing:** Create and manage an index for faster repository analysis.
-- **Language Support:** Handle multiple programming languages through configurable settings and LLM adaptability.
-- **Caching:** Store analysis results for improved performance.
-- **Changelog Generation:** Automatically create changelogs based on code commits and LLM-powered summarization.
+    - **Code Navigation Tools:** Includes tools like scrolling (`ScrollDown`, `PageDown`) within line-numbered code windows for contextual analysis.
+    - **Block-Based Processing:** Code is divided into logical blocks (e.g., functions, classes). Tools allow the LLM to define block boundaries (`BlockSelector`, `BlockConstruct`) and types, supporting nested structures. Block context is provided to the LLM.
+    - **Statement-Level Processing:** Individual statements within blocks are processed (`StatementSelector`, `StatementConstruct`), potentially decomposed into parts to fit the schema, including control flow constructs.
+    - **Language-Agnostic Representation:** Aims for a unified representation of code constructs (`Construct` base model) across languages, using language-specific details where necessary.
+    - **Action History:** Provides previous LLM actions as context.
+- **Searching (`SearchCommand`):** Find specific patterns or code elements within the repository. (Implementation details may vary).
+- **Summarization (`SummarizeCommand`):** Generate concise summaries of code or changes, likely leveraging LLM analysis.
+- **Indexing (`Index/` commands):** Create and manage an index (`UpdateIndexCommand`, `ShowIndexCommand`, `ClearIndexCommand`) for potentially faster repository analysis or changelog generation.
+- **Language Support (`Language/` commands):** Handle multiple programming languages through configurable settings (`AddLanguageCommand`, `ListLanguageCommand`, `RemoveLanguageCommand`, `Available/` commands).
+- **Caching (`Cache/` commands):** Store analysis or inference results (`ClearCacheCommand`, `ShowCacheCommand`, `InferenceCacheEntity`) for improved performance.
+- **Changelog Generation:** Functionality related to generating changelogs appears present (`ChangelogEntity`, `ChangelogContext`), likely based on code commits and summarization.
 
 ## Technologies
 
-- C#
-- .NET
-- LLM (for code parsing, analysis, and tool calling)
+- C# / .NET
+- Spectre.Console (for CLI)
+- Entity Framework Core (for persistence)
+- Large Language Models (LLMs) via providers (e.g., OpenAI, Ollama and Outlines (via vLLM)). Latter being preferred for much better schema support.
+- Scriban (for templating)
+
+## Project Status & Usage
+
+This project is currently under development.
+
+**Building:**
+Use the standard .NET CLI build command from the root directory:
+```bash
+dotnet build
+```
+
+**Running:**
+After building, you can run the tool using the `dotnet run` command, specifying the `RepoTool` project and passing the desired command and options:
+```bash
+dotnet run --project RepoTool/RepoTool.csproj -- [command] [options]
+```
+For example, to see available commands:
+```bash
+dotnet run --project RepoTool/RepoTool.csproj -- --help
+```
+
+First command to be ran will have to be `init`.
+
+**Configuration:**
+- LLM provider details (API keys, endpoints) need to be configured. See documentation for configuration file in `.repotool/settings.json`.
+- Persistence is handled via EF Core, likely using SQLite by default. The database file location will be in the initialised project folder within the repository.
 
 ## Future Considerations
 
@@ -55,16 +81,6 @@ This project, RepoTool, is a command-line utility designed to analyze and intera
 - Enhanced visualization of code analysis results.
 - Support for more advanced code analysis techniques.
 
-## Acceptance Criteria
+## Licences
 
-- The tool successfully parses code from at least three different programming languages (e.g., C#, Python, JavaScript).
-- The search command accurately identifies code elements based on user-provided patterns.
-- The summarization command generates summaries that accurately reflect code changes.
-- The indexing functionality improves the performance of subsequent analysis operations.
-- The tool handles common error scenarios gracefully and provides informative error messages.
-- The codebase adheres to the defined coding guidelines and style conventions.
-- Unit tests cover at least 80% of the codebase.
-- The tool successfully installs and runs on the target operating systems (Linux).
-- The LLM interaction adheres to the specified structured output and tool-calling mechanisms.
-- The parsing process correctly handles blocks, statements, and language-specific tags.
-- The query language allows for effective retrieval of information from the parsed code.
+Licence for this project is contained in [the licence file](LICENCE) and libraries this project uses are in [this licences file](LICENCES.md). I extend my heartfelt gratitude to the developers of these libraries and the open-source community.
