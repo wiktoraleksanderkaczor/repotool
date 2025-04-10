@@ -10,3 +10,4 @@
 - [ ] Add 'Reason' field in the tool choice thingies... so we can log it in Actions.
 - [ ] Fix bad property documentation i.e. `System.String` has `Chars` and `Length` which are useless to the LLM.
 - [ ] Move stuff related to object inference from ParserHelper to InferenceHelper because they're general purpose and will be used in other places. More of a StructuredOutputHelper really.
+- [ ] Need to fill out selectors with ItemChoice for things like `Expressions` etc.
