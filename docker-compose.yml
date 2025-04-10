@@ -14,14 +14,21 @@ services:
       # "Gemma is provided under and subject to the Gemma Terms of Use found at ai.google.dev/gemma/terms"
       "--model=gaunernst/gemma-3-12b-it-int4-awq",
       "--enable-reasoning",
-      "--reasoning-parser=deepseek_r1", # Possible choices (required for enable): deepseek_r1, granite
-      "--cpu-offload-gb=2",  # Specify the amount of CPU offload in GB
+      # Possible choices (required for enable): deepseek_r1, granite
+      "--reasoning-parser=deepseek_r1", 
+      # Specify the amount of CPU offload in GB
+      "--cpu-offload-gb=2",  
+      # Use ngram spec-dec... free performance
       "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 4}",
       "--trust-remote-code",
+      # Quantize KV cache to FP8 with 4b exp and 3b mantissa
       "--kv-cache-dtype=fp8_e4m3",
+      # Use outlines for best JSON Schema support
       "--guided-decoding-backend=outlines",
       "--enable-prefix-caching",
+      # Deterministic-ish outputs
       "--seed=666",
-      "--override-generation-config={\"temperature\": 0}",  # Add your generation config here
-      "--max-model-len=8192" # Model context length. If unspecified, will be automatically derived from the model config.
+      "--override-generation-config={\"temperature\": 0}",  
+      # Model context length. If unspecified, will be automatically derived from the model config.
+      "--max-model-len=8192" 
     ]
