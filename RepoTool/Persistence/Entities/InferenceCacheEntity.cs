@@ -8,6 +8,7 @@ namespace RepoTool.Persistence.Entities
     {
         public required string PromptHash { get; set; }
         public required EnInferenceProvider InferenceProvider { get; set; }
+        public required string InferenceModel { get; set; }
         public required string OutputType { get; set; }
         public required string ResponseContent { get; set; }
     }

@@ -16,6 +16,9 @@ namespace RepoTool.Persistence.Entities.Configuration
                 
             builder.Property(x => x.InferenceProvider)
                 .IsRequired();
+
+            builder.Property(x => x.InferenceModel)
+                .IsRequired();
             
             builder.Property(x => x.ResponseContent)
                 .IsRequired();
