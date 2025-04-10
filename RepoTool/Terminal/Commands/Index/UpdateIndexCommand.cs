@@ -1,6 +1,11 @@
 using RepoTool.Helpers;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts;
+using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Models.Repository;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
+using RepoTool.Terminal.Commands.Common;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 

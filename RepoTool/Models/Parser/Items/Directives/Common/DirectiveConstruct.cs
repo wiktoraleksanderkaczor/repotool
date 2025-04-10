@@ -1,23 +1,27 @@
 using RepoTool.Attributes;
+using RepoTool.Models.Parser.Items.Common;
+using RepoTool.Models.Parser.Tools.Selectors;
 
-
-/// <inheritdoc />
-[ToolChoice(typeof(DirectiveSelector))]
-public abstract record DirectiveConstruct : Construct
+namespace RepoTool.Models.Parser.Items.Directives.Common
 {
-    /// <summary>
-    /// The type of the preprocessor directive.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// #region MyRegion
-    /// </code>
-    /// Would be parsed as:
-    /// <code>
-    /// {
-    ///     "DirectiveType": "Region"
-    /// }
-    /// </code>
-    /// </example>
-    public required EnDirectiveType DirectiveType { get; init; }
+    /// <inheritdoc />
+    [ToolChoice(typeof(DirectiveSelector))]
+    public abstract record DirectiveConstruct : Construct
+    {
+        /// <summary>
+        /// The type of the preprocessor directive.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// #region MyRegion
+        /// </code>
+        /// Would be parsed as:
+        /// <code>
+        /// {
+        ///     "DirectiveType": "Region"
+        /// }
+        /// </code>
+        /// </example>
+        public required EnDirectiveType DirectiveType { get; init; }
+    }
 }

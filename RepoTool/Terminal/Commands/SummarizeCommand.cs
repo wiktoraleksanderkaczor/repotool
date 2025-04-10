@@ -2,6 +2,10 @@ using Spectre.Console.Cli;
 using RepoTool.Helpers;
 using System.ComponentModel;
 using Spectre.Console;
+using RepoTool.Terminal.Commands.Common;
+using RepoTool.Models.Inference.Contexts;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts.Parser;
 
 namespace RepoTool.Commands
 {

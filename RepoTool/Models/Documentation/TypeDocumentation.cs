@@ -19,7 +19,7 @@ namespace RepoTool.Models.Documentation
 
     public record StructDocumentation : BaseTypedDocumentation
     {
-        public required List<MemberDocumentation> Fields { get; set; }
+        public required List<MemberDocumentation>? Fields { get; set; }
     }
 
     /// <summary>

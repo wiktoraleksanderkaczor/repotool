@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepoTool.Options.Common;
 using System.Reflection;
 
 namespace RepoTool.Extensions

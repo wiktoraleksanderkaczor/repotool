@@ -1,11 +1,14 @@
-using Json.Schema.Generation;
+using RepoTool.Models.Parser.Items.Blocks;
+using RepoTool.Models.Parser.Items.Statements.Common;
 
-/// <inheritdoc />
-public record CallableStatement : StatementConstruct
+namespace RepoTool.Models.Parser.Items.Statements
 {
-    /// <summary>
-    /// The callable block
-    /// </summary>
-    [JsonExclude]
-    public required CallableBlock Callable { get; init; }
+    /// <inheritdoc />
+    public record CallableStatement : StatementConstruct
+    {
+        /// <summary>
+        /// The callable block
+        /// </summary>
+        public required CallableBlock Callable { get; init; }
+    }
 }

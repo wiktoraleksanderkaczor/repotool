@@ -1,18 +1,22 @@
 using Microsoft.Extensions.Hosting;
+using RepoTool.Terminal.Commands.Common;
 using Spectre.Console.Cli;
 
-public class DefaultCommand : AsyncCommand<CommonSettings>
+namespace RepoTool.Terminal.Commands
 {
-    private readonly IHostBuilder _hostBuilder;
-
-    public DefaultCommand(IHostBuilder hostBuilder)
+    public class DefaultCommand : AsyncCommand<CommonSettings>
     {
-        _hostBuilder = hostBuilder;
-    }
+        private readonly IHostBuilder _hostBuilder;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, CommonSettings settings)
-    {
-        await _hostBuilder.Build().RunAsync();
-        return 0;
+        public DefaultCommand(IHostBuilder hostBuilder)
+        {
+            _hostBuilder = hostBuilder;
+        }
+
+        public override async Task<int> ExecuteAsync(CommandContext context, CommonSettings settings)
+        {
+            await _hostBuilder.Build().RunAsync();
+            return 0;
+        }
     }
 }

@@ -1,3 +1,6 @@
+using RepoTool.Models.Parser.Items.Blocks.Common;
+
+
 /// <inheritdoc />
 public record NamespaceBlock : BlockConstruct
 {

@@ -1,53 +1,55 @@
-using Json.Schema.Generation;
+using RepoTool.Models.Parser.Items.Expressions.Common;
 
-/// <summary>
-/// Defines the possible types of brackets.
-/// </summary>
-public enum EnBracketType
+namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <summary>
-    /// Represents square brackets [].
+    /// Defines the possible types of brackets.
     /// </summary>
-    Square,
-    
-    /// <summary>
-    /// Represents round brackets ().
-    /// </summary>
-    Round,
-    
-    /// <summary>
-    /// Represents angle brackets &lt;&gt;.
-    /// </summary>
-    Angle,
-    
-    /// <summary>
-    /// Represents curly brackets {}.
-    /// </summary>
-    Curly
-}
+    public enum EnBracketType
+    {
+        /// <summary>
+        /// Represents square brackets [].
+        /// </summary>
+        Square,
+        
+        /// <summary>
+        /// Represents round brackets ().
+        /// </summary>
+        Round,
+        
+        /// <summary>
+        /// Represents angle brackets &lt;&gt;.
+        /// </summary>
+        Angle,
+        
+        /// <summary>
+        /// Represents curly brackets {}.
+        /// </summary>
+        Curly
+    }
 
-/// <inheritdoc />
-public record BracketExpression : ExpressionConstruct
-{
-    /// <summary>
-    /// Type of the brackets.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// [1, 2, 3]
-    /// </code>
-    /// Would be parsed as:
-    /// <code>
-    /// {
-    ///     "BracketType": "Square"
-    /// }
-    /// </code>
-    /// </example>
-    public required EnBracketType BracketType { get; init; }
+    /// <inheritdoc />
+    public record BracketExpression : ExpressionConstruct
+    {
+        /// <summary>
+        /// Type of the brackets.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// [1, 2, 3]
+        /// </code>
+        /// Would be parsed as:
+        /// <code>
+        /// {
+        ///     "BracketType": "Square"
+        /// }
+        /// </code>
+        /// </example>
+        public required EnBracketType BracketType { get; init; }
 
-    /// <summary>
-    /// Expression within the brackets.
-    /// </summary>
-    [JsonExclude]
-    public required ExpressionConstruct? Expression { get; init; }
+        /// <summary>
+        /// Expression within the brackets.
+        /// </summary>
+        public required ExpressionConstruct? Expression { get; init; }
+    }
 }

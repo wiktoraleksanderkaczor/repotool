@@ -1,30 +1,33 @@
 using RepoTool.Constants;
 using Spectre.Console.Cli;
 
-internal class CommandInterceptor : ICommandInterceptor
+namespace RepoTool.Terminal
 {
-    // <summary>
-    // Intercepts the command settings and performs any necessary init checks.
-    // Must be non-static to be called by Spectre.Console.
-    // </summary>
-    /// <param name="context">The command context.</param>
-    /// <param name="settings">The command settings.</param>
-    public void Intercept(CommandContext context, CommandSettings settings)
+    internal class CommandInterceptor : ICommandInterceptor
     {
-        if (context.Name != "init")
+        // <summary>
+        // Intercepts the command settings and performs any necessary init checks.
+        // Must be non-static to be called by Spectre.Console.
+        // </summary>
+        /// <param name="context">The command context.</param>
+        /// <param name="settings">The command settings.</param>
+        public void Intercept(CommandContext context, CommandSettings settings)
         {
-            // Ensure the directory contains a git repo
-            if (!Directory.Exists(PathConstants.GitFolder))
+            if (context.Name != "init")
             {
-                Console.WriteLine($"Directory '{PathConstants.CurrentDirectory}' does not contain git repository.");
-                Environment.Exit(1);
-            }
+                // Ensure the directory contains a git repo
+                if (!Directory.Exists(PathConstants.GitFolder))
+                {
+                    Console.WriteLine($"Directory '{PathConstants.CurrentDirectory}' does not contain git repository.");
+                    Environment.Exit(1);
+                }
 
-            if (!Directory.Exists(PathConstants.RepoToolFolder)
-                || !File.Exists(PathConstants.DatabasePath))
-            {
-                Console.WriteLine("Must run initialization command first");
-                Environment.Exit(1);
+                if (!Directory.Exists(PathConstants.RepoToolFolder)
+                    || !File.Exists(PathConstants.DatabasePath))
+                {
+                    Console.WriteLine("Must run initialization command first");
+                    Environment.Exit(1);
+                }
             }
         }
     }

@@ -6,6 +6,8 @@ using Scriban.Parsing;
 using RepoTool.Extensions;
 using System.Reflection;
 using Spectre.Console;
+using RepoTool.Models.Inference.Contexts.Common;
+using RepoTool.Models.Inference;
 
 namespace RepoTool.Helpers
 {

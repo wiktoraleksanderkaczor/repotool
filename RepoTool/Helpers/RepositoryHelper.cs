@@ -1,4 +1,5 @@
 using LibGit2Sharp;
+using RepoTool.Models.Repository;
 using Spectre.Console;
 using Tree = LibGit2Sharp.Tree;
 

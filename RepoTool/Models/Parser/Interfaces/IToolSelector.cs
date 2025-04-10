@@ -1,4 +1,7 @@
-public interface IToolSelector<TEnum> where TEnum : struct
+namespace RepoTool.Models.Parser.Interfaces
 {
-    TEnum ToolSelection { get; init; }
+    public interface IToolSelector<TEnum> where TEnum : struct
+    {
+        TEnum ToolSelection { get; init; }
+    }
 }

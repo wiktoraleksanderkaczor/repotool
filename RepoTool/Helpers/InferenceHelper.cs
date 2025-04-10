@@ -11,6 +11,11 @@ using System.Reflection;
 using System.Data;
 using System.Text.Json.Nodes;
 using Json.Schema;
+using RepoTool.Options;
+using RepoTool.Models.Inference.Contexts.Common;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Providers.Common;
 
 namespace RepoTool.Helpers
 {

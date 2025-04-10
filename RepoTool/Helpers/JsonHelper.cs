@@ -10,6 +10,8 @@ using Microsoft.Extensions.AI;
 using RepoTool.Constants;
 using RepoTool.Extensions;
 using RepoTool.Schemas;
+using RepoTool.Schemas.Generators;
+using RepoTool.Schemas.Refiners;
 
 namespace RepoTool.Helpers
 {

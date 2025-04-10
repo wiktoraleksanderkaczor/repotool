@@ -1,7 +1,12 @@
-public record SummarizationContext : InferenceContext
+using RepoTool.Models.Inference.Contexts.Common;
+
+namespace RepoTool.Models.Inference.Contexts
 {
-    /// <summary>
-    /// Content to be summarized.
-    /// </summary>
-    public required string Content { get; set; }
+    public record SummarizationContext : InferenceContext
+    {
+        /// <summary>
+        /// Content to be summarized.
+        /// </summary>
+        public required string Content { get; set; }
+    }
 }

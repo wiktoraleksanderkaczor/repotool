@@ -1,6 +1,10 @@
 using Json.Schema;
+using RepoTool.Models.Inference;
 
-public interface IInferenceProvider
+namespace RepoTool.Providers.Common
 {
-    public Task<string> GetInferenceAsync(List<InferenceMessage> messages, JsonSchema jsonSchema);
+    public interface IInferenceProvider
+    {
+        public Task<string> GetInferenceAsync(List<InferenceMessage> messages, JsonSchema jsonSchema);
+    }
 }

@@ -1,29 +1,34 @@
 using RepoTool.Enums.Inference;
+using RepoTool.Models.Inference.Contexts;
+using RepoTool.Models.Inference.Contexts.Common;
 
-/// <summary>
-/// Request for inference
-/// </summary>
-public record InferenceRequest<T> where T : notnull, InferenceContext
+namespace RepoTool.Models.Inference
 {
     /// <summary>
-    /// Context for inference
+    /// Request for inference
     /// </summary>
-    public required T Context { get; set; }
-
-    /// <summary>
-    /// Gets the inference reason based on the context type.
-    /// </summary>
-    public EnInferenceReason GetInferenceReason()
+    public record InferenceRequest<T> where T : notnull, InferenceContext
     {
-        switch (Context) {
-            case ChangelogContext:
-                return EnInferenceReason.Changelog;
-            case SummarizationContext:
-                return EnInferenceReason.Summarization;
-            case ParserContext:
-                return EnInferenceReason.Parsing;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(Context), Context, null);
+        /// <summary>
+        /// Context for inference
+        /// </summary>
+        public required T Context { get; set; }
+
+        /// <summary>
+        /// Gets the inference reason based on the context type.
+        /// </summary>
+        public EnInferenceReason GetInferenceReason()
+        {
+            switch (Context) {
+                case ChangelogContext:
+                    return EnInferenceReason.Changelog;
+                case SummarizationContext:
+                    return EnInferenceReason.Summarization;
+                case ParserContext:
+                    return EnInferenceReason.Parsing;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(Context), Context, null);
+            }
         }
     }
 }

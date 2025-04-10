@@ -1,5 +1,8 @@
 // Reuse for inline selections too...
 using RepoTool.Attributes;
+using RepoTool.Models.Parser.Interfaces;
+using RepoTool.Models.Parser.Tools.Navigation;
+using RepoTool.Models.Parser.Tools.Selectors;
 
 /// <summary>
 /// Defines the possible tool selections.

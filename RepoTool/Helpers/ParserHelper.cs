@@ -8,8 +8,17 @@ using Microsoft.Extensions.FileSystemGlobbing;
 using RepoTool.Attributes;
 using RepoTool.Extensions;
 using RepoTool.Flags.Parser;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts;
+using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Models.Parser.Interfaces;
+using RepoTool.Models.Parser.Tools;
+using RepoTool.Models.Parser.Tools.Builders;
+using RepoTool.Models.Parser.Tools.Builders.Common;
+using RepoTool.Models.Parser.Tools.Navigation;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
+using Action = RepoTool.Models.Inference.Contexts.Parser.Action;
 
 namespace RepoTool.Helpers
 {

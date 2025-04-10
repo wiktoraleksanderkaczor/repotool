@@ -53,7 +53,7 @@ namespace RepoTool.Helpers
         /// <summary>
         /// Get all template resource names
         /// </summary>
-        /// <returns>List of template embedded resource names
+        /// <returns>List of template embedded resource names</returns>
         public static List<string> GetTemplateResourceNames()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();

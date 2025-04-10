@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using RepoTool.Helpers;
+using RepoTool.Models.Resources;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

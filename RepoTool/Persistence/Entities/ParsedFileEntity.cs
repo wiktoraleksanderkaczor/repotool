@@ -1,6 +1,7 @@
 using Json.Schema.Generation;
 using RepoTool.Attributes;
 using RepoTool.Enums.Parser;
+using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Persistence.Entities.Common;
 
 namespace RepoTool.Persistence.Entities
@@ -49,7 +50,6 @@ namespace RepoTool.Persistence.Entities
         /// Language-specific paradigm (e.g., Object-Oriented, Functional, Procedural).
         /// Apply all applicable flags for the current file.
         /// </summary>
-        // [JsonExclude]
         [UniqueItems(true)]
         [FullContentScan]
         public required HashSet<EnLanguageParadigm> LanguageParadigm { get; init; }
@@ -57,7 +57,6 @@ namespace RepoTool.Persistence.Entities
         /// <summary>
         /// List of constructs in the file.
         /// </summary>
-        // [JsonExclude]
         [FullContentScan]
         public required List<Construct>? Constructs { get; init; }
     }

@@ -3,300 +3,302 @@ using System.Text.Json;
 using Json.More;
 using RepoTool.Flags.Parser;
 
-
-/// <summary>
-/// Represents a path to an item in the parsed content.
-/// </summary>
-public record ItemPath
+namespace RepoTool.Models.Inference.Contexts.Parser
 {
     /// <summary>
-    /// The components that make up the item path.
+    /// Represents a path to an item in the parsed content.
     /// </summary>
-    public required List<ItemPathComponent> Components { get; set; }
-
-    /// <summary>
-    /// Convenience to show the full path as a string.
-    /// </summary>
-    public string FullPath => string.Join(".", Components.Select(c => c switch
+    public record ItemPath
     {
-        ItemPathRootComponent rootComponent => rootComponent.RecordType.Name,
-        ItemPathIndexComponent indexComponent => $"[{indexComponent.Index}]",
-        ItemPathKeyComponent keyComponent => $"[{keyComponent.Key}]",
-        ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyName,
-        // Tool components are not included in the path string
-        ItemPathToolComponent toolComponent => string.Empty, 
-        _ => throw new NotSupportedException("Unknown component type.")
-    }));
+        /// <summary>
+        /// The components that make up the item path.
+        /// </summary>
+        public required List<ItemPathComponent> Components { get; set; }
 
-    /// <summary>
-    /// Convenience to get the last component object type.
-    /// </summary>
-    /// <returns>Type</returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="NotSupportedException"></exception>
-    public Type GetLastObjectType()
-    {
-        // Get the last component type
-        if (Components.Count > 0)
+        /// <summary>
+        /// Convenience to show the full path as a string.
+        /// </summary>
+        public string FullPath => string.Join(".", Components.Select(c => c switch
         {
-            return Components[^1] switch
+            ItemPathRootComponent rootComponent => rootComponent.RecordType.Name,
+            ItemPathIndexComponent indexComponent => $"[{indexComponent.Index}]",
+            ItemPathKeyComponent keyComponent => $"[{keyComponent.Key}]",
+            ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyName,
+            // Tool components are not included in the path string
+            ItemPathToolComponent toolComponent => string.Empty, 
+            _ => throw new NotSupportedException("Unknown component type.")
+        }));
+
+        /// <summary>
+        /// Convenience to get the last component object type.
+        /// </summary>
+        /// <returns>Type</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="NotSupportedException"></exception>
+        public Type GetLastObjectType()
+        {
+            // Get the last component type
+            if (Components.Count > 0)
             {
-                ItemPathRootComponent rootComponent => rootComponent.RecordType,
-                ItemPathIndexComponent indexComponent => indexComponent.ItemType,
-                ItemPathKeyComponent keyComponent => keyComponent.ItemType,
-                ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyInfo.PropertyType,
-                ItemPathToolComponent toolComponent => toolComponent.ToolType,
-                _ => throw new NotSupportedException("Unknown component type.")
-            };
+                return Components[^1] switch
+                {
+                    ItemPathRootComponent rootComponent => rootComponent.RecordType,
+                    ItemPathIndexComponent indexComponent => indexComponent.ItemType,
+                    ItemPathKeyComponent keyComponent => keyComponent.ItemType,
+                    ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyInfo.PropertyType,
+                    ItemPathToolComponent toolComponent => toolComponent.ToolType,
+                    _ => throw new NotSupportedException("Unknown component type.")
+                };
+            }
+
+            throw new InvalidOperationException("No components in path.");
         }
 
-        throw new InvalidOperationException("No components in path.");
-    }
-
-    /// <summary>
-    /// Adds a tool component to the end of the current path in-place.
-    /// </summary>
-    /// <param name="component"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
-    public void AddComponent(ItemPathComponent component)
-    {
-        if (component == null)
+        /// <summary>
+        /// Adds a tool component to the end of the current path in-place.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void AddComponent(ItemPathComponent component)
         {
-            throw new ArgumentNullException(nameof(component));
-        }
+            if (component == null)
+            {
+                throw new ArgumentNullException(nameof(component));
+            }
 
-        // Modify the list in-place
-        Components.Add(component);
-    }
-
-
-    /// <summary>
-    /// Removes the last component from the current path in-place.
-    /// Does nothing if the path is empty.
-    /// </summary>
-    public void RemoveLastComponent()
-    {
-        // Remove the last component
-        if (Components.Count > 0)
-        {
             // Modify the list in-place
-            Components.RemoveAt(Components.Count - 1);
-        }
-    }
-
-    /// <summary>
-    /// Get the last component object.
-    /// </summary>
-    /// <returns>ItemPathComponent?</returns>
-    public ItemPathComponent? GetLastComponent()
-    {
-        // Get the last component
-        if (Components.Count > 0)
-        {
-            return Components[^1];
+            Components.Add(component);
         }
 
-        return null;
-    }
 
-    /// <summary>
-    /// Convenience to get the last component for a specific component type.
-    /// </summary>
-    /// <returns>Type</returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public TComponent GetLastComponent<TComponent>()
-        where TComponent : ItemPathComponent
-    {
-        // Get the last component matching TComponent type
-        if (Components.Count > 0)
+        /// <summary>
+        /// Removes the last component from the current path in-place.
+        /// Does nothing if the path is empty.
+        /// </summary>
+        public void RemoveLastComponent()
         {
-            return Components.LastOrDefault(c => c is TComponent) as TComponent 
-                ?? throw new InvalidOperationException("No component of the specified type found.");
-        }
-
-        throw new InvalidOperationException("No components in path.");
-    }
-
-    /// <summary>
-    /// Get the parent component object.
-    /// </summary>
-    /// <returns>ItemPathComponent?</returns>
-    public ItemPathComponent? GetParentComponent()
-    {
-        // Get the parent component for the last component
-        if (Components.Count > 0)
-        {
-            return Components[^2];
-        }
-
-        return null;
-    }
-
-    public JsonSpecialFlag GetJsonSpecialFlag()
-    {
-        // Get the special flag for the last component
-        if (Components.Count > 0)
-        {
-            return Components[^1] switch
+            // Remove the last component
+            if (Components.Count > 0)
             {
-                ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialFlag,
-                _ => JsonSpecialFlag.None
-            };
-        }
-
-        return JsonSpecialFlag.None;
-    }
-
-    /// <summary>
-    /// Update current component object.
-    /// </summary>
-    /// <param name="currentObject">The current object to set.</param>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="currentObject"/> is null.</exception>
-    public void UpdateCurrentObject(JsonDocument? currentObject)
-    {
-        if (currentObject == null)
-        {
-            throw new ArgumentNullException(nameof(currentObject));
-        }
-
-        // Update the current object for the last component
-        if (Components.Count > 0)
-        {
-            Components[^1].CurrentObject = currentObject;
-        }
-    }
-}
-
-public abstract record ItemPathComponent
-{
-    /// <summary>
-    /// Represents the current object in the item path.
-    /// Will show partial object when editing.
-    /// </summary>
-    public required JsonDocument? CurrentObject { get; set; }
-
-    /// <summary>
-    /// Represents the current object in the item path as JSON
-    /// Will show partial object when editing.
-    /// </summary>
-    public string? CurrentObjectJson => CurrentObject?.RootElement.ToJsonString();
-}
-
-/// <summary>
-/// Represents an index in the item path for an iterable
-/// </summary>
-public record ItemPathIndexComponent : ItemPathComponent
-{
-    private int _index;
-
-    /// <summary>
-    /// The index in the item path.
-    /// </summary>
-    public required int Index
-    {
-        get => _index;
-        init
-        {
-            if (value < 0)
-            {
-                throw new ArgumentException("Index cannot be negative.", nameof(value));
+                // Modify the list in-place
+                Components.RemoveAt(Components.Count - 1);
             }
-            _index = value;
+        }
+
+        /// <summary>
+        /// Get the last component object.
+        /// </summary>
+        /// <returns>ItemPathComponent?</returns>
+        public ItemPathComponent? GetLastComponent()
+        {
+            // Get the last component
+            if (Components.Count > 0)
+            {
+                return Components[^1];
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Convenience to get the last component for a specific component type.
+        /// </summary>
+        /// <returns>Type</returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public TComponent GetLastComponent<TComponent>()
+            where TComponent : ItemPathComponent
+        {
+            // Get the last component matching TComponent type
+            if (Components.Count > 0)
+            {
+                return Components.LastOrDefault(c => c is TComponent) as TComponent 
+                    ?? throw new InvalidOperationException("No component of the specified type found.");
+            }
+
+            throw new InvalidOperationException("No components in path.");
+        }
+
+        /// <summary>
+        /// Get the parent component object.
+        /// </summary>
+        /// <returns>ItemPathComponent?</returns>
+        public ItemPathComponent? GetParentComponent()
+        {
+            // Get the parent component for the last component
+            if (Components.Count > 0)
+            {
+                return Components[^2];
+            }
+
+            return null;
+        }
+
+        public JsonSpecialFlag GetJsonSpecialFlag()
+        {
+            // Get the special flag for the last component
+            if (Components.Count > 0)
+            {
+                return Components[^1] switch
+                {
+                    ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialFlag,
+                    _ => JsonSpecialFlag.None
+                };
+            }
+
+            return JsonSpecialFlag.None;
+        }
+
+        /// <summary>
+        /// Update current component object.
+        /// </summary>
+        /// <param name="currentObject">The current object to set.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="currentObject"/> is null.</exception>
+        public void UpdateCurrentObject(JsonDocument? currentObject)
+        {
+            if (currentObject == null)
+            {
+                throw new ArgumentNullException(nameof(currentObject));
+            }
+
+            // Update the current object for the last component
+            if (Components.Count > 0)
+            {
+                Components[^1].CurrentObject = currentObject;
+            }
         }
     }
 
-    public required Type ItemType { get; init; }
-}
-
-/// <summary>
-/// Represents a key in the item path for a mapping
-/// </summary>
-public record ItemPathKeyComponent : ItemPathComponent
-{
-    private string _key = null!;
-
-    /// <summary>
-    /// The key in the item path.
-    /// </summary>
-    public required string Key
+    public abstract record ItemPathComponent
     {
-        get => _key;
-        init
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Key cannot be empty or whitespace.", nameof(value));
-            }
-            _key = value;
-        }
-    }
+        /// <summary>
+        /// Represents the current object in the item path.
+        /// Will show partial object when editing.
+        /// </summary>
+        public required JsonDocument? CurrentObject { get; set; }
 
-    public required Type ItemType { get; init; }
-}
-
-public record ItemPathRootComponent : ItemPathComponent
-{
-    public required Type RecordType { get; init; }
-}
-
-/// <summary>
-/// Represents a property in the item path.
-/// </summary>
-public record ItemPathPropertyComponent : ItemPathComponent
-{
-    /// <summary>
-    /// Represents the name of the property in the item path.
-    /// </summary>
-    private string _propertyName = null!;
-
-    /// <summary>
-    /// Represents the name of the property in the item path.
-    /// </summary>
-    public required string PropertyName
-    {
-        get => _propertyName;
-        init
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("Property name cannot be empty or whitespace.", nameof(value));
-            }
-            _propertyName = value;
-        }
+        /// <summary>
+        /// Represents the current object in the item path as JSON
+        /// Will show partial object when editing.
+        /// </summary>
+        public string? CurrentObjectJson => CurrentObject?.RootElement.ToJsonString();
     }
 
     /// <summary>
-    /// Property currently being processed
+    /// Represents an index in the item path for an iterable
     /// </summary>
-    public required PropertyInfo PropertyInfo { get; init; }
-
-    /// <summary>
-    /// Specifies the special flags associated with the property.
-    /// </summary>
-    public required JsonSpecialFlag JsonSpecialFlag { get; init; }
-}
-
-/// <summary>
-/// Represents a tool used in the item path.
-/// </summary>
-public record ItemPathToolComponent : ItemPathComponent
-{
-    private Type _toolType = null!;
-
-    /// <summary>
-    /// Tool output type.
-    /// </summary>
-    public required Type ToolType
+    public record ItemPathIndexComponent : ItemPathComponent
     {
-        get => _toolType;
-        init
+        private int _index;
+
+        /// <summary>
+        /// The index in the item path.
+        /// </summary>
+        public required int Index
         {
-            if (value == null)
+            get => _index;
+            init
             {
-                throw new ArgumentNullException(nameof(value), "Tool type cannot be null.");
+                if (value < 0)
+                {
+                    throw new ArgumentException("Index cannot be negative.", nameof(value));
+                }
+                _index = value;
             }
-            _toolType = value;
+        }
+
+        public required Type ItemType { get; init; }
+    }
+
+    /// <summary>
+    /// Represents a key in the item path for a mapping
+    /// </summary>
+    public record ItemPathKeyComponent : ItemPathComponent
+    {
+        private string _key = null!;
+
+        /// <summary>
+        /// The key in the item path.
+        /// </summary>
+        public required string Key
+        {
+            get => _key;
+            init
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Key cannot be empty or whitespace.", nameof(value));
+                }
+                _key = value;
+            }
+        }
+
+        public required Type ItemType { get; init; }
+    }
+
+    public record ItemPathRootComponent : ItemPathComponent
+    {
+        public required Type RecordType { get; init; }
+    }
+
+    /// <summary>
+    /// Represents a property in the item path.
+    /// </summary>
+    public record ItemPathPropertyComponent : ItemPathComponent
+    {
+        /// <summary>
+        /// Represents the name of the property in the item path.
+        /// </summary>
+        private string _propertyName = null!;
+
+        /// <summary>
+        /// Represents the name of the property in the item path.
+        /// </summary>
+        public required string PropertyName
+        {
+            get => _propertyName;
+            init
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Property name cannot be empty or whitespace.", nameof(value));
+                }
+                _propertyName = value;
+            }
+        }
+
+        /// <summary>
+        /// Property currently being processed
+        /// </summary>
+        public required PropertyInfo PropertyInfo { get; init; }
+
+        /// <summary>
+        /// Specifies the special flags associated with the property.
+        /// </summary>
+        public required JsonSpecialFlag JsonSpecialFlag { get; init; }
+    }
+
+    /// <summary>
+    /// Represents a tool used in the item path.
+    /// </summary>
+    public record ItemPathToolComponent : ItemPathComponent
+    {
+        private Type _toolType = null!;
+
+        /// <summary>
+        /// Tool output type.
+        /// </summary>
+        public required Type ToolType
+        {
+            get => _toolType;
+            init
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value), "Tool type cannot be null.");
+                }
+                _toolType = value;
+            }
         }
     }
 }

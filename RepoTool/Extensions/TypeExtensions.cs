@@ -1,4 +1,3 @@
-using Json.Schema.Generation;
 using RepoTool.Attributes;
 
 namespace RepoTool.Extensions
@@ -43,47 +42,6 @@ namespace RepoTool.Extensions
             // return the original record type as a fallback.
             return recordType.BaseType is null
                 ? recordType : GetToolSelectorType(recordType.BaseType);
-        }
-
-        /// <summary>
-        /// Determines whether the specified type or any of its generic arguments (recursively)
-        /// are marked with the <see cref="JsonExcludeAttribute"/>.
-        /// </summary>
-        /// <param name="type">The type to check.</param>
-        /// <returns>
-        /// <c>true</c> if the type, its generic definition, or any of its nested generic types have the
-        /// <see cref="JsonExcludeAttribute"/>; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool ContainsJsonExclude(this Type type)
-        {
-            // Check if the current type itself has the [JsonExclude] attribute
-            if (type.GetCustomAttributes(typeof(JsonExcludeAttribute), false).Length != 0)
-            {
-                return true;
-            }
-
-            // If the type is generic, check its definition and recursively check its arguments
-            if (type.IsGenericType)
-            {
-                // Check the generic type definition (e.g., List<> in List<string>)
-                Type genericTypeDefinition = type.GetGenericTypeDefinition();
-                if (genericTypeDefinition.GetCustomAttributes(typeof(JsonExcludeAttribute), false).Length != 0)
-                {
-                    return true;
-                }
-
-                // Recursively check each generic argument
-                foreach (Type genericArgument in type.GetGenericArguments())
-                {
-                    if (ContainsJsonExclude(genericArgument))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            // If no [JsonExclude] attribute was found on the type or its nested generic types
-            return false;
         }
 
         /// <summary>
