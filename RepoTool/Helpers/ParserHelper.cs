@@ -333,38 +333,41 @@ namespace RepoTool.Helpers
                 parserContext.ItemPath.UpdateCurrentObject(newParentObject);
             }
 
-            parserContext.ItemPath.AddComponent(
-                new ItemPathToolComponent
-                {
-                    ToolType = typeof(SummarizeAction),
-                    CurrentObject = null,
-                });
-
-            // Summarize the parsed data
-            InferenceRequest<SummarizationContext> summarizeInferenceRequest = new()
+            if (parserContext.ItemPath.GetLastComponent() is not ItemPathToolComponent)
             {
-                Context = new SummarizationContext
-                {
-                    ItemPath = parserContext.ItemPath,
-                    Content = parserContext.ItemPath.GetParentComponent()?.CurrentObjectJson
-                        ?? throw new InvalidOperationException($"Current object is null at path {parserContext.ItemPath}.")
-                }
-            };
-            SummarizeAction summarizeAction = await _inferenceHelper.GetInferenceAsync<SummarizeAction, SummarizationContext>(summarizeInferenceRequest)
-                ?? throw new InvalidOperationException($"Summarization failed for type {objectType.FullName} at path {parserContext.ItemPath}.");
+                parserContext.ItemPath.AddComponent(
+                    new ItemPathToolComponent
+                    {
+                        ToolType = typeof(SummarizeAction),
+                        CurrentObject = null,
+                    });
 
-            // IMPORTANT: Remove the property component to restore the path
-            parserContext.ItemPath.RemoveLastComponent();
-
-            // Update action log with summarization result
-            parserContext.ActionWindow.AddAction(
-                new Action
+                // Summarize the parsed data
+                InferenceRequest<SummarizationContext> summarizeInferenceRequest = new()
                 {
-                    IsSuccess = true,
-                    Message = summarizeAction.Message,
-                    ItemPath = parserContext.ItemPath.DeepClone()
-                }
-            );
+                    Context = new SummarizationContext
+                    {
+                        ItemPath = parserContext.ItemPath,
+                        Content = parserContext.ItemPath.GetParentComponent()?.CurrentObjectJson
+                            ?? throw new InvalidOperationException($"Current object is null at path {parserContext.ItemPath}.")
+                    }
+                };
+                SummarizeAction summarizeAction = await _inferenceHelper.GetInferenceAsync<SummarizeAction, SummarizationContext>(summarizeInferenceRequest)
+                    ?? throw new InvalidOperationException($"Summarization failed for type {objectType.FullName} at path {parserContext.ItemPath}.");
+
+                // IMPORTANT: Remove the property component to restore the path
+                parserContext.ItemPath.RemoveLastComponent();
+
+                // Update action log with summarization result
+                parserContext.ActionWindow.AddAction(
+                    new Action
+                    {
+                        IsSuccess = true,
+                        Message = summarizeAction.Message,
+                        ItemPath = parserContext.ItemPath.DeepClone()
+                    }
+                );
+            }
 
             // Return Result for Standard Object
             return parserContext.ItemPath.GetLastComponent()?.CurrentObject
