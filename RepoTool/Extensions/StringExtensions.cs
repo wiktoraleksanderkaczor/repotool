@@ -1,5 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
+using Spectre.Console;
+using Spectre.Console.Json;
 
 namespace RepoTool.Extensions
 {
@@ -27,6 +29,30 @@ namespace RepoTool.Extensions
                 byte[] hashBytes = sha256.ComputeHash(inputBytes);
                 string hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
                 return hashString;
+            }
+        }
+
+        public static void DisplayAsJson(this string json, Color color)
+        {
+            try
+            {
+                JsonText jsonText = new(json);
+                AnsiConsole.Write(
+                    new Panel(jsonText)
+                        .Header("Action")
+                        .Collapse()
+                        .RoundedBorder()
+                        .BorderColor(color));
+            }
+            catch (InvalidOperationException)
+            {
+                AnsiConsole.WriteLine("The output is not a valid JSON.");
+                AnsiConsole.Write(
+                    new Panel(json)
+                        .Header("Action")
+                        .Collapse()
+                        .RoundedBorder()
+                        .BorderColor(color));
             }
         }
     }

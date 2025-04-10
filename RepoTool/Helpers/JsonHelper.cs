@@ -9,6 +9,7 @@ using Json.Schema.Generation;
 using Microsoft.Extensions.AI;
 using RepoTool.Constants;
 using RepoTool.Extensions;
+using RepoTool.Schemas;
 
 namespace RepoTool.Helpers
 {
@@ -40,10 +41,8 @@ namespace RepoTool.Helpers
             // Ensure consistent order
             PropertyOrder = PropertyOrder.AsDeclared,
             // Add custom schema generators if needed
-            Generators =
-            {
-                new CharSchemaGenerator()
-            }
+            Generators = { new CharSchemaGenerator() },
+            Refiners = { new AdditionalPropertiesRefiner() }
         };
 
         /// <summary>
@@ -115,9 +114,20 @@ namespace RepoTool.Helpers
             #endif
 
             // Generate new schema using JsonSchema.Net.Generation
-            // JsonSchemaBuilder schemaBuilder = OllamaOutputSchema.CreateSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
-            JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
-            JsonSchema generatedSchema = schemaBuilder.Build();
+            JsonSchemaBuilder schemaBuilder = OllamaOutputSchema.CreateSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
+            // JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
+            JsonSchema? generatedSchema = null;
+            try
+            {
+
+                generatedSchema = schemaBuilder.Build();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: Failed to generate schema for {type.Name}. Error: {ex.Message}"); // Use logger
+                throw;
+                // Optionally re-throw or handle the error appropriately
+            }
 
             // Save schema to cache
             try

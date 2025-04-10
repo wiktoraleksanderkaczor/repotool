@@ -126,7 +126,7 @@ namespace RepoTool.Extensions
                 : null;
         }
 
-        public static JsonNode GetPropertyValue(this JsonDocument document, string propertyName)
+        public static JsonNode? GetPropertyValue(this JsonDocument document, string propertyName)
         {
 
             if (document.RootElement.ValueKind != JsonValueKind.Object)
@@ -142,10 +142,9 @@ namespace RepoTool.Extensions
 
                 throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
             }
-
-            jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value);
             
-            return value ?? throw new InvalidOperationException($"Property '{propertyName}' not found.");
+            return jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value)
+                ? value ?? JsonNode.Parse("null") : throw new InvalidOperationException($"Property '{propertyName}' not found in the JsonDocument.");
         }
         
         /// <summary>
