@@ -3,18 +3,18 @@ using Json.Schema;
 namespace RepoTool.Schemas
 {
     /// <summary>
-    /// Provides functionality to build a JSON Schema that validates output structures for Ollama API responses.
-    /// This schema builder follows known constraints and limitations of the Ollama schema processing.
-    /// NOTE: Ollama's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
+    /// Provides functionality to build a JSON Schema that validates output structures for OpenAI API responses.
+    /// This schema builder follows known constraints and limitations of the OpenAI schema processing.
+    /// NOTE: OpenAI's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
     /// 'not', and 'uniqueItems' have been removed from this definition to ensure compatibility,
     /// potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
     /// </summary>
-    public static class OllamaOutputSchema
+    public static class OpenAiOutputSchema
     {
         /// <summary>
-        /// Enum representing the allowed data types in Ollama output schema.
+        /// Enum representing the allowed data types in OpenAI output schema.
         /// </summary>
-        public enum EnOllamaType
+        public enum EnOpenAiType
         {
             /// <summary>
             /// Represents a string type.
@@ -52,12 +52,12 @@ namespace RepoTool.Schemas
             Null
         }
 
-        // Formats supported by the schema based on Ollama limitations
+        // Formats supported by the schema based on OpenAI limitations
         private static readonly string[] _stringFormats = ["date", "date-time", "time", "uuid"];
 
         /// <summary>
-        /// Creates and configures a <see cref="JsonSchemaBuilder"/> for the Ollama schema.
-        /// This builder defines the structure and constraints of the schema following Ollama's requirements.
+        /// Creates and configures a <see cref="JsonSchemaBuilder"/> for the OpenAI schema.
+        /// This builder defines the structure and constraints of the schema following OpenAI's requirements.
         /// </summary>
         /// <returns>A configured <see cref="JsonSchemaBuilder"/> instance.</returns>
         public static JsonSchemaBuilder CreateSchemaBuilder()
@@ -67,14 +67,15 @@ namespace RepoTool.Schemas
 
             JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder()
                 .Schema("http://json-schema.org/draft-07/schema#")
-                // .Id("https://localhost/schemas/ollama-output-schema")
-                // .Title("Ollama Output Schema (Compatible)")
-                // .Description("Schema for validating Ollama API response formats, adapted for Ollama's limitations.")
-                .Type(SchemaValueType.Object)
+                // .Id("https://localhost/schemas/openai-output-schema")
+                // .Title("OpenAI Output Schema (Compatible)")
+                // .Description("Schema for validating OpenAI API response formats, adapted for OpenAI's limitations.")
 
                 // Properties are explicitly defined and additionalProperties defaults to false
                 // as per the limitations in LIMITS.md
-                .AdditionalProperties(true)
+                .AdditionalProperties(false)
+
+                .Type(SchemaValueType.Object)
 
                 .Properties(
                     ("type", new JsonSchemaBuilder()
@@ -85,7 +86,7 @@ namespace RepoTool.Schemas
 
                     ("format", new JsonSchemaBuilder()
                         .Type(SchemaValueType.String)
-                        .Description("The specific format of the string data type (limited to Ollama supported formats).")
+                        .Description("The specific format of the string data type (limited to OpenAI supported formats).")
                         .Enum(_stringFormats)
                     ),
 
@@ -100,13 +101,13 @@ namespace RepoTool.Schemas
                     ),
 
                     ("minimum", new JsonSchemaBuilder()
-                        .Type(SchemaValueType.Integer) // Ollama only supports this for integer
-                        .Description("The minimum allowed value (Ollama only supports this for type: integer).")
+                        .Type(SchemaValueType.Integer) // OpenAI only supports this for integer
+                        .Description("The minimum allowed value (OpenAI only supports this for type: integer).")
                     ),
 
                     ("maximum", new JsonSchemaBuilder()
-                        .Type(SchemaValueType.Integer) // Ollama only supports this for integer
-                        .Description("The maximum allowed value (Ollama only supports this for type: integer).")
+                        .Type(SchemaValueType.Integer) // OpenAI only supports this for integer
+                        .Description("The maximum allowed value (OpenAI only supports this for type: integer).")
                     ),
 
                     ("minItems", new JsonSchemaBuilder()
@@ -142,7 +143,7 @@ namespace RepoTool.Schemas
                         .Type(SchemaValueType.Array)
                         .Description("A list of allowed values.")
                         .MinItems(1)
-                        // uniqueItems is not supported by Ollama
+                        // uniqueItems is not supported by OpenAI
                     ),
 
                     ("const", new JsonSchemaBuilder()
@@ -164,7 +165,7 @@ namespace RepoTool.Schemas
                         .Type(SchemaValueType.Array)
                         .Description("Required property names for an object.")
                         .Items(new JsonSchemaBuilder().Type(SchemaValueType.String))
-                        // uniqueItems is not supported by Ollama
+                        // uniqueItems is not supported by OpenAI
                     ),
 
                     ("anyOf", new JsonSchemaBuilder()
@@ -182,16 +183,16 @@ namespace RepoTool.Schemas
                     )
                 );
 
-            // Removed conditional constraints (if/then/else/not) as they are not supported by Ollama
+            // Removed conditional constraints (if/then/else/not) as they are not supported by OpenAI
 
             return schemaBuilder;
         }
 
         /// <summary>
-        /// Builds the JSON Schema that defines and validates the Ollama output structure.
+        /// Builds the JSON Schema that defines and validates the OpenAI output structure.
         /// This schema ensures any provided output conforms to the supported structure and constraints.
         /// </summary>
-        /// <returns>A <see cref="JsonSchema"/> instance for Ollama output validation.</returns>
+        /// <returns>A <see cref="JsonSchema"/> instance for OpenAI output validation.</returns>
         public static JsonSchema BuildSchema()
         {
             JsonSchemaBuilder schemaBuilder = CreateSchemaBuilder();
