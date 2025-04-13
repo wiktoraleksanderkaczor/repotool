@@ -117,6 +117,7 @@ namespace RepoTool.Helpers
             {
 
                 generatedSchema = schemaBuilder.Build();
+                generatedSchema = generatedSchema.InlineReferences();
             }
             catch (Exception ex)
             {
@@ -130,8 +131,6 @@ namespace RepoTool.Helpers
             {
                 // Use System.Text.Json for serializing the JsonSchema.Net object
                 string schemaJsonOutput = JsonSerializer.Serialize(generatedSchema, DefaultJsonSerializerOptions);
-                // string resolved = SchemaResolver.ResolveReferences(schemaJsonOutput);
-                // generatedSchema = JsonSchema.FromText(resolved);
                 await File.WriteAllTextAsync(schemaPath, schemaJsonOutput);
                 // Console.WriteLine($"Saved schema to {schemaPath}"); // Use logger
             }
