@@ -1,3 +1,7 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Json.More;
+using Json.Pointer;
 using Json.Schema;
 
 namespace RepoTool.Extensions
@@ -7,6 +11,110 @@ namespace RepoTool.Extensions
     /// </summary>
     public static class JsonSchemaExtensions
     {
+
+        /// <summary>
+        /// Trims unsupported keywords from the target schema based on the provided meta-schema.
+        /// This method ensures that the target schema only contains keywords that are supported by the meta-schema.
+        /// </summary>
+        /// <param name="target">The target schema to be trimmed.</param>
+        /// <param name="metaSchema">The meta-schema that defines the supported keywords.</param>
+        /// <returns>A new <see cref="JsonSchema"/> instance with unsupported keywords removed, or the original schema if no changes were needed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if target or metaSchema is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the schema cannot be parsed or processed.</exception>
+        /// <remarks>
+        /// This method recursively traverses the target schema and removes any keywords (and their nested content)
+        /// that are not defined or recognized by the provided meta-schema according to its validation rules.
+        /// It evaluates the target schema against the meta-schema and identifies invalid parts based on the evaluation results.
+        /// </remarks>
+        public static JsonSchema TrimUnsupported(this JsonSchema target, JsonSchema metaSchema)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+            if (metaSchema == null)
+            {
+                throw new ArgumentNullException(nameof(metaSchema));
+            }
+
+            // Boolean schemas don't have keywords to trim
+            if (target == JsonSchema.True || target == JsonSchema.False)
+            {
+                return target;
+            }
+
+            // Evaluate the target schema against the meta-schema
+            // Using Hierarchical output helps pinpoint invalid locations
+            EvaluationOptions options = new()
+            {
+                OutputFormat = OutputFormat.Hierarchical,
+                ValidateAgainstMetaSchema = true
+            };
+            JsonDocument targetDocument = target.ToJsonDocument();
+            EvaluationResults evaluationResult = metaSchema.Evaluate(targetDocument, options);
+
+            // If the schema is already valid according to the meta-schema, no trimming is needed.
+            if (evaluationResult.IsValid)
+            {
+                return target;
+            }
+
+            List<EvaluationResults> invalidResults = GatherErrors(evaluationResult);
+            Dictionary<string, List<string>> fieldToErrorMessage = invalidResults
+                .GroupBy(result => result.InstanceLocation.ToString())
+                .ToDictionary(
+                    result => result.Key,
+                    result => result.Where(x => x.Errors != null).SelectMany(x => x.Errors!).Select(x => x.Value).ToList());
+            foreach (KeyValuePair<string, List<string>> item in fieldToErrorMessage)
+            {
+                Console.WriteLine(item.Key);
+                foreach (string error in item.Value)
+                {
+                    Console.WriteLine($"\t- {error}");
+                }
+            }
+
+            Console.WriteLine(target.ToJson());
+            Console.WriteLine(metaSchema.ToJson());
+            foreach (EvaluationResults invalidKeyword in invalidResults)
+            {
+                // Remove the invalid keyword from the target schema
+                JsonPointer invalidPointer = invalidKeyword.InstanceLocation;
+                if (invalidPointer.TryEvaluate(targetDocument.GetAsJsonNode(), out JsonNode? invalidNode))
+                {
+                    targetDocument = targetDocument.RemoveAtPointer(invalidPointer);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Schema is incomplete, cannot trim missing keyword");
+                }
+                // Optionally, you can log or handle the invalid keyword here
+                // For example, you could log the keyword name and its location
+                // Console.WriteLine($"Invalid keyword: {invalidKeyword.Keyword} at {invalidPointer}");
+            }
+
+            return JsonSchema.FromText(targetDocument.ToJson());
+        }
+
+        private static List<EvaluationResults> GatherErrors(this EvaluationResults evaluationResults)
+        {
+            List<EvaluationResults> errors = new();
+            foreach (EvaluationResults result in evaluationResults.Details)
+            {
+                if (result.IsValid)
+                {
+                    continue;
+                }
+
+                if (result.HasErrors)
+                {
+                    errors.Add(result);
+                }
+
+                errors.AddRange(result.GatherErrors());
+            }
+            return errors;
+        }
 
         /// <summary>
         /// Merges the source schema into the target schema, moving all definitions ($defs) to the root level.
