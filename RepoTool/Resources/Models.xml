@@ -1781,6 +1781,27 @@
             Extension methods for <see cref="T:System.Text.Json.JsonDocument"/>.
             </summary>
         </member>
+        <member name="M:RepoTool.Extensions.JsonDocumentExtensions.RemoveAtPointer(System.Text.Json.JsonDocument,Json.Pointer.JsonPointer)">
+            <summary>
+            Removes the JSON element specified by the JSON Pointer.
+            Traverses the JSON structure according to the pointer segments and removes the target element
+            from its parent object or array.
+            </summary>
+            <param name="document">The JsonDocument to modify.</param>
+            <param name="pointer">The JSON Pointer indicating the element to remove.</param>
+            <returns>A new, independent JsonDocument instance with the specified element removed.</returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if the pointer path is invalid (e.g., segment not found, incorrect type for segment, index out of bounds)
+            or if the target element indicated by the last segment does not exist in the parent.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if parsing the input JsonDocument fails or if an unexpected state occurs during traversal
+            (e.g., the calculated parent node is not an object or array).
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown if the pointer is empty or null.
+            </exception>
+        </member>
         <member name="M:RepoTool.Extensions.JsonDocumentExtensions.UpdateJsonDocument(System.Text.Json.JsonDocument,System.Object,RepoTool.Enums.Parser.Tools.Builders.Iterable.EnIterableInsertAt)">
             <summary>
             Updates a JsonDocument containing an iterable with addition of the provided object. 
@@ -1835,6 +1856,22 @@
             <summary>
             Extension methods for <see cref="T:Json.Schema.JsonSchema"/>.
             </summary>
+        </member>
+        <member name="M:RepoTool.Extensions.JsonSchemaExtensions.TrimUnsupported(Json.Schema.JsonSchema,Json.Schema.JsonSchema)">
+            <summary>
+            Trims unsupported keywords from the target schema based on the provided meta-schema.
+            This method ensures that the target schema only contains keywords that are supported by the meta-schema.
+            </summary>
+            <param name="target">The target schema to be trimmed.</param>
+            <param name="metaSchema">The meta-schema that defines the supported keywords.</param>
+            <returns>A new <see cref="T:Json.Schema.JsonSchema"/> instance with unsupported keywords removed, or the original schema if no changes were needed.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if target or metaSchema is null.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if the schema cannot be parsed or processed.</exception>
+            <remarks>
+            This method recursively traverses the target schema and removes any keywords (and their nested content)
+            that are not defined or recognized by the provided meta-schema according to its validation rules.
+            It evaluates the target schema against the meta-schema and identifies invalid parts based on the evaluation results.
+            </remarks>
         </member>
         <member name="M:RepoTool.Extensions.JsonSchemaExtensions.Merge(Json.Schema.JsonSchema,Json.Schema.JsonSchema,System.String)">
             <summary>
@@ -5129,49 +5166,47 @@
         </member>
         <member name="T:RepoTool.Schemas.OllamaOutputSchema">
             <summary>
-            Provides functionality to build a JSON Schema that validates output structures for Ollama API responses.
-            This schema builder follows known constraints and limitations of the Ollama schema processing.
-            NOTE: Ollama's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
-            'not', and 'uniqueItems' have been removed from this definition to ensure compatibility,
-            potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
+            Provides functionality to build the JSON Meta-Schema that validates schemas intended for Ollama.
+            This meta-schema defines the structure and constraints that a JSON schema must adhere to
+            in order to be compatible with Ollama's structured output feature.
+            It reflects the capabilities and limitations documented for Ollama's schema processing.
             </summary>
         </member>
         <member name="M:RepoTool.Schemas.OllamaOutputSchema.CreateSchemaBuilder">
             <summary>
-            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the Ollama schema.
-            This builder defines the structure and constraints of the schema following Ollama's requirements.
+            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the Ollama meta-schema.
+            This builder defines the structure and constraints of a schema compatible with Ollama.
             </summary>
-            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance.</returns>
+            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance representing the Ollama meta-schema.</returns>
         </member>
         <member name="M:RepoTool.Schemas.OllamaOutputSchema.BuildSchema">
             <summary>
-            Builds the JSON Schema that defines and validates the Ollama output structure.
-            This schema ensures any provided output conforms to the supported structure and constraints.
+            Builds the JSON Meta-Schema that defines and validates schemas intended for Ollama.
+            This schema ensures any provided schema conforms to Ollama's supported structure and constraints.
             </summary>
-            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance for Ollama output validation.</returns>
+            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance representing the Ollama meta-schema.</returns>
         </member>
         <member name="T:RepoTool.Schemas.OpenAiOutputSchema">
             <summary>
-            Provides functionality to build a JSON Schema that validates output structures for OpenAI API responses.
-            This schema builder follows known constraints and limitations of the OpenAI schema processing.
-            NOTE: OpenAI's schema-to-grammar conversion has limitations. Unsupported keywords like 'if/then/else',
-            'not', and 'uniqueItems' have been removed from this definition to ensure compatibility,
-            potentially reducing the strictness of the validation compared to a full Draft 7 schema validator.
+            Provides functionality to build the JSON Meta-Schema that validates schemas intended for OpenAI Structured Outputs.
+            This meta-schema defines the structure and constraints that a JSON schema must adhere to
+            in order to be compatible with OpenAI's structured output feature.
+            It reflects the capabilities and limitations documented for OpenAI's schema processing.
             </summary>
         </member>
         <member name="M:RepoTool.Schemas.OpenAiOutputSchema.CreateSchemaBuilder">
             <summary>
-            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the OpenAI schema.
-            This builder defines the structure and constraints of the schema following OpenAI's requirements.
+            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the OpenAI meta-schema.
+            This builder defines the structure and constraints of a schema compatible with OpenAI Structured Outputs.
             </summary>
-            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance.</returns>
+            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance representing the OpenAI meta-schema.</returns>
         </member>
         <member name="M:RepoTool.Schemas.OpenAiOutputSchema.BuildSchema">
             <summary>
-            Builds the JSON Schema that defines and validates the OpenAI output structure.
-            This schema ensures any provided output conforms to the supported structure and constraints.
+            Builds the JSON Meta-Schema that defines and validates schemas intended for OpenAI Structured Outputs.
+            This schema ensures any provided schema conforms to OpenAI's supported structure and constraints.
             </summary>
-            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance for OpenAI output validation.</returns>
+            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance representing the OpenAI meta-schema.</returns>
         </member>
         <member name="M:RepoTool.Terminal.CommandInterceptor.Intercept(Spectre.Console.Cli.CommandContext,Spectre.Console.Cli.CommandSettings)">
             <param name="context">The command context.</param>
