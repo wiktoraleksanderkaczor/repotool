@@ -2097,15 +2097,6 @@
             Provides helper methods for JSON serialization, deserialization, and schema generation.
             </summary>
         </member>
-        <member name="M:RepoTool.Helpers.JsonHelper.DefaultTransformSchemaNode(Microsoft.Extensions.AI.AIJsonSchemaCreateContext,System.Text.Json.Nodes.JsonNode)">
-            <summary>
-            Transforms a JSON schema node during creation.
-            This is a placeholder implementation that returns the node unchanged.
-            </summary>
-            <param name="context">The context for schema creation.</param>
-            <param name="node">The JSON node to transform.</param>
-            <returns>The transformed JSON node.</returns>
-        </member>
         <member name="M:RepoTool.Helpers.JsonHelper.SerializeToJson(System.Object)">
             <summary>
             Serializes an object to a JSON string using System.Text.Json.

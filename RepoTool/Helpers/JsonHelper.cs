@@ -43,21 +43,6 @@ namespace RepoTool.Helpers
         };
 
         /// <summary>
-        /// Transforms a JSON schema node during creation.
-        /// This is a placeholder implementation that returns the node unchanged.
-        /// </summary>
-        /// <param name="context">The context for schema creation.</param>
-        /// <param name="node">The JSON node to transform.</param>
-        /// <returns>The transformed JSON node.</returns>
-        public static JsonNode DefaultTransformSchemaNode(AIJsonSchemaCreateContext context, JsonNode node)
-        {
-            // context.TypeInfo.
-            // Placeholder: Implement actual transformation logic here if needed.
-            // For example, modifying descriptions, adding constraints, etc.
-            return node;
-        }
-
-        /// <summary>
         /// Serializes an object to a JSON string using System.Text.Json.
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
