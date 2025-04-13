@@ -116,7 +116,7 @@ namespace RepoTool.Helpers
             try
             {
                 // Use System.Text.Json for serializing the JsonSchema.Net object
-                string schemaJsonOutput = JsonSerializer.Serialize(generatedSchema, DefaultJsonSerializerOptions);
+                string schemaJsonOutput = SerializeToJson(generatedSchema);
                 await File.WriteAllTextAsync(schemaPath, schemaJsonOutput);
                 // Console.WriteLine($"Saved schema to {schemaPath}"); // Use logger
             }
