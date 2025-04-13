@@ -53,6 +53,59 @@
             Gets the model to choose tool.
             </summary>
         </member>
+        <member name="T:RepoTool.Constants.PathConstants">
+            <summary>
+            Defines constant values for file system paths used throughout the application.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.CurrentDirectory">
+            <summary>
+            Gets the current working directory of the application.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.UserRepoToolFolder">
+            <summary>
+            Gets the path to the user-specific .repotool folder in the user's profile directory.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.UserRepoToolSchemaFolder">
+            <summary>
+            Gets the path to the schemas subfolder within the user-specific .repotool folder.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.RepoToolFolder">
+            <summary>
+            Gets the path to the .repotool folder within the current working directory.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.GitFolder">
+            <summary>
+            Gets the path to the .git folder within the current working directory.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.DatabasePath">
+            <summary>
+            Gets the path to the application's database file.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.SettingsPath">
+            <summary>
+            Gets the path to the application's settings file.
+            The filename includes the environment name (e.g., settings.Development.json)
+            unless the environment is Production or not specified, in which case it's settings.json.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Constants.PathConstants.SettingsSchemaPath">
+            <summary>
+            Gets the path to the JSON schema file for the application settings.
+            </summary>
+        </member>
+        <member name="M:RepoTool.Constants.PathConstants.GetSettingsPath">
+            <summary>
+            Determines the appropriate settings file path based on the environment.
+            </summary>
+            <returns>The full path to the settings file.</returns>
+        </member>
         <member name="T:RepoTool.Enums.Changelog.EnChangeArea">
             <summary>
             Represents the functional area affected by a change
