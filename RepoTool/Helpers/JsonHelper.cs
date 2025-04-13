@@ -1,12 +1,10 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Json.Schema;
 using Json.Schema.Generation;
-using Microsoft.Extensions.AI;
 using RepoTool.Constants;
 using RepoTool.Enums.Json;
 using RepoTool.Extensions;
@@ -96,14 +94,16 @@ namespace RepoTool.Helpers
             #endif
 
             // Generate new schema using JsonSchema.Net.Generation
-            JsonSchemaBuilder schemaBuilder = OllamaOutputSchema.CreateSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
-            // JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder().FromType(type, DefaultSchemaGeneratorConfiguration);
+            JsonSchema outputSchema = OllamaOutputSchema.BuildSchema();
+            SchemaRegistry.Global.Register(outputSchema);
+            JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder().Schema(outputSchema.BaseUri).FromType(type, DefaultSchemaGeneratorConfiguration);
             JsonSchema? generatedSchema = null;
             try
             {
 
                 generatedSchema = schemaBuilder.Build();
                 generatedSchema = generatedSchema.InlineReferences();
+                generatedSchema = generatedSchema.TrimUnsupported(outputSchema);
             }
             catch (Exception ex)
             {
