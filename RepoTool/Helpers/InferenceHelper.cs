@@ -184,7 +184,6 @@ namespace RepoTool.Helpers
             
             // Get inference provider response
             string output = await inferenceProvider.GetInferenceAsync(messages, jsonSchema);
-            Environment.Exit(0);
             
             // Check if output is null or empty
             if (string.IsNullOrEmpty(output))
