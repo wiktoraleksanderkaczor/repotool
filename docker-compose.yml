@@ -2,33 +2,57 @@ version: "3.8"
 
 services:
   vllm:
-    image: vllm/vllm-openai:latest
-    runtime: nvidia
-    env_file: .env
+    # GPU: vllm/vllm-openai:latest
+    # CPU (problematic): public.ecr.aws/q9t5s3a7/vllm-cpu-release-repo:v0.8.1
+    # CPU (own build): vllm-cpu-env
+    image: vllm-cpu-env
+    privileged: true
+    network_mode: host
+    environment:
+      - VLLM_API_KEY=vllm-api-key
+      - VLLM_LOGGING_LEVEL=DEBUG
+      - VLLM_CPU_KVCACHE_SPACE=8
+      - VLLM_TRACE_FUNCTION=1
     ports:
-      - "8000:8000"
+      # IMPORTANT: It cannot be 8000 for some reason
+      - "63333:63333"
     volumes:
       - "~/.cache/huggingface:/root/.cache/huggingface"
-    ipc: host
     command: [
+      # Setting custom port because of issues with 8000
+      "--port=63333",
+      # Serve all networks
+      "--host=0.0.0.0",
+      # Use CPU for inference
+      "--device=cpu",
       # "Gemma is provided under and subject to the Gemma Terms of Use found at ai.google.dev/gemma/terms"
-      "--model=gaunernst/gemma-3-12b-it-int4-awq",
-      "--enable-reasoning",
-      # Possible choices (required for enable): deepseek_r1, granite
-      "--reasoning-parser=deepseek_r1", 
-      # Specify the amount of CPU offload in GB
-      "--cpu-offload-gb=2",  
+      "--model=gaunernst/gemma-3-4b-it-int4-awq",
+      "--served-model-name=localmodel",
+      # Use dtype for model precision
+      "--dtype=bfloat16",
+      # Possible reasoning choices (required for enable): deepseek_r1, granite
+      # "--enable-reasoning",
+      # "--reasoning-parser=deepseek_r1", 
+      # Specify the amount of CPU offload (for GPU) in GB 
+      # "--cpu-offload-gb=32",
       # Use ngram spec-dec... free performance
       "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 4}",
-      "--trust-remote-code",
-      # Quantize KV cache to FP8 with 4b exp and 3b mantissa
-      "--kv-cache-dtype=fp8_e4m3",
+      # Quantize KV cache to FP8
+      "--kv-cache-dtype=fp8_e5m2",
       # Use outlines for best JSON Schema support
-      "--guided-decoding-backend=outlines",
+      # "--guided-decoding-backend=outlines",
       "--enable-prefix-caching",
       # Deterministic-ish outputs
       "--seed=666",
-      "--override-generation-config={\"temperature\": 0}",  
+      # Use VLLM generation config over model
+      "--generation-config=vllm",
+      # Set generation parameters
+      "--override-generation-config={\"temperature\": 0}",
       # Model context length. If unspecified, will be automatically derived from the model config.
-      "--max-model-len=8192" 
+      "--max-model-len=8192",
+      # Trust code embedded in pulled models 
+      "--trust-remote-code",
+      # Set API key to your API key here (mirrors environment variable)
+      "--allow-credentials",
+      "--api-key=vllm-api-key",
     ]
