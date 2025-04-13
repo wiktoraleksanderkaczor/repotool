@@ -13,6 +13,11 @@ namespace RepoTool.Enums.Inference
         /// <summary>
         /// Use OpenAI for inference.
         /// </summary>
-        OpenAi
+        OpenAI,
+
+        /// <summary>
+        /// Use vLLM (Outlines) for inference.
+        /// </summary>
+        Outlines
     }
 }

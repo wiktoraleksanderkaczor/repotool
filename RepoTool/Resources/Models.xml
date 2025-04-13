@@ -393,9 +393,14 @@
             Use Ollama for inference.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.OpenAi">
+        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.OpenAI">
             <summary>
             Use OpenAI for inference.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.Outlines">
+            <summary>
+            Use vLLM (Outlines) for inference.
             </summary>
         </member>
         <member name="T:RepoTool.Enums.Inference.EnInferenceReason">

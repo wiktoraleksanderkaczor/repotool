@@ -31,7 +31,7 @@ namespace RepoTool.Options
         /// <summary>
         /// The type of inference provider to use.
         /// </summary>
-        public EnInferenceProvider Provider { get; set; } = EnInferenceProvider.OpenAi;
+        public EnInferenceProvider Provider { get; set; } = EnInferenceProvider.OpenAI;
 
         /// <summary>
         /// The model to use for inference.

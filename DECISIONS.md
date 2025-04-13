@@ -54,3 +54,6 @@ Future extensions, should be able to check where we are in the file token by tok
 
 Some structured generation engines have issues with resolving $ref to $defs. One `SchemaResolver.cs` wouldn't go amiss.
 
+---
+
+Support for Outlines will only be provided via running vLLM, not their FastAPI Docker image. LM Studio might be supported at a later time.
