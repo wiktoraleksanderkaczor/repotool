@@ -36,6 +36,7 @@ namespace RepoTool.Helpers
         {
             // Ensure consistent order
             PropertyOrder = PropertyOrder.AsDeclared,
+            PropertyNameResolver = PropertyNameResolvers.PascalCase,
             // Add custom schema generators if needed
             Generators = { new CharSchemaGenerator() },
             Refiners = { new AdditionalPropertiesRefiner() }
