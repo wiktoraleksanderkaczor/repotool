@@ -11,9 +11,8 @@ namespace RepoTool.Schemas.Refiners
             bool isObject = context
                 .Intents.OfType<TypeIntent>()
                 .Any(t => t.Type == SchemaValueType.Object);
-            // ⬇️ This is where the magic is. No need to inherit from the base class everywhere.
-            // bool isFromCurrentAssembly = context.Type.Assembly == Assembly.GetExecutingAssembly(); 
-            return isObject; // && isFromCurrentAssembly;
+            
+            return isObject;
         }
 
         public void Run(SchemaGenerationContextBase context) => context.Intents.Add(new AdditionalPropertiesIntent());
