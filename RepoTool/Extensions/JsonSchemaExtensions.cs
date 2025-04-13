@@ -194,7 +194,7 @@ namespace RepoTool.Extensions
             HashSet<string> visitedRefs = new();
             JsonNode inlinedNode = InlineNode(rootNode, definitions, visitedRefs)
                 ?? throw new InvalidOperationException("Failed to parse JSON node.");
-                
+
 
             // 4. Serialize Result
             return JsonSchema.FromText(inlinedNode.ToJson());
@@ -266,7 +266,7 @@ namespace RepoTool.Extensions
                         if (property.Key.Equals(DefsKeyword.Name, StringComparison.Ordinal) ||
                             property.Key.Equals(DefinitionsKeyword.Name, StringComparison.Ordinal))
                             continue;
-                        
+
 
                         if (property.Value is null)
                             continue;
@@ -283,7 +283,7 @@ namespace RepoTool.Extensions
                 {
                     if (item is null)
                         continue;
-                        
+
                     newArray.Add(InlineNode(item, definitions, visitedRefs));
                 }
                 return newArray;
