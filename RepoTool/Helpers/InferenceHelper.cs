@@ -147,9 +147,12 @@ namespace RepoTool.Helpers
             string promptHash = rawMessages.ToSha256Hash();
 
             // Fetch inference model options for current reason
-            ModelOptions modelOptions = _options.Value.Configurations
-                .GetValueOrDefault(inferenceRequest.GetInferenceReason()) 
-                ?? throw new InvalidOperationException("Model options not found.");
+            ModelOptions modelOptions = inferenceRequest.GetInferenceReason() switch {
+                EnInferenceReason.Changelog => _options.Value.Configurations.Changelog,
+                EnInferenceReason.Summarization => _options.Value.Configurations.Summarization,
+                EnInferenceReason.Parsing => _options.Value.Configurations.Parsing,
+                _ => throw new InvalidOperationException("Model options not found.")
+            };
 
             // If cache used, check for existing response
             if (modelOptions.UseCache)

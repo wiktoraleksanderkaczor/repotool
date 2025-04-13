@@ -1,3 +1,4 @@
+using Json.Schema.Generation;
 using RepoTool.Enums.Inference;
 using RepoTool.Options.Common;
 
@@ -18,12 +19,19 @@ namespace RepoTool.Options
         /// <summary>
         /// The type of inference to use.
         /// </summary>
-        public Dictionary<EnInferenceReason, ModelOptions> Configurations { get; set; } = new()
+        public Configurations Configurations { get; set; } = new();
+    }
+
+    public record Configurations
     {
-        { EnInferenceReason.Summarization, new ModelOptions() },
-        { EnInferenceReason.Parsing, new ModelOptions() },
-        { EnInferenceReason.Changelog, new ModelOptions() },
-    };
+        [Required]
+        public ModelOptions Summarization { get; set; } = new();
+        
+        [Required]
+        public ModelOptions Parsing { get; set; } = new();
+        
+        [Required]
+        public ModelOptions Changelog { get; set; } = new();
     }
 
     public record ModelOptions
@@ -56,7 +64,7 @@ namespace RepoTool.Options
         /// <summary>
         /// API key for the server.
         /// </summary>
-        public string? ApiKey { get; set; }
+        public string? ApiKey { get; set; } = null;
     }
 
     /// <summary>
