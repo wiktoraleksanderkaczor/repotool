@@ -75,7 +75,7 @@ namespace RepoTool.Extensions
             }
 
             // Parse the root element into a JsonArray for modification
-            JsonArray? jsonArray = JsonNode.Parse(document.RootElement.GetRawText())?.AsArray();
+            JsonArray? jsonArray = document.RootElement.AsNode()?.AsArray();
 
             if (jsonArray is null)
             {
@@ -100,7 +100,7 @@ namespace RepoTool.Extensions
             }
 
             // Serialize the modified JsonArray back to a string and parse it into a new JsonDocument.
-            return JsonDocument.Parse(jsonArray.ToJsonString());
+            return jsonArray.ToJsonDocument();
         }
 
         public static object? GetPropertyValue(this JsonDocument document, string propertyName, Type propertyType)
@@ -112,7 +112,7 @@ namespace RepoTool.Extensions
             }
 
             // Parse the root element into a JsonObject for modification
-            JsonObject? jsonObject = JsonNode.Parse(document.RootElement.GetRawText())?.AsObject();
+            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
 
             if (jsonObject is null)
             {
@@ -121,9 +121,9 @@ namespace RepoTool.Extensions
             }
 
             jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value);
-            
+
             return value != null
-                ? JsonHelper.DeserializeJsonToType(value.ToJsonString(), propertyType) 
+                ? JsonHelper.DeserializeJsonToType(value.ToJsonString(), propertyType)
                 : null;
         }
 
@@ -136,18 +136,19 @@ namespace RepoTool.Extensions
             }
 
 
-            JsonObject? jsonObject = JsonNode.Parse(document.RootElement.GetRawText())?.AsObject();
+            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
 
             if (jsonObject is null)
             {
 
                 throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
             }
-            
+
             return jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value)
-                ? value ?? JsonNode.Parse("null") : throw new InvalidOperationException($"Property '{propertyName}' not found in the JsonDocument.");
+                ? value ?? JsonNode.Parse("null")
+                : throw new InvalidOperationException($"Property '{propertyName}' not found in the JsonDocument.");
         }
-        
+
         /// <summary>
         /// Gets the root element of the JsonDocument as a JsonArray.
         /// This method is useful for scenarios where the root element is expected to be an array.
@@ -164,7 +165,7 @@ namespace RepoTool.Extensions
             }
 
             // Parse the root element into a JsonArray for modification
-            JsonArray? jsonArray = JsonNode.Parse(document.RootElement.GetRawText())?.AsArray();
+            JsonArray? jsonArray = document.RootElement.AsNode()?.AsArray();
 
             if (jsonArray is null)
             {
@@ -191,7 +192,7 @@ namespace RepoTool.Extensions
             // }
 
             // Parse the root element into a JsonObject for modification
-            JsonNode? jsonObject = JsonNode.Parse(document.RootElement.GetRawText());
+            JsonNode? jsonObject = document.RootElement.AsNode();
 
             if (jsonObject is null)
             {
@@ -233,8 +234,7 @@ namespace RepoTool.Extensions
             }
 
             // Parse the root element into a JsonObject for modification
-            // Using JsonNode.Parse on GetRawText is necessary here to get a mutable representation.
-            JsonObject? jsonObject = JsonNode.Parse(document.RootElement.GetRawText())?.AsObject();
+            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
 
             if (jsonObject is null)
             {
@@ -259,9 +259,7 @@ namespace RepoTool.Extensions
                 update.Value.Dispose();
             }
 
-            // Serialize the modified JsonObject back to a string and parse it into a new JsonDocument.
-            // This is required to return an immutable JsonDocument.
-            return JsonDocument.Parse(jsonObject.ToJsonString());
+            return jsonObject.ToJsonDocument();
         }
     }
 }
