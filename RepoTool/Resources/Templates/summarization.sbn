@@ -2,7 +2,7 @@
 Content:
 {{~ if Request.Context.Content ~}}
 ```
-{{ Request.Context.Content }}
+{{ Request.Context.Content | string.escape }}
 ```
 {{~ else ~}}
 No content provided.
@@ -11,7 +11,7 @@ No content provided.
 {{~ if JsonSchema ~}}
 You are to generate output in the following schema:
 ```json
-{{ JsonSchema }}
+{{ JsonSchema | string.escape }}
 ```
 {{~ end ~}}
 </System>

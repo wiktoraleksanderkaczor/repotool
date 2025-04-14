@@ -8,7 +8,7 @@ File Path: `{{ Request.Context.FilePath }}`
 Current Code Window (Finished: {{ Request.Context.CodeWindow.IsFinished }}, Lines Left: {{ Request.Context.CodeWindow.LinesLeft }}):
 ```
   {{~ for line in Request.Context.CodeWindow.WindowContent ~}}
-  {{ line.LineNumber }}: {{ line.Content }}
+  {{ line.LineNumber }}: {{ line.Content | string.escape }}
   {{~ end ~}}
 ```
 
@@ -32,7 +32,7 @@ DOCUMENTATION FOR PROPERTY OF THE ITEM OUTPUT (I.E. ITEM OUTPUT THAT IS MEANT TO
 {{~ if Documentation.JsonSchema ~}}
 You are to generate output fitting the following JSON schema according to the user instructions:
 ```json
-{{ Documentation.JsonSchema }}
+{{ Documentation.JsonSchema | string.escape }}
 ```
 {{~ end ~}}
 
@@ -49,7 +49,7 @@ Up to {{ Request.Context.ActionWindow.WindowSize }} of the latest actions taken:
     {{~ for component in action.ItemPath.Components ~}}
     {{~ if for.last && component.CurrentObject ~}}
       ```json
-      {{ component.CurrentObjectJson }}
+      {{ component.CurrentObjectJson | string.escape }}
       ```
     {{~ end ~}}
     {{~ end ~}}
@@ -70,7 +70,7 @@ Current parsing path, last is latest, property names are for objects and indexes
   {{~ if component.CurrentObject ~}}
     Data:
       ```json
-      {{ component.CurrentObjectJson }}
+      {{ component.CurrentObjectJson | string.escape }}
       ```
   {{~ end ~}}
   {{~ end ~}}
