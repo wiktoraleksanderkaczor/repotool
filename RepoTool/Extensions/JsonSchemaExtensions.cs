@@ -11,6 +11,26 @@ namespace RepoTool.Extensions
     /// </summary>
     public static class JsonSchemaExtensions
     {
+        /// <summary>
+        /// Removes the $schema key from the schema if it exists.
+        /// This is useful for cleaning up schemas that may have been generated with a specific $schema version
+        /// but are intended to be used without that versioning information.
+        /// </summary>
+        /// <param name="schema">The schema to process.</param>
+        /// <returns>A new <see cref="JsonSchema"/> instance without the $schema key, or the original schema if no changes were needed.</returns>
+        public static JsonSchema RemoveSchemaKey(this JsonSchema schema)
+        {
+            // Preserve boolean schema nature if applicable
+            if (schema == JsonSchema.True || schema == JsonSchema.False)
+            {
+                // Removing $schema from boolean schema doesn't make sense.
+                return schema;
+            }
+            
+            // Remove $schema keyword if present
+            JsonDocument newSchema = schema.ToJsonDocument().RemoveAtPointer(JsonPointer.Create("$schema"));
+            return JsonSchema.FromText(newSchema.ToJson());
+        }
 
         /// <summary>
         /// Trims unsupported keywords from the target schema based on the provided meta-schema.
