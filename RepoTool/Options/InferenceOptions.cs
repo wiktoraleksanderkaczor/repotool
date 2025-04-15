@@ -59,7 +59,7 @@ namespace RepoTool.Options
         /// <summary>
         /// The URL of the API server.
         /// </summary>
-        public string BaseUri { get; set; } = "https://api.openai.com/v1/";
+        public string BaseUrl { get; set; } = "https://api.openai.com/v1/";
 
         /// <summary>
         /// API key for the server.

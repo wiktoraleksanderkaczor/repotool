@@ -26,7 +26,7 @@ namespace RepoTool.Providers.Common
             ChatClient chatClient = new(
                 _modelOptions.Model, 
                 new ApiKeyCredential(_modelOptions.ApiKey ?? string.Empty), 
-                new OpenAIClientOptions() { Endpoint = new Uri(_modelOptions.BaseUri) }
+                new OpenAIClientOptions() { Endpoint = new Uri(_modelOptions.BaseUrl) }
             );
 
             List<ChatMessage> chatMessages = messages

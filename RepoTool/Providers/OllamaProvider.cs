@@ -23,7 +23,7 @@ namespace RepoTool.Providers.Common
             List<InferenceMessage> messages,
             JsonSchema jsonSchema)
         {
-            Uri uri = new(_modelOptions.BaseUri);
+            Uri uri = new(_modelOptions.BaseUrl);
             OllamaApiClient ollama = new(uri);
             ChatRequest chatRequest = new()
             {

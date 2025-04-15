@@ -4972,7 +4972,7 @@
             The options for inference.
             </summary>
         </member>
-        <member name="P:RepoTool.Options.ModelOptions.BaseUri">
+        <member name="P:RepoTool.Options.ModelOptions.BaseUrl">
             <summary>
             The URL of the API server.
             </summary>
