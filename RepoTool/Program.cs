@@ -38,11 +38,11 @@ namespace RepoTool
                         }
 
                         // Load configuration from environment variables
-                        // e.g. Repotool_Providers__OpenAi__ApiKey is Providers:OpenAi:ApiKey
+                        // e.g. Repotool_Providers__OpenAI__ApiKey is Providers:OpenAI:ApiKey
                         config.AddEnvironmentVariables(prefix: "Repotool_");
 
                         // Load configuration from key per file
-                        // e.g. Providers__OpenAi__ApiKey is Providers:OpenAi:ApiKey
+                        // e.g. Providers__OpenAI__ApiKey is Providers:OpenAI:ApiKey
                         config.AddKeyPerFile(directoryPath: PathConstants.RepoToolFolder, optional: true, reloadOnChange: true);
                     })
                     .ConfigureServices(DependencyInjection.ConfigureServices)

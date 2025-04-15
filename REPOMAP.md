@@ -142,7 +142,7 @@ Contains enumeration types used for categorization and flags.
           - `EnOperatorType.cs` - Defines categories of operators (unary, binary, ternary).
   - `Schemas/` - Contains enums related to JSON schema generation.
     - `EnOllamaType.cs` - Defines data types allowed in Ollama output schemas.
-    - `EnOpenAiType.cs` - Defines data types allowed in OpenAI output schemas.
+    - `EnOpenAIType.cs` - Defines data types allowed in OpenAI output schemas.
 
 ### Extensions
 
@@ -334,7 +334,7 @@ Contains implementations for external services or abstractions, like different A
 
 - `Providers/` - Contains provider implementations.
   - `OllamaProvider.cs` - Implements the inference provider interface for Ollama.
-  - `OpenAiProvider.cs` - Implements the inference provider interface for OpenAI.
+  - `OpenAIProvider.cs` - Implements the inference provider interface for OpenAI.
   - `Common/` - Contains common interfaces for providers.
     - `IInferenceProvider.cs` - Defines the interface for AI inference providers.
 
@@ -366,7 +366,7 @@ Contains classes defining the expected structure of data, particularly for API r
 
 - `Schemas/` - Contains schema definitions.
   - `OllamaOutputSchema.cs` - Defines helper methods for generating Ollama-compatible JSON schemas.
-  - `OpenAiOutputSchema.cs` - Defines helper methods for generating OpenAI-compatible JSON schemas.
+  - `OpenAIOutputSchema.cs` - Defines helper methods for generating OpenAI-compatible JSON schemas.
   - `Generators/` - Contains schema generation logic.
     - `CharSchemaGenerator.cs` - Defines a schema generator for characters to be handled as one-char length strings.
   - `Refiners/` - Contains logic for refining or modifying generated schemas.

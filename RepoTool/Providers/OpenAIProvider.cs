@@ -9,12 +9,12 @@ using RepoTool.Options;
 
 namespace RepoTool.Providers.Common
 {
-    public class OpenAiProvider : IInferenceProvider
+    public class OpenAIProvider : IInferenceProvider
     {
         private readonly ModelOptions _modelOptions;
 
 
-        public OpenAiProvider(ModelOptions modelOptions)
+        public OpenAIProvider(ModelOptions modelOptions)
         {
             _modelOptions = modelOptions;
         }

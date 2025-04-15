@@ -8,7 +8,7 @@ namespace RepoTool.Schemas
     /// in order to be compatible with OpenAI's structured output feature.
     /// It reflects the capabilities and limitations documented for OpenAI's schema processing.
     /// </summary>
-    public static class OpenAiOutputSchema
+    public static class OpenAIOutputSchema
     {
         /// <summary>
         /// Creates and configures a <see cref="JsonSchemaBuilder"/> for the OpenAI meta-schema.

@@ -174,8 +174,7 @@ namespace RepoTool.Helpers
             IInferenceProvider inferenceProvider = modelOptions.Provider switch
             {
                 EnInferenceProvider.Ollama => new OllamaProvider(modelOptions),
-                EnInferenceProvider.OpenAI => new OpenAiProvider(modelOptions),
-                EnInferenceProvider.Outlines => new OutlinesProvider(modelOptions),
+                EnInferenceProvider.OpenAI => new OpenAIProvider(modelOptions),
                 _ => throw new InvalidOperationException("Unknown inference provider.")
             };
 

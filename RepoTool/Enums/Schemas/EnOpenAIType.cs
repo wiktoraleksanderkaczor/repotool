@@ -3,7 +3,7 @@ namespace RepoTool.Enums.Schemas
     /// <summary>
     /// Enum representing the allowed data types in OpenAI output schema.
     /// </summary>
-    public enum EnOpenAiType
+    public enum EnOpenAIType
     {
         /// <summary>
         /// Represents a string type.
