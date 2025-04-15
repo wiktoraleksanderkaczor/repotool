@@ -33,7 +33,7 @@ namespace RepoTool.Helpers
                     member is not MethodInfo method
                     || method.ReturnType != typeof(void));
 
-            scriptObject.ToJson().DisplayAsJson(Color.Aqua);
+            // scriptObject.ToJson().DisplayAsJson(Color.Aqua);
             
             context.PushGlobal(scriptObject);
             try
