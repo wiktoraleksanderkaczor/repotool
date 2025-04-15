@@ -48,15 +48,6 @@ namespace RepoTool.Extensions
         /// </remarks>
         public static JsonSchema TrimUnsupported(this JsonSchema target, JsonSchema metaSchema)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-            if (metaSchema == null)
-            {
-                throw new ArgumentNullException(nameof(metaSchema));
-            }
-
             // Boolean schemas don't have keywords to trim
             if (target == JsonSchema.True || target == JsonSchema.False)
             {
@@ -110,19 +101,8 @@ namespace RepoTool.Extensions
         /// <param name="source">The source schema to merge.</param>
         /// <param name="propertyName">Optional name to add the source schema as a property.</param>
         /// <returns>A new <see cref="JsonSchema"/> instance with merged content.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if target is null.</exception>
         public static JsonSchema Merge(this JsonSchema target, JsonSchema source, string? propertyName = null)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            if (source == null)
-            {
-                return target; // Nothing to merge
-            }
-
             // Preserve boolean schema nature if applicable
             if (target == JsonSchema.True || target == JsonSchema.False)
             {
@@ -242,14 +222,8 @@ namespace RepoTool.Extensions
         /// </summary>
         /// <param name="schema">The schema to process.</param>
         /// <returns>A JSON string representation of the schema with internal references inlined.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if schema is null.</exception>
         public static JsonSchema InlineReferences(this JsonSchema schema)
         {
-            if (schema == null)
-            {
-                throw new ArgumentNullException(nameof(schema));
-            }
-
             // Preserve boolean schema nature if applicable
             if (schema == JsonSchema.True || schema == JsonSchema.False)
             {
