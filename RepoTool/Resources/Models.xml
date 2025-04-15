@@ -1857,6 +1857,15 @@
             Extension methods for <see cref="T:Json.Schema.JsonSchema"/>.
             </summary>
         </member>
+        <member name="M:RepoTool.Extensions.JsonSchemaExtensions.RemoveSchemaKey(Json.Schema.JsonSchema)">
+            <summary>
+            Removes the $schema key from the schema if it exists.
+            This is useful for cleaning up schemas that may have been generated with a specific $schema version
+            but are intended to be used without that versioning information.
+            </summary>
+            <param name="schema">The schema to process.</param>
+            <returns>A new <see cref="T:Json.Schema.JsonSchema"/> instance without the $schema key, or the original schema if no changes were needed.</returns>
+        </member>
         <member name="M:RepoTool.Extensions.JsonSchemaExtensions.TrimUnsupported(Json.Schema.JsonSchema,Json.Schema.JsonSchema)">
             <summary>
             Trims unsupported keywords from the target schema based on the provided meta-schema.
@@ -1884,7 +1893,6 @@
             <param name="source">The source schema to merge.</param>
             <param name="propertyName">Optional name to add the source schema as a property.</param>
             <returns>A new <see cref="T:Json.Schema.JsonSchema"/> instance with merged content.</returns>
-            <exception cref="T:System.ArgumentNullException">Thrown if target is null.</exception>
         </member>
         <member name="M:RepoTool.Extensions.JsonSchemaExtensions.InlineReferences(Json.Schema.JsonSchema)">
             <summary>
@@ -1894,7 +1902,6 @@
             </summary>
             <param name="schema">The schema to process.</param>
             <returns>A JSON string representation of the schema with internal references inlined.</returns>
-            <exception cref="T:System.ArgumentNullException">Thrown if schema is null.</exception>
         </member>
         <member name="M:RepoTool.Extensions.JsonSchemaExtensions.InlineNode(System.Text.Json.Nodes.JsonNode,System.Collections.Generic.IReadOnlyDictionary{System.String,Json.Schema.JsonSchema},System.Collections.Generic.HashSet{System.String})">
             <summary>
@@ -2141,11 +2148,12 @@
             <param name="obj">The object to serialize.</param>
             <returns>A JSON string representation of the object.</returns>
         </member>
-        <member name="M:RepoTool.Helpers.JsonHelper.GetOrCreateJsonSchemaAsync(System.Type)">
+        <member name="M:RepoTool.Helpers.JsonHelper.GetOrCreateJsonSchemaAsync(System.Type,System.Nullable{RepoTool.Enums.Inference.EnInferenceProvider})">
             <summary>
             Gets the JsonSchema object for the specified type, creating and caching it if necessary.
             </summary>
             <param name="type">The type for which to get the schema object.</param>
+            <param name="provider">Optional inference provider for schema generation.</param>
             <returns>A task representing the asynchronous operation, containing the <see cref="T:Json.Schema.JsonSchema"/> object.</returns>
         </member>
         <member name="M:RepoTool.Helpers.JsonHelper.ComputeTypeHash(System.Type)">
@@ -5207,6 +5215,52 @@
             This schema ensures any provided schema conforms to OpenAI's supported structure and constraints.
             </summary>
             <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance representing the OpenAI meta-schema.</returns>
+        </member>
+        <member name="T:RepoTool.Schemas.OutlinesOutputSchema">
+            <summary>
+            Provides functionality to build the JSON Meta-Schema that validates schemas intended for Outlines Structured Outputs.
+            This meta-schema defines the structure and constraints that a JSON schema must adhere to
+            in order to be compatible with Outlines's structured output feature.
+            It reflects the capabilities and limitations documented for Outlines's schema processing.
+            </summary>
+        </member>
+        <member name="M:RepoTool.Schemas.OutlinesOutputSchema.CreateSchemaBuilder">
+            <summary>
+            Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the Outlines meta-schema.
+            This builder defines the structure and constraints of a schema compatible with Outlines Structured Outputs.
+            </summary>
+            <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance representing the Outlines meta-schema.</returns>
+        </member>
+        <member name="M:RepoTool.Schemas.OutlinesOutputSchema.BuildSchema">
+            <summary>
+            Builds the JSON Meta-Schema that defines and validates schemas intended for Outlines Structured Outputs.
+            This schema ensures any provided schema conforms to Outlines's supported structure and constraints.
+            </summary>
+            <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance representing the Outlines meta-schema.</returns>
+        </member>
+        <member name="T:RepoTool.Schemas.Refiners.EnumTypeRefiner">
+            <summary>
+            Refines the schema generation process for enum types to ensure they are represented
+            as strings with an explicit list of possible values (enum keyword).
+            </summary>
+        </member>
+        <member name="M:RepoTool.Schemas.Refiners.EnumTypeRefiner.ShouldRun(Json.Schema.Generation.SchemaGenerationContextBase)">
+            <summary>
+            Determines whether this refiner should run based on the generation context.
+            Runs only if the context type is an enum.
+            </summary>
+            <param name="context">The schema generation context.</param>
+            <returns>True if the context type is an enum, false otherwise.</returns>
+        </member>
+        <member name="M:RepoTool.Schemas.Refiners.EnumTypeRefiner.Run(Json.Schema.Generation.SchemaGenerationContextBase)">
+            <summary>
+            Modifies the schema generation intents for an enum type.
+            It removes default intents and adds a string type intent and an enum keyword
+            containing the string representations of the enum members.
+            Handles nullable enums by adding 'null' to the type intent.
+            </summary>
+            <param name="context">The schema generation context.</param>
+            TODO: Change to not clear all intents first
         </member>
         <member name="M:RepoTool.Terminal.CommandInterceptor.Intercept(Spectre.Console.Cli.CommandContext,Spectre.Console.Cli.CommandSettings)">
             <param name="context">The command context.</param>
