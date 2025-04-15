@@ -33,6 +33,7 @@ namespace RepoTool.Helpers
                     member is not MethodInfo method
                     || method.ReturnType != typeof(void));
 
+            // DEBUG: Show the imported data object for schema
             // scriptObject.ToJson().DisplayAsJson(Color.Aqua);
             
             context.PushGlobal(scriptObject);
