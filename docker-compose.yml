@@ -2,12 +2,15 @@ version: "3.8"
 
 services:
   vllm:
-    # GPU: vllm/vllm-openai:latest
+    # INFO: GPU not working with Turing on official images due to async/eager issues
     # CPU (problematic): public.ecr.aws/q9t5s3a7/vllm-cpu-release-repo:v0.8.1
     # CPU (own build): vllm-cpu-env
+    # CPU COMMAND: DOCKER_BUILDKIT=1 docker build --file docker/Dockerfile.cpu --tag vllm-cpu-env --target vllm-openai .
     image: vllm-cpu-env
+    pull_policy: missing
     privileged: true
-    network_mode: host
+    # network_mode: host
+    restart: unless-stopped
     environment:
       - VLLM_API_KEY=vllm-api-key
       - VLLM_LOGGING_LEVEL=DEBUG
@@ -32,21 +35,19 @@ services:
       "--dtype=bfloat16",
       # Possible reasoning choices (required for enable): deepseek_r1, granite
       # "--enable-reasoning",
-      # "--reasoning-parser=deepseek_r1", 
-      # Specify the amount of CPU offload (for GPU) in GB 
-      # "--cpu-offload-gb=32",
+      # "--reasoning-parser=deepseek_r1",
       # Use ngram spec-dec... free performance
       "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 4}",
       # Quantize KV cache to FP8
-      "--kv-cache-dtype=fp8_e5m2",
+      "--kv-cache-dtype=fp8",
       # Use outlines for best JSON Schema support
-      # "--guided-decoding-backend=outlines",
+      "--guided-decoding-backend=outlines",
+      # Cache prefix tokens for faster generation
       "--enable-prefix-caching",
       # Deterministic-ish outputs
       "--seed=666",
       # Use VLLM generation config over model
-      "--generation-config=vllm",
-      # Set generation parameters
+      "--generation-config=auto",
       "--override-generation-config={\"temperature\": 0}",
       # Model context length. If unspecified, will be automatically derived from the model config.
       "--max-model-len=8192",
