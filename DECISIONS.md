@@ -57,3 +57,50 @@ Some structured generation engines have issues with resolving $ref to $defs. One
 ---
 
 Support for Outlines will only be provided via running vLLM, not their FastAPI Docker image. LM Studio might be supported at a later time.
+
+---
+
+Turns out the JSON Schemas require better handling of references and definitions to ensure compatibility across different implementations. For a couple examples; Gemini does not resolve '$ref', OpenAI seems to use 'type' for enums, Ollama probably does it's own thing.
+
+---
+
+Running vLLM with Turing is proving to be problematic, AWQ is not supported despite their 'Supported Hardware' page... BitsAndBytes is my alternative since it has 4-bit quantization and supposedly runs on Turing... official image errors on launch. I will build my own image with the latest version of vLLM and see if that works. If not, back to CPU speed it is... or try out GPTQ even if it's relatively old. Also, TGI by Huggingface is not an option because it only allows guided decoding through tools. GGUF is completely unoptimized so... pass.
+
+---
+
+vLLM seems to have issues with 'outlines'-based guided decoding, it does not report errors properly through the C# OpenAI SDK. It passes back HTTP 400s but no useful error message. You actually need to go as follows:
+```csharp
+public partial class ChatClient
+{
+    /// <summary>
+    /// [Protocol Method] Creates a model response for the given chat conversation.
+    /// </summary>
+    /// <param name="content"> The content to send as the body of the request. </param>
+    /// <param name="options"> The request options, which can override default behaviors of the client pipeline on a per-call basis. </param>
+    /// <exception cref="ArgumentNullException"> <paramref name="content"/> is null. </exception>
+    /// <exception cref="ClientResultException"> Service returned a non-success status code. </exception>
+    /// <returns> The response returned from the service. </returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public virtual async Task<ClientResult> CompleteChatAsync(BinaryContent content, RequestOptions options = null)
+    {
+        Argument.AssertNotNull(content, nameof(content));
+
+        using PipelineMessage message = CreateCreateChatCompletionRequest(content, options);
+        return ClientResult.FromResponse(await _pipeline.ProcessMessageAsync(message, options).ConfigureAwait(false));
+    }
+}
+```
+
+Then step-into the `ProcessMessageAsync` method and check the `Response` property of the `message` object. It will contain the error message from vLLM.
+
+---
+
+Issue with vLLM structured generation was that my JSON schema within the system prompt was not properly escaped. I have updated the README.md for templates to prevent this from happening again. It produced silent failures.
+
+---
+
+Support for Text Generation Interface (TGI) by Huggingface will be added by using the 'tools' parameter even if it might introduce some useless tokens too. Only way to support that with 'chat' instead of the generate endpoint. 
+
+---
+
+I will mark commented out display code with 'DEBUG' tags where it might be useful for debugging later.
