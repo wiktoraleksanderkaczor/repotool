@@ -3,14 +3,17 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Force.DeepCloner;
 using Json.Schema;
 using Json.Schema.Generation;
 using RepoTool.Constants;
+using RepoTool.Enums.Inference;
 using RepoTool.Enums.Json;
 using RepoTool.Extensions;
 using RepoTool.Schemas;
 using RepoTool.Schemas.Generators;
 using RepoTool.Schemas.Refiners;
+using PropertyNameResolvers = Json.Schema.Generation.PropertyNameResolvers;
 
 namespace RepoTool.Helpers
 {
@@ -55,8 +58,9 @@ namespace RepoTool.Helpers
         /// Gets the JsonSchema object for the specified type, creating and caching it if necessary.
         /// </summary>
         /// <param name="type">The type for which to get the schema object.</param>
+        /// <param name="provider">Optional inference provider for schema generation.</param>
         /// <returns>A task representing the asynchronous operation, containing the <see cref="JsonSchema"/> object.</returns>
-        public static async Task<JsonSchema> GetOrCreateJsonSchemaAsync(Type type)
+        public static async Task<JsonSchema> GetOrCreateJsonSchemaAsync(Type type, EnInferenceProvider? provider = null)
         {
             // Create schemas directory if it doesn't exist
             if (!Directory.Exists(PathConstants.UserRepoToolSchemaFolder))
@@ -94,16 +98,47 @@ namespace RepoTool.Helpers
             #endif
 
             // Generate new schema using JsonSchema.Net.Generation
-            JsonSchema outputSchema = OllamaOutputSchema.BuildSchema();
-            SchemaRegistry.Global.Register(outputSchema);
-            JsonSchemaBuilder schemaBuilder = new JsonSchemaBuilder().Schema(outputSchema.BaseUri).FromType(type, DefaultSchemaGeneratorConfiguration);
+            JsonSchema? outputSchema = provider switch {
+                EnInferenceProvider.OpenAI => OpenAIOutputSchema.BuildSchema(),
+                EnInferenceProvider.Ollama => OllamaOutputSchema.BuildSchema(),
+                EnInferenceProvider.vLLM => OutlinesOutputSchema.BuildSchema(),
+                EnInferenceProvider.HuggingFace => OutlinesOutputSchema.BuildSchema(),
+                _ => null
+            };
+
+            SchemaGeneratorConfiguration config = DefaultSchemaGeneratorConfiguration.DeepClone();
+            switch (provider)
+            {
+                case EnInferenceProvider.Ollama:
+                    break;
+                case EnInferenceProvider.OpenAI:
+                case EnInferenceProvider.vLLM:
+                case EnInferenceProvider.HuggingFace:
+                    config.Refiners.Add(new EnumTypeRefiner());
+                    break;
+            }
+
             JsonSchema? generatedSchema = null;
             try
             {
-
+                JsonSchemaBuilder schemaBuilder = new();
+                if (outputSchema is not null)
+                {
+                    SchemaRegistry.Global.Register(outputSchema);
+                    schemaBuilder = schemaBuilder.Schema(outputSchema.BaseUri);
+                }
+                schemaBuilder = schemaBuilder.FromType(type, config);
+                
                 generatedSchema = schemaBuilder.Build();
                 generatedSchema = generatedSchema.InlineReferences();
-                generatedSchema = generatedSchema.TrimUnsupported(outputSchema);
+                if (outputSchema is not null)
+                {
+                    generatedSchema = generatedSchema.TrimUnsupported(outputSchema);
+                    // generatedSchema = generatedSchema.RemoveSchemaKey();
+                }
+
+                // DEBUG: Show the generated schema
+                // generatedSchema.ToJson().DisplayAsJson(Color.BlueViolet);
             }
             catch (Exception ex)
             {
