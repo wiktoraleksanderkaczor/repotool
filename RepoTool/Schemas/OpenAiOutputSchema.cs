@@ -34,13 +34,31 @@ namespace RepoTool.Schemas
                 .Type(SchemaValueType.Array)
                 .Items(new JsonSchemaBuilder().Type(SchemaValueType.String));
 
+            // Allow 'type' to be a single string from allowedTypes or an array of strings from allowedTypes
+            JsonSchemaBuilder typeSchema = new JsonSchemaBuilder()
+                .AnyOf(
+                    new JsonSchemaBuilder().Enum(allowedTypes),
+                    new JsonSchemaBuilder()
+                        .Type(SchemaValueType.Array)
+                        .Items(new JsonSchemaBuilder().Enum(allowedTypes))
+                        .MinItems(1)
+                        .UniqueItems(true)
+                );
+
             // Define the schema for the 'items' keyword value (can be a single schema or array of schemas)
             JsonSchemaBuilder itemsSchema = new JsonSchemaBuilder()
                 .AnyOf(
                     new JsonSchemaBuilder().Ref(selfRef),
                     new JsonSchemaBuilder()
                         .Type(SchemaValueType.Array)
-                        .Items(new JsonSchemaBuilder().Ref(selfRef))
+                        .Items(new JsonSchemaBuilder().Ref(selfRef)),
+                    new JsonSchemaBuilder()
+                        .Type(SchemaValueType.Object)
+                        .Properties(
+                            ("type", typeSchema),
+                            ("enum", new JsonSchemaBuilder().Type(SchemaValueType.Array))
+                        )
+                        .AdditionalProperties(false)
                 );
 
             // Define the schema for 'anyOf' keyword values
@@ -55,16 +73,6 @@ namespace RepoTool.Schemas
                 .PropertyNames(new JsonSchemaBuilder().Type(SchemaValueType.String))
                 .AdditionalProperties(new JsonSchemaBuilder().Ref(selfRef));
 
-            // Allow 'type' to be a single string from allowedTypes or an array of strings from allowedTypes
-            JsonSchemaBuilder typeSchema = new JsonSchemaBuilder()
-                .AnyOf(
-                    new JsonSchemaBuilder().Enum(allowedTypes),
-                    new JsonSchemaBuilder()
-                        .Type(SchemaValueType.Array)
-                        .Items(new JsonSchemaBuilder().Enum(allowedTypes))
-                        .MinItems(1)
-                        .UniqueItems(true)
-                );
 
             // Start building the main meta-schema
             JsonSchemaBuilder metaSchemaBuilder = new JsonSchemaBuilder()
@@ -73,6 +81,7 @@ namespace RepoTool.Schemas
                 .Title("OpenAI Structured Output Meta-Schema")
                 .Type(SchemaValueType.Object)
                 .Properties(
+                    ("$schema", new JsonSchemaBuilder().Const("https://localhost/openai-structured-output-meta-schema")),
                     ("type", typeSchema),
                     ("properties", propertiesSchema),
                     ("required", requiredSchema),
