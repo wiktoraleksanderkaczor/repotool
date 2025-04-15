@@ -59,23 +59,8 @@ namespace RepoTool.Extensions
                 return target;
             }
 
-            List<EvaluationResults> invalidResults = GatherErrors(evaluationResult);
-            Dictionary<string, List<string>> fieldToErrorMessage = invalidResults
-                .GroupBy(result => result.InstanceLocation.ToString())
-                .ToDictionary(
-                    result => result.Key,
-                    result => result.Where(x => x.Errors != null).SelectMany(x => x.Errors!).Select(x => x.Value).ToList());
-            foreach (KeyValuePair<string, List<string>> item in fieldToErrorMessage)
-            {
-                Console.WriteLine(item.Key);
-                foreach (string error in item.Value)
-                {
-                    Console.WriteLine($"\t- {error}");
-                }
-            }
-
-            Console.WriteLine(target.ToJson());
-            Console.WriteLine(metaSchema.ToJson());
+            List<EvaluationResults> invalidResults = evaluationResult.GatherErrors();
+            // invalidResults.DisplayErrors();
             foreach (EvaluationResults invalidKeyword in invalidResults)
             {
                 // Remove the invalid keyword from the target schema
@@ -88,33 +73,12 @@ namespace RepoTool.Extensions
                 {
                     throw new InvalidOperationException("Schema is incomplete, cannot trim missing keyword");
                 }
-                // Optionally, you can log or handle the invalid keyword here
-                // For example, you could log the keyword name and its location
-                // Console.WriteLine($"Invalid keyword: {invalidKeyword.Keyword} at {invalidPointer}");
             }
 
             return JsonSchema.FromText(targetDocument.ToJson());
         }
 
-        private static List<EvaluationResults> GatherErrors(this EvaluationResults evaluationResults)
-        {
-            List<EvaluationResults> errors = new();
-            foreach (EvaluationResults result in evaluationResults.Details)
-            {
-                if (result.IsValid)
-                {
-                    continue;
-                }
 
-                if (result.HasErrors)
-                {
-                    errors.Add(result);
-                }
-
-                errors.AddRange(result.GatherErrors());
-            }
-            return errors;
-        }
 
         /// <summary>
         /// Merges the source schema into the target schema, moving all definitions ($defs) to the root level.
