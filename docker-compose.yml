@@ -37,7 +37,7 @@ services:
       # "--enable-reasoning",
       # "--reasoning-parser=deepseek_r1",
       # Use ngram spec-dec... free performance
-      "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 4}",
+      "--speculative-config={\"method\": \"ngram\", \"num_speculative_tokens\": 5, \"prompt_lookup_max\": 10}",
       # Quantize KV cache to FP8
       "--kv-cache-dtype=fp8",
       # Use outlines for best JSON Schema support
