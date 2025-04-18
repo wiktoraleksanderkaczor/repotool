@@ -1,0 +1,13 @@
+{
+    "dotnet.backgroundAnalysis.analyzerDiagnosticsScope": "fullSolution",
+    "dotnet.backgroundAnalysis.compilerDiagnosticsScope": "fullSolution",
+    "dotnet.formatting.organizeImportsOnFormat": true,
+    "dotnet.server.useServerGC": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "search.useIgnoreFiles": true,
+    "[csharp]": {
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true
+    }
+}
