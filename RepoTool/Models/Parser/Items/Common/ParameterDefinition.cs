@@ -1,4 +1,7 @@
-using RepoTool.Enums.Parser;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using RepoTool.Enums.Parser.Common;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
 namespace RepoTool.Models.Parser.Items.Common

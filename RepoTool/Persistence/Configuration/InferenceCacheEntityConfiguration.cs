@@ -1,6 +1,11 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
 
-namespace RepoTool.Persistence.Entities.Configuration
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RepoTool.Persistence.Configuration.Common;
+using RepoTool.Persistence.Entities;
+
+namespace RepoTool.Persistence.Configuration
 {
     public class InferenceCacheEntityConfiguration : BaseEntityConfiguration<InferenceCacheEntity>
     {
@@ -13,13 +18,13 @@ namespace RepoTool.Persistence.Entities.Configuration
 
             builder.Property(x => x.OutputType)
                 .IsRequired();
-                
+
             builder.Property(x => x.InferenceProvider)
                 .IsRequired();
 
             builder.Property(x => x.InferenceModel)
                 .IsRequired();
-            
+
             builder.Property(x => x.ResponseContent)
                 .IsRequired();
 

@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Enums.Parser.Items.Expressions
 {
     /// <summary>
@@ -9,17 +12,17 @@ namespace RepoTool.Enums.Parser.Items.Expressions
         /// Represents square brackets [].
         /// </summary>
         Square,
-        
+
         /// <summary>
         /// Represents round brackets ().
         /// </summary>
         Round,
-        
+
         /// <summary>
         /// Represents angle brackets &lt;&gt;.
         /// </summary>
         Angle,
-        
+
         /// <summary>
         /// Represents curly brackets {}.
         /// </summary>

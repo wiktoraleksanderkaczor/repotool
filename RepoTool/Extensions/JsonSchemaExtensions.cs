@@ -1,8 +1,12 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Json.More;
 using Json.Pointer;
 using Json.Schema;
+using Spectre.Console;
 
 namespace RepoTool.Extensions
 {
@@ -21,12 +25,12 @@ namespace RepoTool.Extensions
         public static JsonSchema RemoveSchemaKey(this JsonSchema schema)
         {
             // Preserve boolean schema nature if applicable
-            if (schema == JsonSchema.True || schema == JsonSchema.False)
+            if ( schema == JsonSchema.True || schema == JsonSchema.False )
             {
                 // Removing $schema from boolean schema doesn't make sense.
                 return schema;
             }
-            
+
             // Remove $schema keyword if present
             JsonDocument newSchema = schema.ToJsonDocument().RemoveAtPointer(JsonPointer.Create("$schema"));
             return JsonSchema.FromText(newSchema.ToJson());
@@ -49,7 +53,7 @@ namespace RepoTool.Extensions
         public static JsonSchema TrimUnsupported(this JsonSchema target, JsonSchema metaSchema)
         {
             // Boolean schemas don't have keywords to trim
-            if (target == JsonSchema.True || target == JsonSchema.False)
+            if ( target == JsonSchema.True || target == JsonSchema.False )
             {
                 return target;
             }
@@ -65,31 +69,27 @@ namespace RepoTool.Extensions
             EvaluationResults evaluationResult = metaSchema.Evaluate(targetDocument, options);
 
             // If the schema is already valid according to the meta-schema, no trimming is needed.
-            if (evaluationResult.IsValid)
+            if ( evaluationResult.IsValid )
             {
                 return target;
             }
 
             List<EvaluationResults> invalidResults = evaluationResult.GatherErrors();
-            // invalidResults.DisplayErrors();
-            foreach (EvaluationResults invalidKeyword in invalidResults)
+            invalidResults.DisplayErrors();
+            targetDocument.ToJson().DisplayAsJson(Color.Black);
+            foreach ( EvaluationResults invalidKeyword in invalidResults )
             {
                 // Remove the invalid keyword from the target schema
                 JsonPointer invalidPointer = invalidKeyword.InstanceLocation;
-                if (invalidPointer.TryEvaluate(targetDocument.GetAsJsonNode(), out JsonNode? invalidNode))
-                {
-                    targetDocument = targetDocument.RemoveAtPointer(invalidPointer);
-                }
-                else
-                {
-                    throw new InvalidOperationException("Schema is incomplete, cannot trim missing keyword");
-                }
+                targetDocument = invalidPointer.TryEvaluate(targetDocument.GetAsJsonNode(), out JsonNode? invalidNode)
+                    ? targetDocument.RemoveAtPointer(invalidPointer)
+                    : throw new InvalidOperationException("Schema is incomplete, cannot trim missing keyword");
             }
 
-            return JsonSchema.FromText(targetDocument.ToJson());
+            return metaSchema.Evaluate(targetDocument, options).HasErrors
+                ? throw new InvalidOperationException("Schema is incomplete after trimming")
+                : JsonSchema.FromText(targetDocument.ToJson());
         }
-
-
 
         /// <summary>
         /// Merges the source schema into the target schema, moving all definitions ($defs) to the root level.
@@ -104,29 +104,29 @@ namespace RepoTool.Extensions
         public static JsonSchema Merge(this JsonSchema target, JsonSchema source, string? propertyName = null)
         {
             // Preserve boolean schema nature if applicable
-            if (target == JsonSchema.True || target == JsonSchema.False)
+            if ( target == JsonSchema.True || target == JsonSchema.False )
             {
                 // Merging properties or defs into a boolean schema doesn't make sense.
                 return target;
             }
 
             // --- 1. Extract and Combine Definitions ($defs) ---
-            Dictionary<string, JsonSchema> mergedDefs = new();
+            Dictionary<string, JsonSchema> mergedDefs = [];
 
             // Extract from target
             DefsKeyword? targetDefsKeyword = target.Keywords?.OfType<DefsKeyword>().FirstOrDefault();
-            if (targetDefsKeyword != null)
+            if ( targetDefsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in targetDefsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in targetDefsKeyword.Definitions )
                 {
                     mergedDefs[def.Key] = def.Value;
                 }
             }
             // Support older "definitions" keyword as well
             DefinitionsKeyword? targetDefinitionsKeyword = target.Keywords?.OfType<DefinitionsKeyword>().FirstOrDefault();
-            if (targetDefinitionsKeyword != null)
+            if ( targetDefinitionsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in targetDefinitionsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in targetDefinitionsKeyword.Definitions )
                 {
                     // Avoid overwriting if already present from $defs
                     mergedDefs.TryAdd(def.Key, def.Value);
@@ -136,18 +136,18 @@ namespace RepoTool.Extensions
 
             // Extract from source
             DefsKeyword? sourceDefsKeyword = source.Keywords?.OfType<DefsKeyword>().FirstOrDefault();
-            if (sourceDefsKeyword != null)
+            if ( sourceDefsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in sourceDefsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in sourceDefsKeyword.Definitions )
                 {
                     mergedDefs[def.Key] = def.Value; // Source overwrites target on conflict
                 }
             }
             // Support older "definitions" keyword
             DefinitionsKeyword? sourceDefinitionsKeyword = source.Keywords?.OfType<DefinitionsKeyword>().FirstOrDefault();
-            if (sourceDefinitionsKeyword != null)
+            if ( sourceDefinitionsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in sourceDefinitionsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in sourceDefinitionsKeyword.Definitions )
                 {
                     mergedDefs[def.Key] = def.Value; // Source overwrites target on conflict
                 }
@@ -157,19 +157,19 @@ namespace RepoTool.Extensions
             Dictionary<string, IJsonSchemaKeyword> finalKeywords = target.Keywords?
             .Where(k => k is not DefsKeyword && k is not DefinitionsKeyword && k is not PropertiesKeyword)
             .ToDictionary(k => k.Keyword(), k => k)
-            ?? new Dictionary<string, IJsonSchemaKeyword>();
+            ?? [];
 
             // --- 3. Merge Properties ---
             Dictionary<string, JsonSchema> mergedProperties = target.Keywords?.OfType<PropertiesKeyword>().FirstOrDefault()?.Properties.ToDictionary()
-                                      ?? new Dictionary<string, JsonSchema>();
+                                      ?? [];
 
-            if (!string.IsNullOrEmpty(propertyName))
+            if ( !string.IsNullOrEmpty(propertyName) )
             {
                 // Add the entire source schema as a property, but strip its defs as they are moved to root
                 JsonSchemaBuilder sourceWithoutDefsBuilder = new();
-                if (source.Keywords != null)
+                if ( source.Keywords != null )
                 {
-                    foreach (IJsonSchemaKeyword keyword in source.Keywords.Where(k => k is not DefsKeyword && k is not DefinitionsKeyword))
+                    foreach ( IJsonSchemaKeyword keyword in source.Keywords.Where(k => k is not DefsKeyword && k is not DefinitionsKeyword) )
                     {
                         sourceWithoutDefsBuilder.Add(keyword);
                     }
@@ -183,10 +183,10 @@ namespace RepoTool.Extensions
                     .OfType<PropertiesKeyword>()
                     .FirstOrDefault();
 
-                if (sourcePropertiesKeyword != null)
+                if ( sourcePropertiesKeyword != null )
                 {
                     // Merge source properties into the merged dictionary, overwriting existing ones
-                    foreach (KeyValuePair<string, JsonSchema> property in sourcePropertiesKeyword.Properties)
+                    foreach ( KeyValuePair<string, JsonSchema> property in sourcePropertiesKeyword.Properties )
                     {
                         mergedProperties[property.Key] = property.Value;
                     }
@@ -195,19 +195,19 @@ namespace RepoTool.Extensions
             }
 
             // --- 4. Add Merged Definitions and Properties to Final Keywords ---
-            if (mergedDefs.Count > 0)
+            if ( mergedDefs.Count > 0 )
             {
                 finalKeywords[DefsKeyword.Name] = new DefsKeyword(mergedDefs);
             }
 
-            if (mergedProperties.Count > 0)
+            if ( mergedProperties.Count > 0 )
             {
                 finalKeywords[PropertiesKeyword.Name] = new PropertiesKeyword(mergedProperties);
             }
 
             // --- 5. Build Final Schema ---
             JsonSchemaBuilder builder = new();
-            foreach (IJsonSchemaKeyword keyword in finalKeywords.Values)
+            foreach ( IJsonSchemaKeyword keyword in finalKeywords.Values )
             {
                 builder.Add(keyword);
             }
@@ -225,26 +225,26 @@ namespace RepoTool.Extensions
         public static JsonSchema InlineReferences(this JsonSchema schema)
         {
             // Preserve boolean schema nature if applicable
-            if (schema == JsonSchema.True || schema == JsonSchema.False)
+            if ( schema == JsonSchema.True || schema == JsonSchema.False )
             {
                 // Inlining boolean schema does not make sense 
                 return schema;
             }
 
             // 1. Extract Definitions
-            Dictionary<string, JsonSchema> definitions = new();
+            Dictionary<string, JsonSchema> definitions = [];
             DefsKeyword? defsKeyword = schema.Keywords?.OfType<DefsKeyword>().FirstOrDefault();
-            if (defsKeyword != null)
+            if ( defsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in defsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in defsKeyword.Definitions )
                 {
                     definitions[def.Key] = def.Value;
                 }
             }
             DefinitionsKeyword? definitionsKeyword = schema.Keywords?.OfType<DefinitionsKeyword>().FirstOrDefault();
-            if (definitionsKeyword != null)
+            if ( definitionsKeyword != null )
             {
-                foreach (KeyValuePair<string, JsonSchema> def in definitionsKeyword.Definitions)
+                foreach ( KeyValuePair<string, JsonSchema> def in definitionsKeyword.Definitions )
                 {
                     definitions.TryAdd(def.Key, def.Value); // Prefer $defs if key exists
                 }
@@ -257,7 +257,7 @@ namespace RepoTool.Extensions
 
 
             // 3. Recursively Inline
-            HashSet<string> visitedRefs = new();
+            HashSet<string> visitedRefs = [];
             JsonNode inlinedNode = InlineNode(rootNode, definitions, visitedRefs)
                 ?? throw new InvalidOperationException("Failed to parse JSON node.");
 
@@ -274,20 +274,20 @@ namespace RepoTool.Extensions
             IReadOnlyDictionary<string, JsonSchema> definitions,
             HashSet<string> visitedRefs)
         {
-            if (node is JsonObject jsonObject)
+            if ( node is JsonObject jsonObject )
             {
                 // Check for $ref
-                if (jsonObject.TryGetPropertyValue("$ref", out JsonNode? refNode) &&
+                if ( jsonObject.TryGetPropertyValue("$ref", out JsonNode? refNode) &&
                     refNode is JsonValue refValue &&
                     refValue.TryGetValue(out string? refString) &&
-                    !string.IsNullOrEmpty(refString))
+                    !string.IsNullOrEmpty(refString) )
                 {
                     // Check if it's an internal reference we can resolve
                     string? definitionKey = GetInternalDefinitionKey(refString);
-                    if (definitionKey != null)
+                    if ( definitionKey != null )
                     {
                         // Handle recursion: If we are already processing this ref, return the original $ref node
-                        if (!visitedRefs.Add(refString))
+                        if ( !visitedRefs.Add(refString) )
                         {
                             // Already visiting this ref in the current chain, return original to avoid loop
                             return jsonObject.DeepClone();
@@ -295,7 +295,7 @@ namespace RepoTool.Extensions
 
                         try
                         {
-                            if (definitions.TryGetValue(definitionKey, out JsonSchema? definitionSchema))
+                            if ( definitions.TryGetValue(definitionKey, out JsonSchema? definitionSchema) )
                             {
                                 // Serialize the definition schema and parse it to JsonNode
                                 JsonNode definitionNode = JsonNode.Parse(definitionSchema.ToJson())
@@ -326,29 +326,34 @@ namespace RepoTool.Extensions
                 {
                     // Not a $ref node, process its children
                     JsonObject newNode = new(jsonObject.Options);
-                    foreach (KeyValuePair<string, JsonNode?> property in jsonObject)
+                    foreach ( KeyValuePair<string, JsonNode?> property in jsonObject )
                     {
                         // Don't copy the definitions keyword to the inlined result
-                        if (property.Key.Equals(DefsKeyword.Name, StringComparison.Ordinal) ||
-                            property.Key.Equals(DefinitionsKeyword.Name, StringComparison.Ordinal))
+                        if ( property.Key.Equals(DefsKeyword.Name, StringComparison.Ordinal) ||
+                            property.Key.Equals(DefinitionsKeyword.Name, StringComparison.Ordinal) )
+                        {
                             continue;
+                        }
 
-
-                        if (property.Value is null)
+                        if ( property.Value is null )
+                        {
                             continue;
+                        }
 
                         newNode.Add(property.Key, InlineNode(property.Value, definitions, visitedRefs));
                     }
                     return newNode;
                 }
             }
-            else if (node is JsonArray jsonArray)
+            else if ( node is JsonArray jsonArray )
             {
                 JsonArray newArray = new(jsonArray.Options);
-                foreach (JsonNode? item in jsonArray)
+                foreach ( JsonNode? item in jsonArray )
                 {
-                    if (item is null)
+                    if ( item is null )
+                    {
                         continue;
+                    }
 
                     newArray.Add(InlineNode(item, definitions, visitedRefs));
                 }
@@ -372,13 +377,13 @@ namespace RepoTool.Extensions
             const string defsPrefix = "#/$defs/";
             const string definitionsPrefix = "#/definitions/";
 
-            if (refString.StartsWith(defsPrefix, StringComparison.Ordinal))
+            if ( refString.StartsWith(defsPrefix, StringComparison.Ordinal) )
             {
-                return refString.Substring(defsPrefix.Length);
+                return refString[defsPrefix.Length..];
             }
-            else if (refString.StartsWith(definitionsPrefix, StringComparison.Ordinal))
+            else if ( refString.StartsWith(definitionsPrefix, StringComparison.Ordinal) )
             {
-                return refString.Substring(definitionsPrefix.Length);
+                return refString[definitionsPrefix.Length..];
             }
             else
             {

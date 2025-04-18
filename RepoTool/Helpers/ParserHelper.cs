@@ -1,11 +1,13 @@
-using System.Collections;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Force.DeepCloner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing;
-using RepoTool.Attributes;
+using RepoTool.Attributes.Parser;
 using RepoTool.Enums.Json;
 using RepoTool.Extensions;
 using RepoTool.Flags.Parser;
@@ -43,12 +45,7 @@ namespace RepoTool.Helpers
 
         public async Task<ParsedFileEntity> ParseFileAsync(string filePath, string? reference = null)
         {
-            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference);
-
-            if (content == null)
-            {
-                throw new Exception($"File '{filePath}' not found.");
-            }
+            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference) ?? throw new Exception($"File '{filePath}' not found.");
 
             // Compute SHA256 hash of the string representation
             string contentHash = content.ToSha256Hash();
@@ -56,19 +53,19 @@ namespace RepoTool.Helpers
             List<LanguageEntity> languageEntities = await _dbContext.Languages.ToListAsync();
 
             LanguageEntity? languageEntity = null;
-            foreach (LanguageEntity language in languageEntities)
+            foreach ( LanguageEntity language in languageEntities )
             {
                 // Check if the file matches the language patterns
                 Matcher matcher = new();
                 matcher.AddIncludePatterns(language.Patterns);
-                if (matcher.Match(filePath).HasMatches)
+                if ( matcher.Match(filePath).HasMatches )
                 {
                     languageEntity = language;
                     break;
                 }
             }
 
-            if (languageEntity == null)
+            if ( languageEntity == null )
             {
                 throw new Exception($"Language not found for file '{filePath}'.");
             }
@@ -87,14 +84,17 @@ namespace RepoTool.Helpers
             ParserContext parserContext = new()
             {
                 FilePath = filePath,
-                ItemPath = new ItemPath { Components = [
+                ItemPath = new ItemPath
+                {
+                    Components = [
                     new ItemPathRootComponent
                     {
                         RecordType = typeof(ParsedData),
                         // TODO: Might need JsonDocument.Parse("{}") here
                         CurrentObject = null,
                     }
-                ] },
+                ]
+                },
                 CodeWindow = new CodeWindow
                 {
                     StashedWindows = [],
@@ -123,7 +123,7 @@ namespace RepoTool.Helpers
                 _dbContext.ParsedFiles.Add(parsedFileEntity);
                 await _dbContext.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 throw new Exception("Error saving parsed file entity.", ex);
             }
@@ -147,11 +147,11 @@ namespace RepoTool.Helpers
             EnOutputHandlingType handlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(objectType);
 
             // Branch Based on Handling Type
-            switch (handlingType)
+            switch ( handlingType )
             {
                 case EnOutputHandlingType.Object:
                     // --- Object Handling ---
-                    switch (objectType.IsCollectionType())
+                    switch ( objectType.IsCollectionType() )
                     {
                         case true:
                             // Handle collection types separately
@@ -163,7 +163,7 @@ namespace RepoTool.Helpers
                 case EnOutputHandlingType.Iterable:
                     // Assume ParseIterable handles its own relative path additions correctly.
                     // No need to reset path here, as ParseIterable receives the current context.
-                    if (!objectType.IsCollectionType())
+                    if ( !objectType.IsCollectionType() )
                     {
                         // TODO: May still be okay, possible change to warning instead?
                         throw new NotSupportedException($"Type {objectType.Name} is not a recognized iterable type.");
@@ -203,7 +203,7 @@ namespace RepoTool.Helpers
                 .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IToolSelector<>));
 
             // Use creation tool
-            if (isToolSelector)
+            if ( isToolSelector )
             {
                 // Infer the tool choice using the context
                 InferenceRequest<ParserContext> inferenceRequest = new() { Context = parserContext };
@@ -287,11 +287,10 @@ namespace RepoTool.Helpers
             Type objectType = parserContext.ItemPath.GetLastObjectType();
 
             // Check if type has ToolChoice attribute... for abstract items
-            ToolChoiceAttribute? toolChoiceAttribute = objectType
-                .GetCustomAttributes(typeof(ToolChoiceAttribute), false)
-                .FirstOrDefault() as ToolChoiceAttribute;
 
-            if (toolChoiceAttribute != null)
+            if ( objectType
+                .GetCustomAttributes(typeof(ToolChoiceAttribute), false)
+                .FirstOrDefault() is ToolChoiceAttribute toolChoiceAttribute )
             {
                 parserContext.ItemPath.AddComponent(
                     new ItemPathToolComponent
@@ -302,7 +301,7 @@ namespace RepoTool.Helpers
                 objectType = await ParseToolSelector(parserContext);
             }
 
-            if (objectType.IsAbstract || objectType.IsInterface)
+            if ( objectType.IsAbstract || objectType.IsInterface )
             {
                 throw new InvalidOperationException($"Cannot parse abstract or interface type {objectType.FullName}.");
             }
@@ -314,12 +313,14 @@ namespace RepoTool.Helpers
 
             // If no initial data is provided, create an empty JSON object
             // IMPORTANT: Must always add path before recursive parse call
-            if (parserContext.ItemPath.Components.LastOrDefault()?.CurrentObject is null)
+            if ( parserContext.ItemPath.Components.LastOrDefault()?.CurrentObject is null )
+            {
                 parserContext.ItemPath.UpdateCurrentObject(JsonDocument.Parse("{}"));
+            }
 
             // Process Properties Sequentially
             // IMPORTANT: Calling with more than one field leads to messes, can always batch/parallelize
-            foreach (PropertyInfo property in properties)
+            foreach ( PropertyInfo property in properties )
             {
                 // Add component to item path for the recursive call
                 parserContext.ItemPath.AddComponent(
@@ -345,7 +346,7 @@ namespace RepoTool.Helpers
                 parserContext.ItemPath.UpdateCurrentObject(newParentObject);
             }
 
-            if (parserContext.ItemPath.GetLastComponent() is not ItemPathToolComponent)
+            if ( parserContext.ItemPath.GetLastComponent() is not ItemPathToolComponent )
             {
                 parserContext.ItemPath.AddComponent(
                     new ItemPathToolComponent
@@ -391,44 +392,23 @@ namespace RepoTool.Helpers
         {
             Type objectType = parserContext.ItemPath.GetLastObjectType();
 
-            JsonSpecialFlag jsonSpecialFlag = (parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent)?.JsonSpecialFlag
+            JsonSpecialFlag jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
                 ?? JsonSpecialFlag.None;
 
-            if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
             {
                 parserContext.CodeWindow.StashWindow();
                 parserContext.CodeWindow.ResetWindowPosition();
             }
 
-            // Get the property type
-            Type? propertyType;
-            // Find if the type implements IDictionary<TKey, TValue>
-            if (objectType.GetInterfaces()
-                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>)))
-            {
-                // Get the generic arguments (key and value types) from the implemented IDictionary interface
-                Type[] genericArguments = objectType.GetGenericArguments();
-                // Ensure dictionary keys are strings for JSON compatibility
-                if (objectType.GetGenericArguments()[0] != typeof(string))
-                {
-                    throw new NotSupportedException(
-                        $"Dictionary keys must be strings for JSON serialization at path {parserContext.ItemPath}");
-                }
-                propertyType = objectType.GetGenericArguments()[1]; // Value type
-            }
-            // Add checks for other dynamic types if supported
-            else
-            {
-                // Handle cases where the object type isn't a recognized dynamic type like Dictionary
-                throw new NotSupportedException(
-                    $"Unsupported object type '{objectType.Name}' at path '{parserContext.ItemPath}'.");
-            }
+            Type propertyType = objectType.GetPropertyElementType()
+                ?? throw new NotSupportedException($"Unable to determine element type for mapping type {objectType.Name} at path {parserContext.ItemPath}");
 
             // Set the current object in the item path to a new mapping
             parserContext.ItemPath.UpdateCurrentObject(JsonDocument.Parse("{}"));
 
             bool isCompleted = false;
-            while (!isCompleted)
+            while ( !isCompleted )
             {
                 // Use the current context (pointing to the object being built) for inference
                 parserContext.ItemPath.AddComponent(
@@ -438,13 +418,13 @@ namespace RepoTool.Helpers
                         CurrentObject = null,
                     });
                 InferenceRequest<ParserContext> selectorRequest = new() { Context = parserContext };
-                Type toolType = await ParseToolSelector(parserContext);
+                // Type toolType = await ParseToolSelector(parserContext);
                 // TODO: Might be ParseRecursively?
                 object toolItem = await _inferenceHelper
                     .GetInferenceAsync(selectorRequest)
                         ?? throw new InvalidOperationException($"Object builder selection failed at path {parserContext.ItemPath}.");
 
-                switch (toolItem)
+                switch ( toolItem )
                 {
                     case NewProperty newProperty:
                         // Update item path FOR THE RECURSIVE CALL
@@ -469,8 +449,10 @@ namespace RepoTool.Helpers
                             parserContext.ItemPath.RemoveLastComponent();
                         }
 
-                        if (parsedValue is null)
+                        if ( parsedValue is null )
+                        {
                             throw new InvalidOperationException($"Parsed value is null for property {newProperty.PropertyName} at path {parserContext.ItemPath}.");
+                        }
 
                         // Add the parsed field data to the parent object
                         JsonDocument? currentObject = parserContext.ItemPath.GetLastComponent()?.CurrentObject;
@@ -489,9 +471,9 @@ namespace RepoTool.Helpers
 
                     case EndItem endItem:
                         // Code to execute if FullContentScan is present
-                        if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
                         {
-                            if (!parserContext.CodeWindow.IsFinished)
+                            if ( !parserContext.CodeWindow.IsFinished )
                             {
                                 parserContext.ActionWindow.AddAction(
                                     new Action
@@ -504,29 +486,47 @@ namespace RepoTool.Helpers
                             }
                         }
 
-                        parserContext.ActionWindow.AddAction(
-                            new Action
-                            {
-                                IsSuccess = true,
-                                Message = $"Finished parsing object data for {objectType.Name} at path {parserContext.ItemPath.FullPath}.",
-                                ItemPath = parserContext.ItemPath.DeepClone()
-                            });
+                        switch ( endItem.TerminationReason )
+                        {
+                            case EnItemTerminationReason.Finished:
+                                parserContext.ActionWindow.AddAction(
+                                    new Action
+                                    {
+                                        IsSuccess = true,
+                                        Message = $"Finished parsing object data for {objectType.Name} at path {parserContext.ItemPath.FullPath}.",
+                                        ItemPath = parserContext.ItemPath.DeepClone()
+                                    });
+                                // Mark the object parsing as complete
+                                isCompleted = true;
+                                break;
+                            case EnItemTerminationReason.Mistake:
+                                parserContext.ActionWindow.AddAction(
+                                    new Action
+                                    {
+                                        IsSuccess = false,
+                                        Message = $"Tried to end {objectType.Name} at path {parserContext.ItemPath.FullPath} by mistake.",
+                                        ItemPath = parserContext.ItemPath.DeepClone()
+                                    });
+                                break;
+                            default:
+                                throw new NotSupportedException($"Unhandled termination reason: {endItem.TerminationReason}");
+                        }
 
-                        // Mark the object parsing as complete
-                        isCompleted = true;
                         break;
 
                     default:
                         // Handle common tools like ScrollDown
-                        if (HandleCommonTools(parserContext, toolItem))
+                        if ( HandleCommonTools(parserContext, toolItem) )
+                        {
                             break;
+                        }
 
                         // Throw on unhandled tool selection
                         throw new NotSupportedException($"Unhandled object tool selection: {toolItem} at path {parserContext.ItemPath}");
                 }
             }
 
-            if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
             {
                 parserContext.CodeWindow.PopWindow();
             }
@@ -538,10 +538,10 @@ namespace RepoTool.Helpers
         private async Task<JsonDocument> ParseIterable(
             ParserContext parserContext)
         {
-            JsonSpecialFlag jsonSpecialFlag = (parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent)?.JsonSpecialFlag
+            JsonSpecialFlag jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
                 ?? JsonSpecialFlag.None;
 
-            if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
             {
                 parserContext.CodeWindow.StashWindow();
                 parserContext.CodeWindow.ResetWindowPosition();
@@ -549,49 +549,18 @@ namespace RepoTool.Helpers
 
             // Determine the element type (element type)
             Type objectType = parserContext.ItemPath.GetLastObjectType();
-            Type? elementType = null;
-            if (objectType.IsArray)
-            {
-                elementType = objectType.GetElementType();
-            }
-            // Check common generic interfaces like IList<>, ICollection<>, IEnumerable<>
-            else if (objectType.IsGenericType)
-            {
-                // Find IEnumerable<T> interface
-                Type? iEnumerableInterface = objectType.GetInterfaces().FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-                if (iEnumerableInterface != null)
-                {
-                    elementType = iEnumerableInterface.GetGenericArguments().FirstOrDefault()
-                        ?? throw new NotSupportedException($"Unable to determine element type for IEnumerable<T> at path {parserContext.ItemPath}");
-                }
-            }
-
-            // Add checks for other collection types if needed (e.g., non-generic IList requires object type)
-            if (elementType == null)
-            {
-                // Attempt non-generic IEnumerable as a last resort? Items would be 'object'.
-                if (typeof(IEnumerable).IsAssignableFrom(objectType))
-                {
-                    // Handle non-generic collections - element type is object. This might be too permissive.
-                    elementType = typeof(object);
-                    // Or throw, as strongly-typed collections are preferred.
-                    // throw new NotSupportedException($"Cannot determine specific element type for non-generic iterable {iterableType.Name} at path {parserContext.ItemPath}. Strongly-typed collections recommended.");
-                }
-                else
-                {
-                    throw new NotSupportedException($"Unable to determine element type for iterable type {objectType.Name} at path {parserContext.ItemPath}");
-                }
-            }
+            Type? elementType = objectType.GetIterableElementType()
+                ?? throw new NotSupportedException($"Unable to determine element type for iterable type {objectType.Name} at path {parserContext.ItemPath}");
 
             JsonDocument? iterableObject = parserContext.ItemPath.GetLastComponent()?.CurrentObject;
-            if (iterableObject is null)
+            if ( iterableObject is null )
             {
                 JsonDocument emptyArray = JsonDocument.Parse("[]");
                 parserContext.ItemPath.UpdateCurrentObject(emptyArray);
             }
 
             bool isCompleted = false;
-            while (!isCompleted)
+            while ( !isCompleted )
             {
                 // Use the current context (pointing to the object being built) for inference
                 parserContext.ItemPath.AddComponent(
@@ -612,7 +581,7 @@ namespace RepoTool.Helpers
                 object toolItem = JsonHelper.DeserializeJsonDocumentToType(toolItemDocument, toolType);
                 parserContext.ItemPath.RemoveLastComponent();
 
-                switch (toolItem)
+                switch ( toolItem )
                 {
                     case NewItem newItem:
                         int itemIndex = parserContext.ItemPath.GetLastComponent()?.CurrentObject?.GetAsJsonArray().Count ??
@@ -641,8 +610,10 @@ namespace RepoTool.Helpers
                             parserContext.ItemPath.RemoveLastComponent();
                         }
 
-                        if (parsedItem is null)
+                        if ( parsedItem is null )
+                        {
                             throw new InvalidOperationException($"Parsed value is null for index {itemIndex} at path {parserContext.ItemPath}.");
+                        }
 
                         // Get current object
                         JsonDocument? currentObject = parserContext.ItemPath.GetLastComponent()?.CurrentObject;
@@ -651,8 +622,8 @@ namespace RepoTool.Helpers
                         JsonArray items = currentObject?.GetAsJsonArray()
                             ?? throw new InvalidOperationException($"Current object is null at path {parserContext.ItemPath}");
 
-                        if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.UniqueItems)
-                            && items.Any(item => item?.ToJsonString() == parsedItem.GetAsJsonNode().ToJsonString()))
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.UniqueItems)
+                            && items.Any(item => item?.ToJsonString() == parsedItem.GetAsJsonNode().ToJsonString()) )
                         {
                             parserContext.ActionWindow.AddAction(new Action
                             {
@@ -679,9 +650,9 @@ namespace RepoTool.Helpers
 
                     case EndItem endItem:
                         // Code to execute if FullContentScan is present
-                        if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
                         {
-                            if (!parserContext.CodeWindow.IsFinished)
+                            if ( !parserContext.CodeWindow.IsFinished )
                             {
                                 parserContext.ActionWindow.AddAction(
                                     new Action
@@ -694,28 +665,46 @@ namespace RepoTool.Helpers
                             }
                         }
 
-                        parserContext.ActionWindow.AddAction(
-                            new Action
-                            {
-                                IsSuccess = true,
-                                Message = $"Finished parsing iterable data for {objectType.Name} at path {parserContext.ItemPath.FullPath}.",
-                                ItemPath = parserContext.ItemPath.DeepClone()
-                            });
+                        switch ( endItem.TerminationReason )
+                        {
+                            case EnItemTerminationReason.Finished:
+                                parserContext.ActionWindow.AddAction(
+                                    new Action
+                                    {
+                                        IsSuccess = true,
+                                        Message = $"Finished parsing iterable data for {objectType.Name} at path {parserContext.ItemPath.FullPath}.",
+                                        ItemPath = parserContext.ItemPath.DeepClone()
+                                    });
+                                // Mark the object parsing as complete
+                                isCompleted = true;
+                                break;
+                            case EnItemTerminationReason.Mistake:
+                                parserContext.ActionWindow.AddAction(
+                                    new Action
+                                    {
+                                        IsSuccess = false,
+                                        Message = $"Tried to end {objectType.Name} at path {parserContext.ItemPath.FullPath} by mistake.",
+                                        ItemPath = parserContext.ItemPath.DeepClone()
+                                    });
+                                break;
+                            default:
+                                throw new NotSupportedException($"Unhandled termination reason: {endItem.TerminationReason}");
+                        }
 
-                        // Mark the iteration as complete
-                        isCompleted = true;
                         break;
 
                     default:
                         // Handle common tools
-                        if (HandleCommonTools(parserContext, toolItem))
+                        if ( HandleCommonTools(parserContext, toolItem) )
+                        {
                             break;
+                        }
 
                         throw new NotSupportedException($"Unhandled iterable tool selection: {toolItem} at path {parserContext.ItemPath}");
                 }
             }
 
-            if (jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan))
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
             {
                 parserContext.CodeWindow.PopWindow();
             }
@@ -736,17 +725,29 @@ namespace RepoTool.Helpers
             ParserContext parserContext,
             T toolItem) where T : class
         {
-            switch (toolItem)
+            switch ( toolItem )
             {
                 case ScrollDown scrollDownTool:
                     // Handle scroll down action
-                    parserContext.CodeWindow?.ScrollWindow(scrollDownTool.NumberOfLines);
-                    parserContext.ActionWindow.AddAction(new Action
+                    if ( parserContext.CodeWindow?.LinesLeft == 0 )
                     {
-                        IsSuccess = true,
-                        Message = $"Scrolled down {scrollDownTool.NumberOfLines} lines at {parserContext.ItemPath.FullPath}",
-                        ItemPath = null
-                    });
+                        parserContext.ActionWindow.AddAction(new Action
+                        {
+                            IsSuccess = false,
+                            Message = $"Cannot scroll down {scrollDownTool.NumberOfLines} lines at {parserContext.ItemPath.FullPath}, no lines left.",
+                            ItemPath = null
+                        });
+                    }
+                    else
+                    {
+                        parserContext.CodeWindow?.ScrollWindow(scrollDownTool.NumberOfLines);
+                        parserContext.ActionWindow.AddAction(new Action
+                        {
+                            IsSuccess = true,
+                            Message = $"Scrolled down {scrollDownTool.NumberOfLines} lines at {parserContext.ItemPath.FullPath}",
+                            ItemPath = null
+                        });
+                    }
                     return true;
 
                 case PageDown pageDownTool:

@@ -1,5 +1,8 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema.Generation;
-using RepoTool.Attributes;
+using RepoTool.Attributes.Parser;
 using RepoTool.Enums.Parser;
 using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Persistence.Entities.Common;

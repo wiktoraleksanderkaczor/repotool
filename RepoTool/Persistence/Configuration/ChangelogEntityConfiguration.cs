@@ -1,7 +1,12 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RepoTool.Persistence.Configuration.Common;
+using RepoTool.Persistence.Entities;
 
-namespace RepoTool.Persistence.Entities.Configuration
+namespace RepoTool.Persistence.Configuration
 {
     public class ChangelogEntityConfiguration : BaseEntityConfiguration<ChangelogEntity>
     {
@@ -35,7 +40,7 @@ namespace RepoTool.Persistence.Entities.Configuration
 
                 b.ToJson();
             });
-                
+
         }
     }
 }

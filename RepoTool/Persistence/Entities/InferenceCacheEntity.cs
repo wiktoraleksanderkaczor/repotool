@@ -1,3 +1,5 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
 
 using RepoTool.Enums.Inference;
 using RepoTool.Persistence.Entities.Common;

@@ -1,9 +1,12 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.ComponentModel;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace RepoTool.Commands
+namespace RepoTool.Terminal.Commands
 {
     public class SearchSettings : CommonSettings
     {

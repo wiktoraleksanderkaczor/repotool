@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using System.Text.Json;
 using Json.More;
@@ -25,7 +28,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             ItemPathKeyComponent keyComponent => $"[{keyComponent.Key}]",
             ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyName,
             // Tool components are not included in the path string
-            ItemPathToolComponent toolComponent => string.Empty, 
+            ItemPathToolComponent toolComponent => string.Empty,
             _ => throw new NotSupportedException("Unknown component type.")
         }));
 
@@ -38,9 +41,8 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public Type GetLastObjectType()
         {
             // Get the last component type
-            if (Components.Count > 0)
-            {
-                return Components[^1] switch
+            return Components.Count > 0
+                ? Components[^1] switch
                 {
                     ItemPathRootComponent rootComponent => rootComponent.RecordType,
                     ItemPathIndexComponent indexComponent => indexComponent.ItemType,
@@ -48,10 +50,8 @@ namespace RepoTool.Models.Inference.Contexts.Parser
                     ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyInfo.PropertyType,
                     ItemPathToolComponent toolComponent => toolComponent.ToolType,
                     _ => throw new NotSupportedException("Unknown component type.")
-                };
-            }
-
-            throw new InvalidOperationException("No components in path.");
+                }
+                : throw new InvalidOperationException("No components in path.");
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <exception cref="ArgumentException"></exception>
         public void AddComponent(ItemPathComponent component)
         {
-            if (component == null)
+            if ( component == null )
             {
                 throw new ArgumentNullException(nameof(component));
             }
@@ -79,7 +79,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public void RemoveLastComponent()
         {
             // Remove the last component
-            if (Components.Count > 0)
+            if ( Components.Count > 0 )
             {
                 // Modify the list in-place
                 Components.RemoveAt(Components.Count - 1);
@@ -90,16 +90,9 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// Get the last component object.
         /// </summary>
         /// <returns>ItemPathComponent?</returns>
-        public ItemPathComponent? GetLastComponent()
-        {
+        public ItemPathComponent? GetLastComponent() =>
             // Get the last component
-            if (Components.Count > 0)
-            {
-                return Components[^1];
-            }
-
-            return null;
-        }
+            Components.Count > 0 ? Components[^1] : null;
 
         /// <summary>
         /// Convenience to get the last component for a specific component type.
@@ -110,43 +103,30 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             where TComponent : ItemPathComponent
         {
             // Get the last component matching TComponent type
-            if (Components.Count > 0)
-            {
-                return Components.LastOrDefault(c => c is TComponent) as TComponent 
-                    ?? throw new InvalidOperationException("No component of the specified type found.");
-            }
-
-            throw new InvalidOperationException("No components in path.");
+            return Components.Count > 0
+                ? Components.LastOrDefault(c => c is TComponent) as TComponent
+                    ?? throw new InvalidOperationException("No component of the specified type found.")
+                : throw new InvalidOperationException("No components in path.");
         }
 
         /// <summary>
         /// Get the parent component object.
         /// </summary>
         /// <returns>ItemPathComponent?</returns>
-        public ItemPathComponent? GetParentComponent()
-        {
+        public ItemPathComponent? GetParentComponent() =>
             // Get the parent component for the last component
-            if (Components.Count > 0)
-            {
-                return Components[^2];
-            }
-
-            return null;
-        }
+            Components.Count > 0 ? Components[^2] : null;
 
         public JsonSpecialFlag GetJsonSpecialFlag()
         {
             // Get the special flag for the last component
-            if (Components.Count > 0)
-            {
-                return Components[^1] switch
+            return Components.Count > 0
+                ? Components[^1] switch
                 {
                     ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialFlag,
                     _ => JsonSpecialFlag.None
-                };
-            }
-
-            return JsonSpecialFlag.None;
+                }
+                : JsonSpecialFlag.None;
         }
 
         /// <summary>
@@ -156,13 +136,13 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="currentObject"/> is null.</exception>
         public void UpdateCurrentObject(JsonDocument? currentObject)
         {
-            if (currentObject == null)
+            if ( currentObject == null )
             {
                 throw new ArgumentNullException(nameof(currentObject));
             }
 
             // Update the current object for the last component
-            if (Components.Count > 0)
+            if ( Components.Count > 0 )
             {
                 Components[^1].CurrentObject = currentObject;
             }
@@ -199,7 +179,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             get => _index;
             init
             {
-                if (value < 0)
+                if ( value < 0 )
                 {
                     throw new ArgumentException("Index cannot be negative.", nameof(value));
                 }
@@ -225,7 +205,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             get => _key;
             init
             {
-                if (string.IsNullOrWhiteSpace(value))
+                if ( string.IsNullOrWhiteSpace(value) )
                 {
                     throw new ArgumentException("Key cannot be empty or whitespace.", nameof(value));
                 }
@@ -259,7 +239,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             get => _propertyName;
             init
             {
-                if (string.IsNullOrWhiteSpace(value))
+                if ( string.IsNullOrWhiteSpace(value) )
                 {
                     throw new ArgumentException("Property name cannot be empty or whitespace.", nameof(value));
                 }
@@ -290,15 +270,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// </summary>
         public required Type ToolType
         {
-            get => _toolType;
-            init
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value), "Tool type cannot be null.");
-                }
-                _toolType = value;
-            }
+            get => _toolType; init => _toolType = value ?? throw new ArgumentNullException(nameof(value), "Tool type cannot be null.");
         }
     }
 }

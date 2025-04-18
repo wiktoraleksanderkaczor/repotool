@@ -1,11 +1,14 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.ComponentModel;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using System.ComponentModel;
 
-namespace RepoTool.Commands.Language
+namespace RepoTool.Terminal.Commands.Language
 {
     public class AddLanguageSettings : CommonSettings
     {
@@ -22,10 +25,7 @@ namespace RepoTool.Commands.Language
     {
         private readonly RepoToolDbContext _dbContext;
 
-        public AddLanguageCommand(RepoToolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public AddLanguageCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
 
         public override async Task<int> ExecuteAsync(CommandContext context, AddLanguageSettings settings)
         {

@@ -1,22 +1,26 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.Data;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
+using Json.Schema;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using RepoTool.Enums.Inference;
+using RepoTool.Enums.Json;
 using RepoTool.Extensions;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts.Common;
+using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Options;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using Microsoft.Extensions.Options;
-using Spectre.Console;
-using System.Reflection;
-using System.Data;
-using System.Text.Json.Nodes;
-using Json.Schema;
-using RepoTool.Options;
-using RepoTool.Models.Inference.Contexts.Common;
-using RepoTool.Models.Inference;
-using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Providers;
 using RepoTool.Providers.Common;
-using RepoTool.Enums.Json;
+using Spectre.Console;
 
 namespace RepoTool.Helpers
 {
@@ -58,23 +62,20 @@ namespace RepoTool.Helpers
             where TOutput : class
             where TContext : notnull, InferenceContext
         {
-            if (Nullable.GetUnderlyingType(typeof(TOutput)) != null)
+            if ( Nullable.GetUnderlyingType(typeof(TOutput)) != null )
             {
                 throw new ArgumentException("Output type cannot be nullable.");
             }
-            
+
             string output = await GetInferenceAsync(inferenceRequest);
-            switch (typeof(TOutput)) 
+            return typeof(TOutput) switch
             {
-                case Type t when t == typeof(string):
-                    return output as TOutput 
-                        ?? throw new InvalidOperationException($"Failed to parse output as {typeof(TOutput).Name}.");
-                case Type t when t == typeof(JsonDocument):
-                    return JsonDocument.Parse(output) as TOutput 
-                        ?? throw new InvalidOperationException($"Failed to parse output as {typeof(TOutput).Name}.");
-                default:
-                    return JsonHelper.DeserializeJsonToType<TOutput>(output);
-            }
+                Type t when t == typeof(string) => output as TOutput
+                                        ?? throw new InvalidOperationException($"Failed to parse output as {typeof(TOutput).Name}."),
+                Type t when t == typeof(JsonDocument) => JsonDocument.Parse(output) as TOutput
+                                        ?? throw new InvalidOperationException($"Failed to parse output as {typeof(TOutput).Name}."),
+                _ => JsonHelper.DeserializeJsonToType<TOutput>(output),
+            };
         }
 
         public async Task<string> GetInferenceAsync<TContext>(InferenceRequest<TContext> inferenceRequest)
@@ -84,35 +85,50 @@ namespace RepoTool.Helpers
             Type outputType = inferenceRequest.Context.ItemPath.GetLastObjectType();
 
             // Check if TSchema is nullable
-            if (Nullable.GetUnderlyingType(outputType) != null)
+            if ( Nullable.GetUnderlyingType(outputType) != null )
             {
                 throw new ArgumentException("Output type cannot be nullable.");
             }
 
+
+
+            // Fetch inference model options for current reason
+            ModelOptions modelOptions = inferenceRequest.GetInferenceReason() switch
+            {
+                EnInferenceReason.Changelog => _options.Value.Configurations.Changelog,
+                EnInferenceReason.Summarization => _options.Value.Configurations.Summarization,
+                EnInferenceReason.Parsing => _options.Value.Configurations.Parsing,
+                _ => throw new InvalidOperationException("Model options not found.")
+            };
+
             // Get prompt output type
             string promptOutputType = outputType.FullName
                 ?? throw new ArgumentNullException(nameof(outputType), "Output type cannot be null.");
-            
+
             // Determine the type to use for schema generation
             EnOutputHandlingType outputHandlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(outputType);
 
+            // Wrap the output type if not object
             Type schemaGenerationType = outputHandlingType switch
             {
                 EnOutputHandlingType.Object => outputType,
-                _ => typeof(InferenceValueWrapper<>).MakeGenericType(outputType)
+                EnOutputHandlingType.Iterable or EnOutputHandlingType.Value => typeof(InferenceValueWrapper<>).MakeGenericType(outputType),
+                _ => throw new NotImplementedException()
             };
 
             // Create JSON Schema for response object
-            JsonSchema jsonSchema = await JsonHelper.GetOrCreateJsonSchemaAsync(schemaGenerationType);
-            string jsonSchemaJson = jsonSchema.ToJson();
+            JsonSchema jsonSchema = await JsonHelper.GetOrCreateJsonSchemaAsync(
+                schemaGenerationType,
+                modelOptions.Provider,
+                modelOptions.Schema);
 
             // Get tool item type
-            Type? toolType = (inferenceRequest.Context.ItemPath.Components.LastOrDefault(c => 
-                c is ItemPathToolComponent) as ItemPathToolComponent)?.ToolType;
+            Type? toolType = ( inferenceRequest.Context.ItemPath.Components.LastOrDefault(c =>
+                c is ItemPathToolComponent) as ItemPathToolComponent )?.ToolType;
 
             // Get property info
-            PropertyInfo? propertyInfo = (inferenceRequest.Context.ItemPath.Components.LastOrDefault(c => 
-                c is ItemPathPropertyComponent) as ItemPathPropertyComponent)?.PropertyInfo;
+            PropertyInfo? propertyInfo = ( inferenceRequest.Context.ItemPath.Components.LastOrDefault(c =>
+                c is ItemPathPropertyComponent) as ItemPathPropertyComponent )?.PropertyInfo;
 
             // Fill out data to be passed for template parsing.
             TemplateData<TContext> templateData = new()
@@ -132,12 +148,14 @@ namespace RepoTool.Helpers
             string rawMessages = TemplateHelper.FillMessageTemplateWithContext(templateData);
 
             // If raw message folder specified, save the messages.
-            if (_options.Value.Logging.RawMessageFolder != null)
+            if ( _options.Value.Logging.RawMessageFolder != null )
             {
                 string logsFolder = _options.Value.Logging.RawMessageFolder;
-                if (!Directory.Exists(logsFolder))
+                if ( !Directory.Exists(logsFolder) )
+                {
                     Directory.CreateDirectory(logsFolder);
-                
+                }
+
                 int fileCount = Directory.GetFiles(logsFolder, "*.txt").Length;
                 string logFilePath = Path.Combine(logsFolder, $"{fileCount}.txt");
                 await File.WriteAllTextAsync(logFilePath, rawMessages);
@@ -146,25 +164,17 @@ namespace RepoTool.Helpers
             // Generate a hashed prompt key
             string promptHash = rawMessages.ToSha256Hash();
 
-            // Fetch inference model options for current reason
-            ModelOptions modelOptions = inferenceRequest.GetInferenceReason() switch {
-                EnInferenceReason.Changelog => _options.Value.Configurations.Changelog,
-                EnInferenceReason.Summarization => _options.Value.Configurations.Summarization,
-                EnInferenceReason.Parsing => _options.Value.Configurations.Parsing,
-                _ => throw new InvalidOperationException("Model options not found.")
-            };
-
             // If cache used, check for existing response
-            if (modelOptions.UseCache)
+            if ( modelOptions.UseCache )
             {
                 InferenceCacheEntity? cachedEntry = await _dbContext.InferenceCache
-                    .FirstOrDefaultAsync(e => 
+                    .FirstOrDefaultAsync(e =>
                         e.PromptHash == promptHash
                         && e.InferenceProvider == modelOptions.Provider
                         && e.InferenceModel == modelOptions.Model
                         && e.OutputType == promptOutputType);
 
-                if (cachedEntry != null)
+                if ( cachedEntry != null )
                 {
                     return cachedEntry.ResponseContent;
                 }
@@ -175,26 +185,28 @@ namespace RepoTool.Helpers
             {
                 EnInferenceProvider.Ollama => new OllamaProvider(modelOptions),
                 EnInferenceProvider.OpenAI => new OpenAIProvider(modelOptions),
+                EnInferenceProvider.vLLM => new VLLMProvider(modelOptions),
+                EnInferenceProvider.HuggingFace => throw new NotImplementedException(),
                 _ => throw new InvalidOperationException("Unknown inference provider.")
             };
 
             // Parse messages into common format
             List<InferenceMessage> messages = ParseMessages(rawMessages);
-            
+
             // Get inference provider response
             string output = await inferenceProvider.GetInferenceAsync(messages, jsonSchema);
-            
+
             // Check if output is null or empty
-            if (string.IsNullOrEmpty(output))
+            if ( string.IsNullOrEmpty(output) )
             {
                 throw new InvalidOperationException("Inference output is null or empty.");
             }
 
             // Display response as JSON in console.
             output.DisplayAsJson(Color.Yellow);
-            
+
             // If caching enabled, save response
-            if (modelOptions.UseCache)
+            if ( modelOptions.UseCache )
             {
                 try
                 {
@@ -209,21 +221,21 @@ namespace RepoTool.Helpers
                     _dbContext.InferenceCache.Add(cacheEntry);
                     await _dbContext.SaveChangesAsync();
                 }
-                catch (DbUpdateException e)
+                catch ( DbUpdateException e )
                 {
                     AnsiConsole.WriteException(e);
                     AnsiConsole.WriteLine("Error saving to database.");
-                }                
+                }
             }
 
             // If needed, unwrap InferenceValueWrapper<T> to get value
-            if (outputHandlingType != EnOutputHandlingType.Object)
+            if ( outputHandlingType != EnOutputHandlingType.Object )
             {
                 // Get property name with reflection
                 string propertyName = schemaGenerationType
                     .GetProperties()
-                    .FirstOrDefault(p => 
-                        p.PropertyType == outputType)?.Name 
+                    .FirstOrDefault(p =>
+                        p.PropertyType == outputType)?.Name
                     ?? throw new InvalidOperationException($"Property of type '{outputType}' not found.");
 
                 JsonDocument jsonDocument = JsonDocument.Parse(output);
@@ -254,9 +266,8 @@ namespace RepoTool.Helpers
                 string role = match.Groups["role"].Value;
                 string message = match.Groups["message"].Value.Trim();
 
-                if (Enum.TryParse(role, out EnInferenceRole parsedRole))
-                {
-                    return parsedRole switch
+                return Enum.TryParse(role, out EnInferenceRole parsedRole)
+                    ? parsedRole switch
                     {
                         EnInferenceRole.System => new InferenceMessage()
                         {
@@ -274,10 +285,8 @@ namespace RepoTool.Helpers
                             Content = message
                         },
                         _ => throw new ArgumentOutOfRangeException(nameof(parsedRole), $"Unsupported message role: {parsedRole}"),
-                    };
-                }
-                
-                throw new ArgumentOutOfRangeException(nameof(role), $"Unsupported message role: {role}");
+                    }
+                    : throw new ArgumentOutOfRangeException(nameof(role), $"Unsupported message role: {role}");
             }).ToList();
         }
     }

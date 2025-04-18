@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Text;
 using System.Text.Json.Nodes;
 using Json.Schema;
@@ -8,16 +11,14 @@ using RepoTool.Enums.Inference;
 using RepoTool.Extensions;
 using RepoTool.Models.Inference;
 using RepoTool.Options;
+using RepoTool.Providers.Common;
 
-namespace RepoTool.Providers.Common
+namespace RepoTool.Providers
 {
     public class OllamaProvider : IInferenceProvider
     {
         private readonly ModelOptions _modelOptions;
-        public OllamaProvider(ModelOptions modelOptions)
-        {
-            _modelOptions = modelOptions;
-        }
+        public OllamaProvider(ModelOptions modelOptions) => _modelOptions = modelOptions;
 
         public async Task<string> GetInferenceAsync(
             List<InferenceMessage> messages,
@@ -30,7 +31,7 @@ namespace RepoTool.Providers.Common
                 Model = _modelOptions.Model,
                 Messages = messages.Select(m => new Message
                 {
-                    Role = m.Role switch 
+                    Role = m.Role switch
                     {
                         EnInferenceRole.User => ChatRole.User,
                         EnInferenceRole.Assistant => ChatRole.Assistant,
@@ -55,23 +56,26 @@ namespace RepoTool.Providers.Common
                 Format = JsonNode.Parse(jsonSchema.ToJson())
             };
 
-            try {
+            try
+            {
                 StringBuilder stringBuilder = new();
-                await foreach (ChatResponseStream? response in ollama.ChatAsync(chatRequest))
+                await foreach ( ChatResponseStream? response in ollama.ChatAsync(chatRequest) )
                 {
-                    if (response != null)
+                    if ( response != null )
                     {
-                        if (response.Done)
+                        if ( response.Done )
+                        {
                             break;
-                        
+                        }
+
                         stringBuilder.Append(response.Message?.Content ?? string.Empty);
                     }
                 }
 
                 // Return the accumulated response content
-                return stringBuilder.ToString(); 
+                return stringBuilder.ToString();
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 throw new InvalidOperationException("An error occurred during inference.", ex);
             }

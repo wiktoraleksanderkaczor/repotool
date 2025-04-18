@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Directives.Common;
 
 namespace RepoTool.Models.Parser.Items.Directives
@@ -23,7 +26,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required string Command { get; init; }
-        
+
         /// <summary>
         /// The arguments provided to the pragma command.
         /// </summary>
@@ -39,7 +42,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required List<string> Arguments { get; init; }
-        
+
         /// <summary>
         /// Description of what the pragma does.
         /// </summary>

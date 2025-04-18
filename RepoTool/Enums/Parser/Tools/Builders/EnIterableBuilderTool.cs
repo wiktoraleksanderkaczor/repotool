@@ -1,4 +1,7 @@
-using RepoTool.Attributes;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using RepoTool.Attributes.Parser;
 using RepoTool.Models.Parser.Tools.Builders.Common;
 using RepoTool.Models.Parser.Tools.Builders.Iterable;
 using RepoTool.Models.Parser.Tools.Navigation;
@@ -6,7 +9,7 @@ using RepoTool.Models.Parser.Tools.Navigation;
 namespace RepoTool.Enums.Parser.Tools.Builders
 {
     public enum EnIterableBuilderTool
-    {    
+    {
         /// <summary>
         /// Represents a scroll down action.
         /// </summary>

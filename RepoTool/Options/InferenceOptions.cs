@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema.Generation;
 using RepoTool.Enums.Inference;
 using RepoTool.Options.Common;
@@ -26,10 +29,10 @@ namespace RepoTool.Options
     {
         [Required]
         public ModelOptions Summarization { get; set; } = new();
-        
+
         [Required]
         public ModelOptions Parsing { get; set; } = new();
-        
+
         [Required]
         public ModelOptions Changelog { get; set; } = new();
     }
@@ -39,7 +42,12 @@ namespace RepoTool.Options
         /// <summary>
         /// The type of inference provider to use.
         /// </summary>
-        public EnInferenceProvider Provider { get; set; } = EnInferenceProvider.OpenAI;
+        public EnInferenceProvider Provider { get; set; }
+
+        /// <summary>
+        /// The type of JSON Schema to use for inference
+        /// </summary>
+        public EnInferenceSchema Schema { get; set; }
 
         /// <summary>
         /// The model to use for inference.

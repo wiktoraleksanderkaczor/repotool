@@ -1,6 +1,9 @@
-using RepoTool.Enums.Parser;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
 
-namespace RepoTool.Models.Parser.Items.Common 
+using RepoTool.Enums.Parser.Common;
+
+namespace RepoTool.Models.Parser.Items.Common
 {
     /// <summary>
     /// Represents information about a callable, such as a method or function.
@@ -22,7 +25,7 @@ namespace RepoTool.Models.Parser.Items.Common
         /// Generic parameters for the callable.
         /// </summary>
         public required List<TypeInfoDefinition>? GenericParameters { get; init; }
-        
+
         /// <summary>
         /// List of all applicable modifier flags for this callable.
         /// Apply all applicable flags for the current item.

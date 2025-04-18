@@ -1,5 +1,9 @@
-using RepoTool.Enums.Parser;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Blocks;
+using RepoTool.Enums.Parser.Tools.Blocks;
+using RepoTool.Enums.Parser.Tools.Common;
 using RepoTool.Models.Parser.Items.Blocks.Common;
 
 namespace RepoTool.Models.Parser.Items.Blocks
@@ -25,7 +29,7 @@ namespace RepoTool.Models.Parser.Items.Blocks
         /// </code>
         /// </example>
         public required string InheritedName { get; init; }
-        
+
         /// <summary>
         /// The type of inheritance (inheritance or implementation).
         /// </summary>

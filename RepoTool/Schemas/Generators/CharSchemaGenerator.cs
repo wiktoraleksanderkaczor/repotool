@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema;
 using Json.Schema.Generation;
 using Json.Schema.Generation.Generators;
@@ -7,10 +10,7 @@ namespace RepoTool.Schemas.Generators
 {
     public class CharSchemaGenerator : ISchemaGenerator
     {
-        public bool Handles(Type type)
-        {
-            return type == typeof(char);
-        }
+        public bool Handles(Type type) => type == typeof(char);
 
         public void AddConstraints(SchemaGenerationContextBase context)
         {

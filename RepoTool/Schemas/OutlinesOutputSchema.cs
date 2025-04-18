@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema;
 
 namespace RepoTool.Schemas
@@ -37,12 +40,8 @@ namespace RepoTool.Schemas
             // Allow 'type' to be a single string from allowedTypes or an array of strings from allowedTypes
             JsonSchemaBuilder typeSchema = new JsonSchemaBuilder()
                 .AnyOf(
-                    new JsonSchemaBuilder().Enum(allowedTypes),
-                    new JsonSchemaBuilder()
-                        .Type(SchemaValueType.Array)
-                        .Items(new JsonSchemaBuilder().Enum(allowedTypes))
-                        .MinItems(1)
-                        .UniqueItems(true)
+                    new JsonSchemaBuilder().Enum(allowedTypes)
+                // WARN: Arrays of types not supported, use 'anyOf' instead
                 );
 
             // Define the schema for the 'items' keyword value (can be a single schema or array of schemas)
@@ -93,21 +92,28 @@ namespace RepoTool.Schemas
                     // Outlines requires additionalProperties to be explicitly false for objects
                     ("additionalProperties", new JsonSchemaBuilder().Const(false))
                 )
-                .Required("type")
-                .AdditionalProperties(false);
+                .AdditionalProperties(false)
+                // Conditionally require 'type' only if 'anyOf' is not present
+                .AllOf(
+                    // If 'anyOf' is not present, require 'type'
+                    new JsonSchemaBuilder()
+                        .If(new JsonSchemaBuilder().Not(new JsonSchemaBuilder().Required("anyOf")))
+                        .Then(new JsonSchemaBuilder().Required("type")),
+                    // If 'type' is 'object', require 'properties', 'required', and 'additionalProperties'
+                    new JsonSchemaBuilder()
+                        .If(new JsonSchemaBuilder().Properties(("type", new JsonSchemaBuilder().Const("object"))))
+                        .Then(new JsonSchemaBuilder().Required("properties", "required", "additionalProperties"))
+                );
 
             // Add conditional logic using AllOf, If, Then, Not
             metaSchemaBuilder.AllOf(
                 // Condition 1: Root object must not be anyOf
                 new JsonSchemaBuilder()
                     .Not(new JsonSchemaBuilder().Required("anyOf")),
-                // Condition 2: If type is 'object'
+                // Condition 2: If type is 'object', enforce types for required fields
                 new JsonSchemaBuilder()
                     .If(new JsonSchemaBuilder().Properties(("type", new JsonSchemaBuilder().Const("object"))))
                     .Then(new JsonSchemaBuilder()
-                        // Then 'properties', 'required', and 'additionalProperties' are required
-                        .Required("properties", "required", "additionalProperties")
-                        // And 'properties' must be an object, 'required' an array, 'additionalProperties' false
                         .Properties(
                             ("properties", new JsonSchemaBuilder().Type(SchemaValueType.Object)),
                             ("required", new JsonSchemaBuilder().Type(SchemaValueType.Array).Items(new JsonSchemaBuilder().Type(SchemaValueType.String))),

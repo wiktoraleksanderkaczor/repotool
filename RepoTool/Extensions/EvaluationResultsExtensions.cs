@@ -1,41 +1,47 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema;
 
-public static class EvaluationResultsExtensions
+namespace RepoTool.Extensions
 {
-    public static void DisplayErrors(this List<EvaluationResults> evaluationResults)
+    public static class EvaluationResultsExtensions
     {
-        Dictionary<string, List<string>> fieldToErrorMessage = evaluationResults
-            .GroupBy(result => result.InstanceLocation.ToString())
-            .ToDictionary(
-                result => result.Key,
-                result => result.Where(x => x.Errors != null).SelectMany(x => x.Errors!).Select(x => x.Value).ToList());
-        foreach (KeyValuePair<string, List<string>> item in fieldToErrorMessage)
+        public static void DisplayErrors(this List<EvaluationResults> evaluationResults)
         {
-            Console.WriteLine(item.Key);
-            foreach (string error in item.Value)
+            Dictionary<string, List<string>> fieldToErrorMessage = evaluationResults
+                .GroupBy(result => result.InstanceLocation.ToString())
+                .ToDictionary(
+                    result => result.Key,
+                    result => result.Where(x => x.Errors != null).SelectMany(x => x.Errors!).Select(x => x.Value).ToList());
+            foreach ( KeyValuePair<string, List<string>> item in fieldToErrorMessage )
             {
-                Console.WriteLine($"\t- {error}");
+                Console.WriteLine(item.Key);
+                foreach ( string error in item.Value )
+                {
+                    Console.WriteLine($"\t- {error}");
+                }
             }
         }
-    }
 
-    public static List<EvaluationResults> GatherErrors(this EvaluationResults evaluationResults)
-    {
-        List<EvaluationResults> errors = new();
-        foreach (EvaluationResults result in evaluationResults.Details)
+        public static List<EvaluationResults> GatherErrors(this EvaluationResults evaluationResults)
         {
-            if (result.IsValid)
+            List<EvaluationResults> errors = [];
+            foreach ( EvaluationResults result in evaluationResults.Details )
             {
-                continue;
-            }
+                if ( result.IsValid )
+                {
+                    continue;
+                }
 
-            if (result.HasErrors)
-            {
-                errors.Add(result);
-            }
+                if ( result.HasErrors )
+                {
+                    errors.Add(result);
+                }
 
-            errors.AddRange(result.GatherErrors());
+                errors.AddRange(result.GatherErrors());
+            }
+            return errors;
         }
-        return errors;
     }
 }

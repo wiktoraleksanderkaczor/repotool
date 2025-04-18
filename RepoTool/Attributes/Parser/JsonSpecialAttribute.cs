@@ -1,4 +1,7 @@
-namespace RepoTool.Attributes
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Attributes.Parser
 {
     /// <summary>
     /// An attribute to indicate that the full content of the code must be scanned to answer.

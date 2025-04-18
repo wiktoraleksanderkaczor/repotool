@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Tools;
 using RepoTool.Models.Parser.Interfaces;
 

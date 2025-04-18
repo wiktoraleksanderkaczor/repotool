@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using LibGit2Sharp;
 using RepoTool.Models.Repository;
 using Spectre.Console;
@@ -9,21 +12,19 @@ namespace RepoTool.Helpers
     {
         private Repository _repository { get; init; }
 
-        public RepositoryHelper()
-        {
-            _repository = new Repository(".");
-        }
+        public RepositoryHelper() => _repository = new Repository(".");
 
         public string DownloadRepository(string url, string path = ".")
         {
-            try {
+            try
+            {
                 return Repository.Clone(url, path);
             }
-            catch (NameConflictException)
+            catch ( NameConflictException )
             {
                 return path;
             }
-            catch (Exception e)
+            catch ( Exception e )
             {
                 AnsiConsole.WriteLine($"Failed to clone repository: {e.Message}");
                 return string.Empty;
@@ -46,7 +47,7 @@ namespace RepoTool.Helpers
 
         private Tree? ResolveTreeReference(string? reference)
         {
-            if (string.IsNullOrEmpty(reference))
+            if ( string.IsNullOrEmpty(reference) )
             {
                 return null;
             }
@@ -54,7 +55,7 @@ namespace RepoTool.Helpers
             // Try as branch name first
 
             Branch? branch = _repository.Branches.FirstOrDefault(b => b.FriendlyName == reference);
-            if (branch != null)
+            if ( branch != null )
             {
                 return branch.Tip.Tree;
             }
@@ -63,12 +64,12 @@ namespace RepoTool.Helpers
             try
             {
                 Commit? commit = _repository.Lookup<Commit>(reference);
-                if (commit != null)
+                if ( commit != null )
                 {
                     return commit.Tree;
                 }
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 // Not a valid commit hash
             }
@@ -77,12 +78,12 @@ namespace RepoTool.Helpers
             try
             {
                 Tag? tag = _repository.Tags.FirstOrDefault(t => t.FriendlyName == reference);
-                if (tag != null && tag.Target is Commit tagCommit)
+                if ( tag != null && tag.Target is Commit tagCommit )
                 {
                     return tagCommit.Tree;
                 }
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 // Not a valid tag
             }
@@ -90,13 +91,7 @@ namespace RepoTool.Helpers
             return null;
         }
 
-        public async Task<string?> GetFileContentAsync(string filePath, string? reference = null) 
-        {
-            if (reference is not null)
-                return GetBlobForCommit(reference, filePath)?.GetContentText();
-            else
-                return await File.ReadAllTextAsync(filePath);
-        }
+        public async Task<string?> GetFileContentAsync(string filePath, string? reference = null) => reference is not null ? ( GetBlobForCommit(reference, filePath)?.GetContentText() ) : await File.ReadAllTextAsync(filePath);
 
         private Dictionary<string, string?> GetOriginalFileContents(List<PatchEntryChanges> changes)
         {
@@ -107,15 +102,15 @@ namespace RepoTool.Helpers
                 try
                 {
                     // TODO: Verify if additional cases need to be handled
-                    if (x.Oid is not null 
-                        && x.Status is not ChangeKind.Renamed 
+                    if ( x.Oid is not null
+                        && x.Status is not ChangeKind.Renamed
                         && x.Status is not ChangeKind.Ignored
-                        && x.Status is not ChangeKind.Untracked)
+                        && x.Status is not ChangeKind.Untracked )
                     {
                         return _repository.Lookup<Blob>(x.Oid).GetContentText();
                     }
                 }
-                catch (Exception)
+                catch ( Exception )
                 {
                     AnsiConsole.WriteLine($"Warning: Original content not found for {path}");
                 }
@@ -137,17 +132,17 @@ namespace RepoTool.Helpers
             Tree targetTree;
 
 
-            if (source == null && target == null)
+            if ( source == null && target == null )
             {
 
                 // Compare current branch to main
                 Branch mainBranch = _repository.Branches.FirstOrDefault(x => x.FriendlyName == "main")
                     ?? _repository.Branches.FirstOrDefault(x => x.FriendlyName == "master")
                     ?? throw new InvalidOperationException("Main branch not found");
-                
+
                 Branch currentBranch = _repository.Head;
 
-                if (currentBranch.FriendlyName == mainBranch.FriendlyName)
+                if ( currentBranch.FriendlyName == mainBranch.FriendlyName )
                 {
                     throw new InvalidOperationException("You are on the main branch, please switch to a feature branch");
                 }
@@ -168,8 +163,10 @@ namespace RepoTool.Helpers
         public List<SourceChange>? GetSourceChangesBetween(string? source, string? target)
         {
             List<PatchEntryChanges>? changes = GetChangesBetween(source, target);
-            if (changes == null) 
+            if ( changes == null )
+            {
                 return null;
+            }
 
             Dictionary<string, string> patches = changes.ToDictionary(x => x.Path ?? x.OldPath, x => x.Patch);
             Dictionary<string, string?> originals = GetOriginalFileContents(changes);
@@ -200,7 +197,7 @@ namespace RepoTool.Helpers
                     IsAdded = true
                 }).ToList()
                 : GetSourceChangesBetween(commit.Parents.First().Sha, commitSha);
-            
+
             return changes;
         }
 

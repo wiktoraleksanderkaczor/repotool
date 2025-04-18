@@ -1,12 +1,15 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using System.ComponentModel;
 
-namespace RepoTool.Commands.Language
+namespace RepoTool.Terminal.Commands.Language
 {
     public class RemoveLanguageSettings : CommonSettings
     {
@@ -19,14 +22,11 @@ namespace RepoTool.Commands.Language
     {
         private readonly RepoToolDbContext _dbContext;
 
-        public RemoveLanguageCommand(RepoToolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public RemoveLanguageCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
         public override async Task<int> ExecuteAsync(CommandContext context, RemoveLanguageSettings settings)
         {
             LanguageEntity? languageEntity = await _dbContext.Languages.FirstOrDefaultAsync(l => l.Name == settings.Name);
-            if (languageEntity != null)
+            if ( languageEntity != null )
             {
                 _dbContext.Languages.Remove(languageEntity);
                 await _dbContext.SaveChangesAsync();

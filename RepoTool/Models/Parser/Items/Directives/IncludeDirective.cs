@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Directives.Common;
 
 namespace RepoTool.Models.Parser.Items.Directives
@@ -23,7 +26,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required string FilePath { get; init; }
-        
+
         /// <summary>
         /// The purpose of including this file.
         /// </summary>

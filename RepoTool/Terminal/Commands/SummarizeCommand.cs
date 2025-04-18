@@ -1,13 +1,16 @@
-using Spectre.Console.Cli;
-using RepoTool.Helpers;
-using System.ComponentModel;
-using Spectre.Console;
-using RepoTool.Terminal.Commands.Common;
-using RepoTool.Models.Inference.Contexts;
-using RepoTool.Models.Inference;
-using RepoTool.Models.Inference.Contexts.Parser;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
 
-namespace RepoTool.Commands
+using System.ComponentModel;
+using RepoTool.Helpers;
+using RepoTool.Models.Inference;
+using RepoTool.Models.Inference.Contexts;
+using RepoTool.Models.Inference.Contexts.Parser;
+using RepoTool.Terminal.Commands.Common;
+using Spectre.Console;
+using Spectre.Console.Cli;
+
+namespace RepoTool.Terminal.Commands
 {
     public class SummarizeSettings : CommonSettings
     {
@@ -16,14 +19,11 @@ namespace RepoTool.Commands
         public required string FilePath { get; set; }
     }
 
-    public class SummarizeCommand : AsyncCommand<SummarizeSettings> 
+    public class SummarizeCommand : AsyncCommand<SummarizeSettings>
     {
         private readonly InferenceHelper _inferenceHelper;
 
-        public SummarizeCommand(InferenceHelper inferenceHelper)
-        {
-            _inferenceHelper = inferenceHelper;
-        }
+        public SummarizeCommand(InferenceHelper inferenceHelper) => _inferenceHelper = inferenceHelper;
 
         public override async Task<int> ExecuteAsync(CommandContext context, SummarizeSettings settings)
         {

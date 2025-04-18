@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 using RepoTool.Models.Parser.Items.Statements.Common;
@@ -11,12 +14,12 @@ namespace RepoTool.Models.Parser.Items.Statements
         /// The condition of the branching statement, which is evaluated to determine which branch to execute.
         /// </summary>
         public required ExpressionConstruct Condition { get; init; }
-        
+
         /// <summary>
         /// Ordered list of branches because order matters.
         /// </summary>
         public required List<BranchComponent> Branches { get; init; }
-        
+
         /// <summary>
         /// The default branch that is executed if no other conditions are met.
         /// </summary>

@@ -1,5 +1,8 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Json.Schema.Generation;
-using RepoTool.Attributes;
+using RepoTool.Attributes.Parser;
 
 namespace RepoTool.Models.Parser.Items.Common
 {
@@ -13,7 +16,7 @@ namespace RepoTool.Models.Parser.Items.Common
         /// Top-level docstring for the item if applicable.
         /// </summary>
         public required string? DocString { get; init; }
-        
+
         /// <summary>
         /// More specific comment for the item if applicable.
         /// </summary>

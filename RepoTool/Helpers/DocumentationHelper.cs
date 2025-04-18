@@ -1,14 +1,17 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.Reflection;
+using System.Xml.XPath;
 using Json.Schema.Generation;
 using LoxSmoke.DocXml;
 using Microsoft.Extensions.DependencyInjection;
-using RepoTool.Attributes;
+using RepoTool.Attributes.Helpers;
 using RepoTool.Constants;
 using RepoTool.Extensions;
 using RepoTool.Flags.Parser;
 using RepoTool.Models.Documentation;
 using Spectre.Console;
-using System.Reflection;
-using System.Xml.XPath;
 
 namespace RepoTool.Helpers
 {
@@ -39,7 +42,7 @@ namespace RepoTool.Helpers
                 XPathDocument xpathDoc = new(stringReader);
                 _docXmlReader = new DocXmlReader(xpathDoc);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 // Wrap the original exception for better context
                 throw new InvalidOperationException("Failed to initialize DocXmlReader from embedded resource.", ex);
@@ -59,7 +62,7 @@ namespace RepoTool.Helpers
             {
                 Type typeToDocument = type;
                 Type[]? elementTypes = null;
-                if (type.IsGenericType)
+                if ( type.IsGenericType )
                 {
                     // Handle generic types
                     elementTypes = type.GetGenericArguments();
@@ -72,7 +75,7 @@ namespace RepoTool.Helpers
                 List<StructDocumentation>? structs = GetStructMembersDocumentationModel(type);
 
                 // Get derived types only if the type is abstract or an interface
-                List<TypeDocumentation>? derivedTypes = (type.IsAbstract || type.IsInterface)
+                List<TypeDocumentation>? derivedTypes = ( type.IsAbstract || type.IsInterface )
                     ? GetAllDerivedTypesDocumentation(type, derivedTypeDepth) : null;
 
                 TypeDocumentation typeDocumentation = new()
@@ -95,7 +98,7 @@ namespace RepoTool.Helpers
 
                 return typeDocumentation;
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 // Log the exception appropriately in a real application
                 string typeIdentifier = GetTypeName(type);
@@ -116,7 +119,7 @@ namespace RepoTool.Helpers
                 PropertyName = propertyInfo.Name,
                 Handling = enumComments?.ValueComments
                     .Where(x => jsonSpecialFlag.HasFlag((JsonSpecialFlag)x.Value) && x.Value != default)
-                    .Select(x => 
+                    .Select(x =>
                         new HandlingDocumentation()
                         {
                             Name = x.Name,
@@ -142,8 +145,10 @@ namespace RepoTool.Helpers
         private List<TypeDocumentation>? GetAllDerivedTypesDocumentation(Type baseType, int derivedTypeDepth)
         {
             // Base case: if depth is 0, don't collect any derived types
-            if (derivedTypeDepth == 0)
+            if ( derivedTypeDepth == 0 )
+            {
                 return null;
+            }
 
             // Get all types that derive directly from baseType
             HashSet<Type> directDerivedTypes = GetDirectlyDerivedTypes(baseType);
@@ -152,10 +157,10 @@ namespace RepoTool.Helpers
             // Calculate the next depth level (if not unlimited)
             int nextDepthLevel = derivedTypeDepth == -1 ? -1 : derivedTypeDepth - 1;
 
-            foreach (Type derivedType in directDerivedTypes)
+            foreach ( Type derivedType in directDerivedTypes )
             {
                 // Skip the type itself if it somehow appears in the derived types list
-                if (derivedType == baseType)
+                if ( derivedType == baseType )
                 {
                     continue;
                 }
@@ -163,10 +168,10 @@ namespace RepoTool.Helpers
                 // Get documentation for this derived type without its own derived types initially
                 // This prevents infinite loops if GetTypeDocumentation were to call back immediately
                 TypeDocumentation? derivedTypeDoc = GetTypeDocumentation(derivedType, 0);
-                if (derivedTypeDoc != null)
+                if ( derivedTypeDoc != null )
                 {
                     List<TypeDocumentation>? recursiveDerived = null;
-                    if (nextDepthLevel != 0)
+                    if ( nextDepthLevel != 0 )
                     {
                         // Recursively get derived types for this type with the decremented depth,
                         // but only if we are not at the final depth level requested (nextDepthLevel != 0).
@@ -177,7 +182,7 @@ namespace RepoTool.Helpers
                     // Add the current derived type doc to the flat list
                     derivedTypeDocs.Add(derivedTypeDoc);
                     // Add all recursively found flat derived types to the current flat list
-                    if (recursiveDerived != null)
+                    if ( recursiveDerived != null )
                     {
                         derivedTypeDocs.AddRange(recursiveDerived);
                     }
@@ -200,75 +205,75 @@ namespace RepoTool.Helpers
             // Get all loaded assemblies
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (Assembly assembly in assemblies)
+            foreach ( Assembly assembly in assemblies )
             {
                 try
                 {
                     // Get all types from the assembly
                     Type[] assemblyTypes = assembly.GetTypes();
 
-                    foreach (Type type in assemblyTypes)
+                    foreach ( Type type in assemblyTypes )
                     {
                         // Skip abstract types, interfaces, and the base type itself
-                        if (type.IsAbstract || type.IsInterface || type == baseType)
+                        if ( type.IsAbstract || type.IsInterface || type == baseType )
                         {
                             continue;
                         }
 
                         // Check for class inheritance
-                        if (baseType.IsClass && type.BaseType == baseType)
+                        if ( baseType.IsClass && type.BaseType == baseType )
                         {
                             derivedTypes.Add(type);
                             continue;
                         }
 
                         // Check for direct interface implementation
-                        if (baseType.IsInterface)
+                        if ( baseType.IsInterface )
                         {
                             Type[] interfaces = type.GetInterfaces();
 
                             // Check if the type directly implements the interface
                             // and not through another interface that extends it
-                            if (interfaces.Contains(baseType) &&
+                            if ( interfaces.Contains(baseType) &&
                                 !interfaces.Any(i => i != baseType &&
-                                                      i.GetInterfaces().Contains(baseType)))
+                                                      i.GetInterfaces().Contains(baseType)) )
                             {
                                 derivedTypes.Add(type);
                             }
                         }
                     }
                 }
-                catch (ReflectionTypeLoadException ex)
+                catch ( ReflectionTypeLoadException ex )
                 {
                     // Handle or log the exception when types cannot be loaded
-                    foreach (Type? loadableType in ex.Types.Where(t => t != null))
+                    foreach ( Type? loadableType in ex.Types.Where(t => t != null) )
                     {
-                        if (loadableType == null ||
+                        if ( loadableType == null ||
                             loadableType.IsAbstract ||
                             loadableType.IsInterface ||
-                            loadableType == baseType)
+                            loadableType == baseType )
                         {
                             continue;
                         }
 
                         // Check for class inheritance
-                        if (baseType.IsClass && loadableType.BaseType == baseType)
+                        if ( baseType.IsClass && loadableType.BaseType == baseType )
                         {
                             derivedTypes.Add(loadableType);
                             continue;
                         }
 
                         // Check for direct interface implementation
-                        if (baseType.IsInterface)
+                        if ( baseType.IsInterface )
                         {
                             try
                             {
                                 Type[] interfaces = loadableType.GetInterfaces();
 
                                 // Check if the type directly implements the interface
-                                if (interfaces.Contains(baseType) &&
+                                if ( interfaces.Contains(baseType) &&
                                     !interfaces.Any(i => i != baseType &&
-                                                         i.GetInterfaces().Contains(baseType)))
+                                                         i.GetInterfaces().Contains(baseType)) )
                                 {
                                     derivedTypes.Add(loadableType);
                                 }
@@ -281,7 +286,7 @@ namespace RepoTool.Helpers
                         }
                     }
                 }
-                catch (Exception)
+                catch ( Exception )
                 {
                     // Silently continue if an assembly cannot be processed
                     continue;
@@ -304,10 +309,10 @@ namespace RepoTool.Helpers
                                        .OrderBy(m => m.Name) // Ensure consistent order
                                        .ToArray();
 
-            foreach (MemberInfo member in members)
+            foreach ( MemberInfo member in members )
             {
                 MemberDocumentation? memberDoc = GetMemberDocumentationModel(member);
-                if (memberDoc != null)
+                if ( memberDoc != null )
                 {
                     memberDocs.Add(memberDoc);
                 }
@@ -330,14 +335,14 @@ namespace RepoTool.Helpers
                                        .ToArray();
 
             List<StructDocumentation> structDocs = [];
-            foreach (MemberInfo member in members)
+            foreach ( MemberInfo member in members )
             {
                 CommonComments? comments = _docXmlReader.GetMemberComments(member);
 
                 // Handle property itself being an enum
-                if (member is PropertyInfo propertyInfo)
+                if ( member is PropertyInfo propertyInfo )
                 {
-                    if (propertyInfo.PropertyType.IsEnum)
+                    if ( propertyInfo.PropertyType.IsEnum )
                     {
                         StructDocumentation structDoc = new()
                         {
@@ -352,11 +357,11 @@ namespace RepoTool.Helpers
 
                     // Handle generic arguments for something like List<Enum>
                     Type[] genericArguments = propertyInfo.PropertyType.GetGenericArguments();
-                    if (genericArguments.Length > 0)
+                    if ( genericArguments.Length > 0 )
                     {
-                        foreach (Type genericArgument in genericArguments)
+                        foreach ( Type genericArgument in genericArguments )
                         {
-                            if (genericArgument.IsEnum)
+                            if ( genericArgument.IsEnum )
                             {
                                 StructDocumentation structDoc = new()
                                 {
@@ -385,7 +390,7 @@ namespace RepoTool.Helpers
             string? memberTypeName = GetMemberTypeName(member);
 
             // Ensure it's a field or property
-            if (memberTypeName == null)
+            if ( memberTypeName == null )
             {
                 return null;
             }
@@ -394,13 +399,13 @@ namespace RepoTool.Helpers
             string? memberValue = null;
 
             // Check if the member is a literal field (constant) and belongs to an enum type
-            if (member is FieldInfo fieldInfo
+            if ( member is FieldInfo fieldInfo
                 && fieldInfo.IsLiteral
                 && !fieldInfo.IsInitOnly
                 && fieldInfo.DeclaringType != null
-                && fieldInfo.DeclaringType.IsEnum)
+                && fieldInfo.DeclaringType.IsEnum )
             {
-                if (fieldInfo.Name == "value__") // Filter out backing field
+                if ( fieldInfo.Name == "value__" ) // Filter out backing field
                 {
                     return null;
                 }
@@ -429,7 +434,7 @@ namespace RepoTool.Helpers
         private static string GetTypeName(Type type)
         {
             // Handle generic types gracefully
-            if (type.IsGenericType)
+            if ( type.IsGenericType )
             {
                 string genericArgs = string.Join(", ", type.GetGenericArguments().Select(GetTypeName));
                 // Use FullName for nested type handling, then remove backtick info
@@ -461,7 +466,7 @@ namespace RepoTool.Helpers
         /// <returns>A list of full type names that the specified type derives from</returns>
         private static List<string>? GetTypeInheritance(Type type)
         {
-            if (type == null)
+            if ( type == null )
             {
                 return null;
             }
@@ -469,7 +474,7 @@ namespace RepoTool.Helpers
             List<string> derivesFrom = [];
 
             // Add base class if it's not Object (which is the implicit base class for all classes)
-            if (type.BaseType != null && type.BaseType != typeof(object))
+            if ( type.BaseType != null && type.BaseType != typeof(object) )
             {
                 derivesFrom.Add(GetTypeName(type.BaseType));
             }
@@ -480,18 +485,18 @@ namespace RepoTool.Helpers
                 .ToArray();
 
             // Add directly implemented interfaces
-            foreach (Type interfaceType in interfaces)
+            foreach ( Type interfaceType in interfaces )
             {
                 // Check if this is a directly implemented interface
                 // (not inherited through the base class or other interfaces)
                 bool isDirectlyImplemented = true;
 
                 // For classes, check if the interface is implemented by the base class
-                if (type.BaseType != null)
+                if ( type.BaseType != null )
                 {
-                    foreach (Type baseInterfaceType in type.BaseType.GetInterfaces())
+                    foreach ( Type baseInterfaceType in type.BaseType.GetInterfaces() )
                     {
-                        if (baseInterfaceType == interfaceType)
+                        if ( baseInterfaceType == interfaceType )
                         {
                             isDirectlyImplemented = false;
                             break;
@@ -500,22 +505,22 @@ namespace RepoTool.Helpers
                 }
 
                 // For interfaces, check if the interface is extended by another implemented interface
-                if (type.IsInterface && isDirectlyImplemented)
+                if ( type.IsInterface && isDirectlyImplemented )
                 {
-                    foreach (Type otherInterface in type.GetInterfaces())
+                    foreach ( Type otherInterface in type.GetInterfaces() )
                     {
-                        if (otherInterface != interfaceType)
+                        if ( otherInterface != interfaceType )
                         {
-                            foreach (Type extendedInterface in otherInterface.GetInterfaces())
+                            foreach ( Type extendedInterface in otherInterface.GetInterfaces() )
                             {
-                                if (extendedInterface == interfaceType)
+                                if ( extendedInterface == interfaceType )
                                 {
                                     isDirectlyImplemented = false;
                                     break;
                                 }
                             }
 
-                            if (!isDirectlyImplemented)
+                            if ( !isDirectlyImplemented )
                             {
                                 break;
                             }
@@ -523,7 +528,7 @@ namespace RepoTool.Helpers
                     }
                 }
 
-                if (isDirectlyImplemented)
+                if ( isDirectlyImplemented )
                 {
                     derivesFrom.Add(GetTypeName(interfaceType));
                 }

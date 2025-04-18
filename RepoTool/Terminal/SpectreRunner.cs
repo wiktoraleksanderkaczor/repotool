@@ -1,11 +1,13 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RepoTool.Commands;
-using RepoTool.Commands.Cache;
-using RepoTool.Commands.Index;
-using RepoTool.Commands.Language;
-using RepoTool.Commands.Language.Available;
 using RepoTool.Terminal.Commands;
+using RepoTool.Terminal.Commands.Cache;
+using RepoTool.Terminal.Commands.Index;
+using RepoTool.Terminal.Commands.Language;
+using RepoTool.Terminal.Commands.Language.Available;
 using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
@@ -16,7 +18,7 @@ namespace RepoTool.Terminal
         {
             TypeRegistrar? registrar = null;
             hostBuilder
-                .ConfigureServices(services => 
+                .ConfigureServices(services =>
                 {
                     services.AddSingleton(hostBuilder);
 
@@ -24,8 +26,10 @@ namespace RepoTool.Terminal
                 })
                 .Build();
 
-            if (registrar is null)
+            if ( registrar is null )
+            {
                 throw new InvalidOperationException("TypeRegistrar is not initialized.");
+            }
 
             CommandApp<DefaultCommand> app = new(registrar);
 

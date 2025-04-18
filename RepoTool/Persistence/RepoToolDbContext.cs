@@ -1,7 +1,10 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.EntityFrameworkCore;
 using RepoTool.Persistence.Entities;
 
-namespace RepoTool.Persistence 
+namespace RepoTool.Persistence
 {
     public class RepoToolDbContext : DbContext
     {

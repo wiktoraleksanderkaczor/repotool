@@ -1,6 +1,9 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.Text;
 using RepoTool.Enums.Changelog;
 using RepoTool.Persistence.Entities.Common;
-using System.Text;
 
 namespace RepoTool.Persistence.Entities
 {
@@ -10,7 +13,7 @@ namespace RepoTool.Persistence.Entities
         /// Description of the change
         /// </summary>
         public required string Description { get; set; }
-        
+
         /// <summary>
         /// Reason for the change
         /// </summary>
@@ -54,7 +57,7 @@ namespace RepoTool.Persistence.Entities
         /// <summary>
         /// Size of a change in a commit, rated against best-practice commit size
         /// </summary>
-        public required EnChangeSize Size { get; set; } 
+        public required EnChangeSize Size { get; set; }
 
         public string FormatChange()
         {
@@ -73,18 +76,21 @@ namespace RepoTool.Persistence.Entities
                 EnChangeQuality.Acceptable => "(✔️ Acceptable)",
                 EnChangeQuality.Good => "(✓ Good)",
                 EnChangeQuality.Excellent => "(⭐ Excellent)",
+                EnChangeQuality.VeryPoor => "(❌ Very Poor)",
+                EnChangeQuality.Outstanding => "(🌟 Outstanding)",
                 _ => ""
             };
 
             StringBuilder formatted = new();
-            formatted.AppendLine($"- {Description}");
-            formatted.AppendLine($"  - Importance: {importanceLabel}");
-            formatted.AppendLine($"  - Quality: {qualityLabel}");
-            formatted.AppendLine($"  - Area: {Area}");
-            formatted.AppendLine($"  - Type: {Type}");
-            formatted.AppendLine($"  - Specialization: {Specialization}");
-            formatted.AppendLine($"  - Technical Debt: {TechnicalDebt}");
-            formatted.AppendLine($"  - Performance Impact: {PerformanceImpact}");
+            _ = formatted
+                .AppendLine($"- {Description}")
+                .AppendLine($"  - Importance: {importanceLabel}")
+                .AppendLine($"  - Quality: {qualityLabel}")
+                .AppendLine($"  - Area: {Area}")
+                .AppendLine($"  - Type: {Type}")
+                .AppendLine($"  - Specialization: {Specialization}")
+                .AppendLine($"  - Technical Debt: {TechnicalDebt}")
+                .AppendLine($"  - Performance Impact: {PerformanceImpact}");
 
             return formatted.ToString();
         }
@@ -96,22 +102,22 @@ namespace RepoTool.Persistence.Entities
         /// List of changes in a commit
         /// </summary>
         public required List<Change> Changes { get; init; }
-        
+
         /// <summary>
         /// Description of the commit, terms of new features, bug fixes, etc.
         /// </summary>
         public required string Description { get; init; }
-        
+
         /// <summary>
         /// Reason for the commit, terms of new features, bug fixes, etc.
         /// </summary>
         public required string Reason { get; init; }
 
-        public string FormatChanges() 
+        public string FormatChanges()
         {
             StringBuilder formatted = new();
             formatted.AppendLine("Changelog:");
-            foreach (Change change in Changes)
+            foreach ( Change change in Changes )
             {
                 formatted.AppendLine(change.FormatChange());
             }

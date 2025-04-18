@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Enums.Inference
 {
     /// <summary>
@@ -18,6 +21,11 @@ namespace RepoTool.Enums.Inference
         /// <summary>
         /// Use vLLM (Outlines) for inference.
         /// </summary>
-        Outlines
+        vLLM,
+
+        /// <summary>
+        /// Use HuggingFace (TGI) for inference.
+        /// </summary>
+        HuggingFace
     }
 }

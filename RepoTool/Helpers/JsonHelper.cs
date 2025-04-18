@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -30,7 +33,7 @@ namespace RepoTool.Helpers
             UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
             // Nulls included by default when deserializing
             WriteIndented = true,
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver()
         };
 
         public static SchemaGeneratorConfiguration DefaultSchemaGeneratorConfiguration { get; } = new()
@@ -48,22 +51,21 @@ namespace RepoTool.Helpers
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
         /// <returns>A JSON string representation of the object.</returns>
-        public static string SerializeToJson(object obj)
-        {
+        public static string SerializeToJson(object obj) =>
             // Use System.Text.Json for serializing the object
-            return JsonSerializer.Serialize(obj, DefaultJsonSerializerOptions);
-        }
+            JsonSerializer.Serialize(obj, DefaultJsonSerializerOptions);
 
         /// <summary>
         /// Gets the JsonSchema object for the specified type, creating and caching it if necessary.
         /// </summary>
         /// <param name="type">The type for which to get the schema object.</param>
         /// <param name="provider">Optional inference provider for schema generation.</param>
+        /// <param name="schema">Optional schema type for generation.</param>
         /// <returns>A task representing the asynchronous operation, containing the <see cref="JsonSchema"/> object.</returns>
-        public static async Task<JsonSchema> GetOrCreateJsonSchemaAsync(Type type, EnInferenceProvider? provider = null)
+        public static async Task<JsonSchema> GetOrCreateJsonSchemaAsync(Type type, EnInferenceProvider? provider = null, EnInferenceSchema? schema = null)
         {
             // Create schemas directory if it doesn't exist
-            if (!Directory.Exists(PathConstants.UserRepoToolSchemaFolder))
+            if ( !Directory.Exists(PathConstants.UserRepoToolSchemaFolder) )
             {
                 Directory.CreateDirectory(PathConstants.UserRepoToolSchemaFolder);
             }
@@ -72,7 +74,7 @@ namespace RepoTool.Helpers
             string typeHash = ComputeTypeHash(type);
             string schemaPath = Path.Combine(PathConstants.UserRepoToolSchemaFolder, $"schema-{typeHash}.json");
 
-            #if !DEBUG
+#if !DEBUG
             // Check if schema file exists
             if (File.Exists(schemaPath))
             {
@@ -95,43 +97,53 @@ namespace RepoTool.Helpers
                     try { File.Delete(schemaPath); } catch { /* Ignore delete error */ }
                 }
             }
-            #endif
+#endif
 
             // Generate new schema using JsonSchema.Net.Generation
-            JsonSchema? outputSchema = provider switch {
-                EnInferenceProvider.OpenAI => OpenAIOutputSchema.BuildSchema(),
-                EnInferenceProvider.Ollama => OllamaOutputSchema.BuildSchema(),
-                EnInferenceProvider.vLLM => OutlinesOutputSchema.BuildSchema(),
-                EnInferenceProvider.HuggingFace => OutlinesOutputSchema.BuildSchema(),
+            JsonSchema? outputSchema = schema switch
+            {
+                EnInferenceSchema.Ollama => OllamaOutputSchema.BuildSchema(),
+                EnInferenceSchema.OpenAI => OpenAIOutputSchema.BuildSchema(),
+                EnInferenceSchema.Outlines => OutlinesOutputSchema.BuildSchema(),
+                EnInferenceSchema.LMFormatEnforcer => null,
                 _ => null
             };
 
             SchemaGeneratorConfiguration config = DefaultSchemaGeneratorConfiguration.DeepClone();
-            switch (provider)
+            switch ( schema )
             {
-                case EnInferenceProvider.Ollama:
-                    break;
-                case EnInferenceProvider.OpenAI:
-                case EnInferenceProvider.vLLM:
-                case EnInferenceProvider.HuggingFace:
+                case EnInferenceSchema.Ollama:
                     config.Refiners.Add(new EnumTypeRefiner());
                     break;
+                case EnInferenceSchema.OpenAI:
+                    config.Refiners.Add(new EnumTypeRefiner());
+                    break;
+                case EnInferenceSchema.Outlines:
+                    config.Refiners.Add(new EnumTypeRefiner());
+                    config.Refiners.Add(new MultipleTypesRefiner());
+                    break;
+                case EnInferenceSchema.LMFormatEnforcer:
+                    config.Refiners.Add(new EnumTypeRefiner());
+                    config.Refiners.Add(new MultipleTypesRefiner());
+                    break;
+                default:
+                    throw new ArgumentException($"Unsupported schema type: {schema}");
             }
 
             JsonSchema? generatedSchema = null;
             try
             {
                 JsonSchemaBuilder schemaBuilder = new();
-                if (outputSchema is not null)
+                if ( outputSchema is not null )
                 {
                     SchemaRegistry.Global.Register(outputSchema);
                     schemaBuilder = schemaBuilder.Schema(outputSchema.BaseUri);
                 }
                 schemaBuilder = schemaBuilder.FromType(type, config);
-                
+
                 generatedSchema = schemaBuilder.Build();
                 generatedSchema = generatedSchema.InlineReferences();
-                if (outputSchema is not null)
+                if ( outputSchema is not null )
                 {
                     generatedSchema = generatedSchema.TrimUnsupported(outputSchema);
                     // generatedSchema = generatedSchema.RemoveSchemaKey();
@@ -140,11 +152,10 @@ namespace RepoTool.Helpers
                 // DEBUG: Show the generated schema
                 // generatedSchema.ToJson().DisplayAsJson(Color.BlueViolet);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 Console.WriteLine($"Error: Failed to generate schema for {type.Name}. Error: {ex.Message}"); // Use logger
                 throw;
-                // Optionally re-throw or handle the error appropriately
             }
 
             // Save schema to cache
@@ -155,7 +166,7 @@ namespace RepoTool.Helpers
                 await File.WriteAllTextAsync(schemaPath, schemaJsonOutput);
                 // Console.WriteLine($"Saved schema to {schemaPath}"); // Use logger
             }
-            catch (Exception)
+            catch ( Exception )
             {
                 // Console.WriteLine($"Error: Failed to save schema to {schemaPath}. Error: {ex.Message}"); // Use logger
                 // Optionally re-throw or handle the error appropriately
@@ -177,8 +188,8 @@ namespace RepoTool.Helpers
             sb.Append(type.FullName);
 
             // Include all public instance properties, ordered by name
-            foreach (PropertyInfo property in type.GetProperties(TypeConstants.DefaultBindingFlags)
-                .OrderBy(p => p.Name)) // Ensure consistent ordering
+            foreach ( PropertyInfo property in type.GetProperties(TypeConstants.DefaultBindingFlags)
+                .OrderBy(p => p.Name) ) // Ensure consistent ordering
             {
                 sb.Append(property.Name);
                 sb.Append(property.PropertyType.FullName);
@@ -186,10 +197,10 @@ namespace RepoTool.Helpers
             }
 
             // Include public nested types, ordered by name
-            if (type.IsClass || type.IsValueType)
+            if ( type.IsClass || type.IsValueType )
             {
-                foreach (Type nestedType in type.GetNestedTypes(TypeConstants.DefaultBindingFlags)
-                    .OrderBy(t => t.Name))
+                foreach ( Type nestedType in type.GetNestedTypes(TypeConstants.DefaultBindingFlags)
+                    .OrderBy(t => t.Name) )
                 {
                     // Recursively compute hash for nested types
                     sb.Append(ComputeTypeHash(nestedType));
@@ -249,28 +260,13 @@ namespace RepoTool.Helpers
             JsonSchema schema = await GetOrCreateJsonSchemaAsync(type);
             SchemaValueType? schemaValueType = schema.GetJsonType();
 
-            if (schemaValueType != null)
+            if ( schemaValueType != null )
             {
-                switch (schemaValueType)
-                {
-                    case SchemaValueType.Object:
-                        return EnOutputHandlingType.Object;
-                    case SchemaValueType.Array:
-                        return EnOutputHandlingType.Iterable;
-                    // All primitive JSON types map to Value
-                    case SchemaValueType.Boolean:
-                    case SchemaValueType.String:
-                    case SchemaValueType.Number:
-                    case SchemaValueType.Integer:
-                    case SchemaValueType.Null: // Consider if Null should be handled differently
-                        return EnOutputHandlingType.Value;
-                    default:
-                        throw new InvalidOperationException($"Unknown '{schemaValueType}' SchemaValueType encountered.");
-                }
+                return schemaValueType.Value.GetOutputHandlingType();
             }
-            
+
             // Fallback checks if 'type' keyword is missing
-            if (schema.TryGetKeyword<EnumKeyword>(EnumKeyword.Name, out _))
+            if ( schema.TryGetKeyword<EnumKeyword>(EnumKeyword.Name, out _) )
             {
                 // Schemas defined by 'enum' represent a fixed set of values.
                 return EnOutputHandlingType.Value;

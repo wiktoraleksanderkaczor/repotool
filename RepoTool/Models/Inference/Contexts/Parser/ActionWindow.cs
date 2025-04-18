@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Models.Inference.Contexts.Parser
 {
     public record ActionWindow
@@ -26,12 +29,12 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         private List<Action>? CalculateWindow()
         {
             // Validate the window size
-            if (WindowSize < 1)
+            if ( WindowSize < 1 )
             {
                 throw new ArgumentOutOfRangeException(nameof(WindowSize), "Window size must be at least 1.");
             }
             // Ensure the Actions list is not null or empty
-            if (Actions == null || Actions.Count == 0)
+            if ( Actions == null || Actions.Count == 0 )
             {
                 return null;
             }
@@ -47,7 +50,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <exception cref="ArgumentOutOfRangeException">Thrown if WindowSize is less than 1.</exception>
         public ActionWindow()
         {
-            if (WindowSize < 1)
+            if ( WindowSize < 1 )
             {
                 throw new ArgumentOutOfRangeException(nameof(WindowSize), "Window size must be at least 1.");
             }
@@ -62,7 +65,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public void ResizeWindow(int newWindowSize)
         {
             // Validate the new window size
-            if (newWindowSize < 1)
+            if ( newWindowSize < 1 )
             {
                 throw new ArgumentOutOfRangeException(nameof(newWindowSize), "Window size must be at least 1.");
             }
@@ -80,7 +83,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public void AddAction(Action action)
         {
             // Validate the action
-            if (action == null)
+            if ( action == null )
             {
                 throw new ArgumentNullException(nameof(action), "Action cannot be null.");
             }

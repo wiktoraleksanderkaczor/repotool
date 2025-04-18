@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
@@ -24,12 +27,12 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public string? Name { get; init; }
-        
+
         /// <summary>
         /// The constructs contained within this region.
         /// </summary>
         public required List<Construct> Constructs { get; init; }
-        
+
         /// <summary>
         /// Describes the purpose of this region in the code.
         /// </summary>

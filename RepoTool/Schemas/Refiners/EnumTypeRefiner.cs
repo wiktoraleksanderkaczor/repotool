@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Text.Json.Nodes;
 using Json.Schema;
 using Json.Schema.Generation;
@@ -17,11 +20,9 @@ namespace RepoTool.Schemas.Refiners
         /// </summary>
         /// <param name="context">The schema generation context.</param>
         /// <returns>True if the context type is an enum, false otherwise.</returns>
-        public bool ShouldRun(SchemaGenerationContextBase context)
-        {
+        public bool ShouldRun(SchemaGenerationContextBase context) =>
             // This refiner should only act on types that are explicitly enums.
-            return context.Type.IsEnum;
-        }
+            context.Type.IsEnum && !context.Intents.OfType<TypeIntent>().Any();
 
         /// <summary>
         /// Modifies the schema generation intents for an enum type.
@@ -40,7 +41,7 @@ namespace RepoTool.Schemas.Refiners
             // Determine the base type (string) and handle nullability.
             SchemaValueType type = SchemaValueType.String;
             Type? underlyingType = Nullable.GetUnderlyingType(context.Type);
-            if (underlyingType != null)
+            if ( underlyingType != null )
             {
                 // If it's a nullable enum (e.g., MyEnum?), allow null in the schema type.
                 type |= SchemaValueType.Null;

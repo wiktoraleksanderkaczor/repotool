@@ -1,4 +1,7 @@
-namespace RepoTool.Enums.Parser.Items.Directives 
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Enums.Parser.Items.Directives
 {
     /// <summary>
     /// Represents flags for line preprocessor directive modifiers (hidden, default).
@@ -14,7 +17,7 @@ namespace RepoTool.Enums.Parser.Items.Directives
         /// Represents the #line hidden directive.
         /// </summary>
         Hidden,
-        
+
         /// <summary>
         /// Represents the #line default directive.
         /// </summary>

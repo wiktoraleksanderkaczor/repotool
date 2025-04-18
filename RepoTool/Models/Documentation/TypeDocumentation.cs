@@ -1,3 +1,8 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using RepoTool.Models.Documentation.Common;
+
 namespace RepoTool.Models.Documentation
 {
     /// <summary>
@@ -56,7 +61,7 @@ namespace RepoTool.Models.Documentation
         /// Generic type parameters for the type, if any.
         /// </summary>
         public required List<TypeDocumentation>? Generics { get; set; }
-        
+
         /// <summary>
         /// List of documentation for types that derive from this type.
         /// This is populated only for abstract classes and interfaces.

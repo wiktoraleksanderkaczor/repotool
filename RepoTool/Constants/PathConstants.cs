@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Constants
 {
     /// <summary>
@@ -62,13 +65,15 @@ namespace RepoTool.Constants
         {
             // Prefer DOTNET_ENVIRONMENT, fall back to ASPNETCORE_ENVIRONMENT
             string? environmentName = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-            
+
             // Use environment-specific file unless it's null, empty, or "Production"
             string settingsFileName = "settings.json";
-            if (!string.IsNullOrEmpty(environmentName) 
-                && !environmentName.Equals("Production", StringComparison.OrdinalIgnoreCase))
+            if ( !string.IsNullOrEmpty(environmentName)
+                && !environmentName.Equals("Production", StringComparison.OrdinalIgnoreCase) )
+            {
                 settingsFileName = $"settings.{environmentName}.json";
-            
+            }
+
             return Path.Combine(RepoToolFolder, settingsFileName);
         }
     }

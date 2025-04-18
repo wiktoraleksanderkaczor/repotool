@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Models.Inference.Contexts.Parser
 {
     /// <summary>
@@ -62,7 +65,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public CodeWindow()
         {
             // Validate window size during initialization phase
-            if (WindowSize < 1)
+            if ( WindowSize < 1 )
             {
                 throw new ArgumentOutOfRangeException(nameof(WindowSize), "Window size must be at least 1.");
             }
@@ -77,7 +80,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public void ResizeWindow(int newWindowSize)
         {
             // Validate the new window size
-            if (newWindowSize < 1)
+            if ( newWindowSize < 1 )
             {
                 throw new ArgumentOutOfRangeException(nameof(newWindowSize), "Window size must be at least 1.");
             }
@@ -90,17 +93,33 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// Advances the code window view by a specified number of lines in-place.
         /// Modifies the current instance.
         /// </summary>
-        /// <param name="linesToScroll">The number of lines to advance the window start.</param>
-        public void ScrollWindow(int linesToScroll)
+        /// <param name="linesToScroll">The number of lines to advance the window start. Must be positive.</param>
+        /// <returns>True if the window was scrolled successfully; false otherwise (e.g., invalid input or already at the end).</returns>
+        public bool ScrollWindow(int linesToScroll)
         {
+            // Validate input
+            if ( linesToScroll <= 0 )
+            {
+                return false;
+            }
+
             string[] fileLines = FileContent.Split(Environment.NewLine, StringSplitOptions.None);
             int totalLines = fileLines.Length;
+            int originalStartLine = StartLine;
 
             // Calculate the new start line, clamping it within the valid range [1, totalLines].
             int newStartLine = Math.Clamp(StartLine + linesToScroll, 1, totalLines);
 
+            // Check if scrolling actually changed the position
+            if ( newStartLine == originalStartLine )
+            {
+                // Already at the end or beginning (if scrolling backwards was allowed)
+                return false;
+            }
+
             // Modify the StartLine property of the current instance in-place.
             StartLine = newStartLine;
+            return true;
         }
 
         /// <summary>
@@ -112,7 +131,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public void PageWindow(int overlapLines)
         {
             // Validate the overlap lines
-            if (overlapLines < 0)
+            if ( overlapLines < 0 )
             {
                 throw new ArgumentOutOfRangeException(nameof(overlapLines), "Overlap lines must be at least 0.");
             }
@@ -131,11 +150,9 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// Resets the code window to the beginning of the file.
         /// Modifies the current instance.
         /// </summary>
-        public void ResetWindowPosition()
-        {
+        public void ResetWindowPosition() =>
             // Reset the StartLine to 1
             StartLine = 1;
-        }
 
         /// <summary>
         /// Calculates the content for a code window as a list of code lines.
@@ -150,12 +167,12 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         {
             // This check is technically redundant due to the constructor validation,
             // but good practice for a static helper method.
-            if (windowSize < 10)
+            if ( windowSize < 10 )
             {
                 throw new ArgumentOutOfRangeException(nameof(windowSize), "Window size must be at least 10.");
             }
 
-            if (string.IsNullOrEmpty(fileContent))
+            if ( string.IsNullOrEmpty(fileContent) )
             {
                 return [];
             }
@@ -173,7 +190,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             int windowEndIndex = Math.Clamp(windowStartIndex + windowSize - 1, 0, totalLines - 1);
 
             // Ensure start index is not greater than end index (can happen if windowSize is large and startLine is near the end).
-            if (windowStartIndex > windowEndIndex)
+            if ( windowStartIndex > windowEndIndex )
             {
                 // This case should only happen if totalLines is 0, which is handled by the IsNullOrEmpty check earlier.
                 // Or if clampedStartLine is beyond the last line index after clamping, which shouldn't occur with Math.Clamp.
@@ -182,7 +199,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             }
 
             List<CodeLine> windowContentList = [];
-            for (int i = windowStartIndex; i <= windowEndIndex; i++)
+            for ( int i = windowStartIndex; i <= windowEndIndex; i++ )
             {
                 // Create a CodeLine object for the current line
                 CodeLine codeLine = new()
@@ -213,7 +230,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// </summary>
         public void PopWindow()
         {
-            if (StashedWindows.Count == 0)
+            if ( StashedWindows.Count == 0 )
             {
                 throw new InvalidOperationException("No stashed windows to pop.");
             }

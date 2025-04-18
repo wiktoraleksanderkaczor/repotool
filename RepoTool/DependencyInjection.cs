@@ -1,11 +1,14 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using RepoTool.Persistence;
-using RepoTool.Constants;
-using Microsoft.Extensions.Hosting;
-using RepoTool.Extensions;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
-using RepoTool.Attributes;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using RepoTool.Attributes.Helpers;
+using RepoTool.Constants;
+using RepoTool.Extensions;
+using RepoTool.Persistence;
 
 namespace RepoTool
 {
@@ -19,11 +22,9 @@ namespace RepoTool
             ConfigureJsonSchemaVocabularies();
         }
 
-        private static void ConfigureOptions(HostBuilderContext context, IServiceCollection services)
-        {
+        private static void ConfigureOptions(HostBuilderContext context, IServiceCollection services) =>
             // Add options for the configuration implementing IOptionModel
             services.AddOptionModelsWithValidation(context.Configuration);
-        }
 
         private static void ConfigureDatabase(IServiceCollection services)
         {
@@ -42,7 +43,7 @@ namespace RepoTool
                     && type.Name.EndsWith("Helper"))
                 .ToList();
 
-            foreach (Type type in helpers)
+            foreach ( Type type in helpers )
             {
                 ServiceLifetimeAttribute? serviceLifetimeAttribute = type
                     .GetCustomAttribute(typeof(ServiceLifetimeAttribute))
@@ -52,18 +53,13 @@ namespace RepoTool
                 ServiceLifetime lifetime = serviceLifetimeAttribute?.ServiceLifetime ?? ServiceLifetime.Transient;
 
                 // Register the helper type itself
-                switch(lifetime)
+                services = lifetime switch
                 {
-                    case ServiceLifetime.Singleton:
-                        services.AddSingleton(type);
-                        break;
-                    case ServiceLifetime.Scoped:
-                        services.AddScoped(type);
-                        break;
-                    case ServiceLifetime.Transient:
-                        services.AddTransient(type);
-                        break;
-                }
+                    ServiceLifetime.Singleton => services.AddSingleton(type),
+                    ServiceLifetime.Scoped => services.AddScoped(type),
+                    ServiceLifetime.Transient => services.AddTransient(type),
+                    _ => throw new ArgumentOutOfRangeException(nameof(lifetime), lifetime, "Invalid service lifetime specified."),
+                };
 
                 // TODO: Register the Lazy<T> version of the helper
                 // Type lazyType = typeof(Lazy<>).MakeGenericType(type);
@@ -85,9 +81,6 @@ namespace RepoTool
             }
         }
 
-        private static void ConfigureJsonSchemaVocabularies()
-        {
-            Json.Schema.OpenApi.Vocabularies.Register();
-        }
-    }   
+        private static void ConfigureJsonSchemaVocabularies() => Json.Schema.OpenApi.Vocabularies.Register();
+    }
 }

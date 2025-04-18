@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Statements;
 using RepoTool.Models.Parser.Items.Statements.Common;
 
@@ -41,7 +44,7 @@ namespace RepoTool.Models.Parser.Items.Statements
         /// </code>
         /// </example>
         public required string? FilePath { get; init; }
-        
+
         /// <summary>
         /// List of imports or using directives by expression, represented as structured information.
         /// </summary>

@@ -1,8 +1,13 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.Json;
+using RepoTool.Persistence.Configuration.Common;
+using RepoTool.Persistence.Entities;
 
-namespace RepoTool.Persistence.Entities.Configuration
+namespace RepoTool.Persistence.Configuration
 {
     public class ParsedFileEntityConfiguration : BaseEntityConfiguration<ParsedFileEntity>
     {
@@ -40,11 +45,7 @@ namespace RepoTool.Persistence.Entities.Configuration
 
         private static ParsedData DeserializeParsedData(string json)
         {
-            ParsedData? entity = JsonSerializer.Deserialize<ParsedData>(json, (JsonSerializerOptions?)null);
-            if (entity == null)
-            {
-                throw new InvalidOperationException("Failed to deserialize ParsedData.");
-            }
+            ParsedData? entity = JsonSerializer.Deserialize<ParsedData>(json, (JsonSerializerOptions?)null) ?? throw new InvalidOperationException("Failed to deserialize ParsedData.");
             return entity;
         }
     }

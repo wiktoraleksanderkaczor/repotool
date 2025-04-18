@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -9,7 +12,7 @@ namespace RepoTool.Persistence
         {
             string currentDirectory = Directory.GetCurrentDirectory();
             string dbPath = Path.Combine(currentDirectory, ".repotool", "database.db");
-            if (!File.Exists(dbPath))
+            if ( !File.Exists(dbPath) )
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(dbPath) ?? throw new InvalidOperationException());
                 File.Create(dbPath);

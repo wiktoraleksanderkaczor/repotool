@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.ComponentModel;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +12,7 @@ using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace RepoTool.Commands.Language.Available
+namespace RepoTool.Terminal.Commands.Language.Available
 {
     public class AddAvailableLanguageSettings : CommonSettings
     {
@@ -21,11 +24,8 @@ namespace RepoTool.Commands.Language.Available
     public class AddAvailableLanguageCommand : AsyncCommand<AddAvailableLanguageSettings>
     {
         private readonly RepoToolDbContext _dbContext;
-        
-        public AddAvailableLanguageCommand(RepoToolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+
+        public AddAvailableLanguageCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
 
         public override async Task<int> ExecuteAsync(CommandContext context, AddAvailableLanguageSettings settings)
         {
@@ -33,7 +33,7 @@ namespace RepoTool.Commands.Language.Available
             JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
             List<LanguageEntry> languages = JsonSerializer.Deserialize<List<LanguageEntry>>(languagesJson, options)
                 ?? throw new Exception("Failed to deserialize languages JSON.");
-            if (string.IsNullOrEmpty(settings.Name) || !languages.Any(l => l.Name.Equals(settings.Name, StringComparison.OrdinalIgnoreCase)))
+            if ( string.IsNullOrEmpty(settings.Name) || !languages.Any(l => l.Name.Equals(settings.Name, StringComparison.OrdinalIgnoreCase)) )
             {
                 throw new ArgumentOutOfRangeException(nameof(settings.Name), "Invalid language name.");
             }
@@ -41,12 +41,12 @@ namespace RepoTool.Commands.Language.Available
 
             LanguageEntity? existingLanguage = await _dbContext.Languages
                 .FirstOrDefaultAsync(l => l.Name == language.Name);
-            if (existingLanguage != null)
+            if ( existingLanguage != null )
             {
                 AnsiConsole.WriteLine($"Language '{language.Name}' already exists.");
                 return 0;
             }
-            
+
             AnsiConsole.WriteLine($"Adding language '{language.Name}'.");
             LanguageEntity languageEntity = new()
             {

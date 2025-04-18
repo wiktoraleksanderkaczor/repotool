@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Security.Cryptography;
 using System.Text;
 using Spectre.Console;
@@ -18,18 +21,16 @@ namespace RepoTool.Extensions
         /// <exception cref="ArgumentNullException">Thrown if the input string is null.</exception>
         public static string ToSha256Hash(this string input)
         {
-            if (input is null)
+            if ( input is null )
             {
                 throw new ArgumentNullException(nameof(input));
             }
 
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-                byte[] hashBytes = sha256.ComputeHash(inputBytes);
-                string hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
-                return hashString;
-            }
+            using SHA256 sha256 = SHA256.Create();
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+            byte[] hashBytes = sha256.ComputeHash(inputBytes);
+            string hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            return hashString;
         }
 
         public static void DisplayAsJson(this string json, Color color)
@@ -44,7 +45,7 @@ namespace RepoTool.Extensions
                         .RoundedBorder()
                         .BorderColor(color));
             }
-            catch (InvalidOperationException)
+            catch ( InvalidOperationException )
             {
                 AnsiConsole.WriteLine("The output is not a valid JSON.");
                 AnsiConsole.Write(

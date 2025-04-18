@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Directives;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
@@ -23,7 +26,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public int? DirectiveLineNumber { get; init; }
-        
+
         /// <summary>
         /// The file path specified in the directive, if applicable.
         /// </summary>

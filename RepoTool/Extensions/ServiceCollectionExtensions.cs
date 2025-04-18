@@ -1,7 +1,10 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RepoTool.Options.Common;
-using System.Reflection;
 
 namespace RepoTool.Extensions
 {
@@ -34,12 +37,12 @@ namespace RepoTool.Extensions
             // Find types implementing IOptionModel in the calling assembly
             IEnumerable<Type> optionModelTypes = callingAssembly
                 .GetTypes()
-                .Where(t => 
-                    t is { IsClass: true, IsAbstract: false } 
+                .Where(t =>
+                    t is { IsClass: true, IsAbstract: false }
                     && t.IsAssignableTo(typeof(IOptionModel)))
                 .Distinct();
 
-            foreach (Type modelType in optionModelTypes)
+            foreach ( Type modelType in optionModelTypes )
             {
                 try
                 {
@@ -62,7 +65,7 @@ namespace RepoTool.Extensions
                     // Invoke RegisterAndValidateOption<modelType>(services, configSection).
                     genericRegisterMethod.Invoke(null, [services, configSection]);
                 }
-                catch (Exception ex) when (ex is not InvalidOperationException) // Catch reflection/invocation issues, but let InvalidOperationExceptions propagate
+                catch ( Exception ex ) when ( ex is not InvalidOperationException ) // Catch reflection/invocation issues, but let InvalidOperationExceptions propagate
                 {
                     // Wrap the original exception for clarity if needed, or simply rethrow.
                     // Since logging is removed, rethrowing is crucial for visibility.

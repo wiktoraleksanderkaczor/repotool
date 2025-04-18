@@ -1,5 +1,8 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Text;
-using RepoTool.Enums.Parser;
+using RepoTool.Enums.Parser.Common;
 
 /// <summary>
 /// Represents information about a type definition.
@@ -102,7 +105,7 @@ public record TypeInfoComponent
     /// <summary>
     /// Generic constraint information.
     /// </summary>
-     /// <example>
+    /// <example>
     /// <code>
     /// where T : class
     /// </code>
@@ -134,16 +137,16 @@ public record TypeInfoComponent
     public string GetUniqueName()
     {
         StringBuilder sb = new();
-        if (FullyQualifiedPath != null)
+        if ( FullyQualifiedPath != null )
         {
-            foreach (string scope in FullyQualifiedPath)
+            foreach ( string scope in FullyQualifiedPath )
             {
                 sb.Append(scope);
                 sb.Append('.');
             }
         }
 
-        if (TypeName != null)
+        if ( TypeName != null )
         {
             sb.Append(TypeName);
         }
@@ -154,15 +157,15 @@ public record TypeInfoComponent
     private string GetGenericArgumentString()
     {
         StringBuilder sb = new();
-        if (GenericArguments != null && GenericArguments.Count > 0)
+        if ( GenericArguments != null && GenericArguments.Count > 0 )
         {
             sb.Append('<');
-            if (GenericArguments.Count > 0)
+            if ( GenericArguments.Count > 0 )
             {
                 bool first = true;
-                foreach (TypeInfoDefinition genericArgument in GenericArguments)
+                foreach ( TypeInfoDefinition genericArgument in GenericArguments )
                 {
-                    if (!first)
+                    if ( !first )
                     {
                         sb.Append(", ");
                     }

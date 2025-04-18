@@ -1,10 +1,13 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.ComponentModel;
 using RepoTool.Helpers;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace RepoTool.Commands
+namespace RepoTool.Terminal.Commands
 {
     public class ParseSettings : CommonSettings
     {
@@ -21,10 +24,7 @@ namespace RepoTool.Commands
     {
         private readonly ParserHelper _parserHelper;
 
-        public ParseCommand(ParserHelper parserHelper)
-        {
-            _parserHelper = parserHelper;
-        }
+        public ParseCommand(ParserHelper parserHelper) => _parserHelper = parserHelper;
 
         public override async Task<int> ExecuteAsync(CommandContext context, ParseSettings settings)
         {

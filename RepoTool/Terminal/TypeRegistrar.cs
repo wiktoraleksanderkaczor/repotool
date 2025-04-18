@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
@@ -7,29 +10,17 @@ namespace RepoTool.Terminal
     {
         private readonly IServiceCollection _builder;
 
-        public TypeRegistrar(IServiceCollection builder)
-        {
-            _builder = builder;
-        }
+        public TypeRegistrar(IServiceCollection builder) => _builder = builder;
 
-        public ITypeResolver Build()
-        {
-            return new TypeResolver(_builder.BuildServiceProvider());
-        }
+        public ITypeResolver Build() => new TypeResolver(_builder.BuildServiceProvider());
 
-        public void Register(Type service, Type implementation)
-        {
-            _builder.AddSingleton(service, implementation);
-        }
+        public void Register(Type service, Type implementation) => _builder.AddSingleton(service, implementation);
 
-        public void RegisterInstance(Type service, object implementation)
-        {
-            _builder.AddSingleton(service, implementation);
-        }
+        public void RegisterInstance(Type service, object implementation) => _builder.AddSingleton(service, implementation);
 
         public void RegisterLazy(Type service, Func<object> func)
         {
-            if (func is null)
+            if ( func is null )
             {
                 throw new ArgumentNullException(nameof(func));
             }

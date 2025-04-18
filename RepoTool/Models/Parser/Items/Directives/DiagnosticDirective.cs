@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Directives;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
@@ -24,7 +27,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required string Message { get; init; }
-        
+
         /// <summary>
         /// The code associated with the diagnostic, if any.
         /// </summary>
@@ -40,7 +43,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public string? Code { get; init; }
-        
+
         /// <summary>
         /// The severity level of the diagnostic.
         /// </summary>

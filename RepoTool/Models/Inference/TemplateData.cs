@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Documentation;
 using RepoTool.Models.Inference.Contexts.Common;
 
@@ -9,7 +12,7 @@ namespace RepoTool.Models.Inference
         /// The inference request plus context.
         /// </summary>
         public required InferenceRequest<T> Request { get; init; }
-        
+
         /// <summary>
         /// Output and related type documentation.
         /// </summary>
@@ -35,7 +38,7 @@ namespace RepoTool.Models.Inference
         /// <summary>
         /// The JSON schema to be used for inference.
         /// </summary>
-        public required string JsonSchema { get; init;}
+        public required string JsonSchema { get; init; }
 
         /// <summary>
         /// Output type documentation.

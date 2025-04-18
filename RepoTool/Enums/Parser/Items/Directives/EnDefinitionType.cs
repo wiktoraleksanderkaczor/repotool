@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Enums.Parser.Items.Directives
 {
     /// <summary>
@@ -9,7 +12,7 @@ namespace RepoTool.Enums.Parser.Items.Directives
         /// Represents a #define directive.
         /// </summary>
         Define,
-        
+
         /// <summary>
         /// Represents an #undef directive.
         /// </summary>

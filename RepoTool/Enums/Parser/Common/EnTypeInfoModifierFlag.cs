@@ -1,4 +1,7 @@
-namespace RepoTool.Enums.Parser
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Enums.Parser.Common
 {
     public enum EnTypeInfoModifierFlag
     {
@@ -6,22 +9,22 @@ namespace RepoTool.Enums.Parser
         /// Indicates that the type is nullable
         /// </summary>
         Nullable,
-        
+
         /// <summary>
         /// Indicates that the type is generic
         /// </summary>
         Generic,
-        
+
         /// <summary>
         /// Indicates that the type is a primitive type
         /// </summary>
         Primitive,
-        
+
         /// <summary>
         /// Indicates that the type is dynamically typed
         /// </summary>
         Dynamic,
-        
+
         /// <summary>
         /// Indicates that the type is pointer
         /// </summary>

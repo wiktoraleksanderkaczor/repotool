@@ -1,4 +1,7 @@
-namespace RepoTool.Enums.Parser
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Enums.Parser.Tools.Common
 {
     public enum EnInheritanceModifierFlag
     {
@@ -6,12 +9,12 @@ namespace RepoTool.Enums.Parser
         /// Indicates that the inheritance is abstract and cannot be instantiated
         /// </summary>
         Abstract,
-        
+
         /// <summary>
         /// Indicates that a item is static and cannot be instantiated
         /// </summary>
         Static,
-        
+
         /// <summary>
         /// Indicates that a item cannot be inherited from
         /// </summary>

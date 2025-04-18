@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 namespace RepoTool.Enums.Parser
 {
     /// <summary>
@@ -20,7 +23,7 @@ namespace RepoTool.Enums.Parser
         /// Procedural programming paradigm.
         /// </summary>
         Procedural,
-        
+
         /// <summary>
         /// Declarative programming paradigm.
         /// </summary>
@@ -35,7 +38,7 @@ namespace RepoTool.Enums.Parser
         /// Concurrent programming paradigm.
         /// </summary>
         Concurrent,
-        
+
         /// <summary>
         /// Symbolic programming paradigm
         /// </summary>

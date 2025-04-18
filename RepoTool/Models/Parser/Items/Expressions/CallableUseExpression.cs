@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Expressions;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
@@ -53,7 +56,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
         /// </code>
         /// </example>
         public required List<TypeInfoDefinition>? GenericParameters { get; init; }
-        
+
         /// <summary>
         /// Return type of the callable, might be necessary for overloaded callables.
         /// </summary>

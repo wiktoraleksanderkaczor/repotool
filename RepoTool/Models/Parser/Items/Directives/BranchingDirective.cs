@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
@@ -18,13 +21,13 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// }
         /// </code>
         /// </example>
-        public required string Condition { get;init; }
+        public required string Condition { get; init; }
 
         /// <summary>
         /// The default condition if nothing else matches for the branch
         /// </summary>
         public required List<Construct>? Default { get; init; }
-        
+
         /// <summary>
         /// Ordered list of branches because order matters.
         /// </summary>
@@ -44,7 +47,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required string Condition { get; init; }
-        
+
         /// <summary>
         /// Contents of the branch.
         /// </summary>

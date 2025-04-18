@@ -451,9 +451,14 @@
             Use OpenAI for inference.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.Outlines">
+        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.vLLM">
             <summary>
             Use vLLM (Outlines) for inference.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceProvider.HuggingFace">
+            <summary>
+            Use HuggingFace (TGI) for inference.
             </summary>
         </member>
         <member name="T:RepoTool.Enums.Inference.EnInferenceReason">
@@ -494,6 +499,31 @@
         <member name="F:RepoTool.Enums.Inference.EnInferenceRole.Assistant">
             <summary>
             Represents the assistant.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Inference.EnInferenceSchema">
+            <summary>
+            Represents the JSON schema type to use for structured inference
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceSchema.Ollama">
+            <summary>
+            Use Ollama.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceSchema.OpenAI">
+            <summary>
+            Use OpenAI.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceSchema.Outlines">
+            <summary>
+            Use Outlines.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceSchema.LMFormatEnforcer">
+            <summary>
+            Use LM-Format-Enforcer
             </summary>
         </member>
         <member name="T:RepoTool.Enums.Parser.EnCallableModifierFlag">
@@ -1736,45 +1766,55 @@
             Represents a null type.
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Schemas.EnOpenAiType">
+        <member name="T:RepoTool.Enums.Schemas.EnOpenAIType">
             <summary>
             Enum representing the allowed data types in OpenAI output schema.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.String">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.String">
             <summary>
             Represents a string type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Number">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Number">
             <summary>
             Represents a numeric (floating-point) type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Integer">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Integer">
             <summary>
             Represents an integer type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Boolean">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Boolean">
             <summary>
             Represents a boolean type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Array">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Array">
             <summary>
             Represents an array type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Object">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Object">
             <summary>
             Represents an object type.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAiType.Null">
+        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Null">
             <summary>
             Represents a null type.
             </summary>
+        </member>
+        <member name="M:RepoTool.Extensions.EnumExtensions.GetFlags``1(``0)">
+            <summary>
+            Gets a list of individual flags that are set in an enum value.
+            </summary>
+            <typeparam name="T">The enum type.</typeparam>
+            <param name="value">The enum value.</param>
+            <returns>A list of set flags.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if value is null.</exception>
+            <exception cref="T:System.ArgumentException">Thrown if T is not an enum type.</exception>
         </member>
         <member name="T:RepoTool.Extensions.JsonDocumentExtensions">
             <summary>
@@ -2001,6 +2041,14 @@
             <param name="type">The type to check.</param>
             <returns><c>true</c> if the type's namespace starts with "RepoTool"; otherwise, <c>false</c>.</returns>
         </member>
+        <member name="M:RepoTool.Extensions.TypeExtensions.GetIterableElementType(System.Type)">
+            <summary>
+            Gets the element type of a collection type. If the type is not a collection, it throws an exception.
+            </summary>
+            <param name="objectType">The type to get the element type from.</param>
+            <returns>The element type of the collection.</returns>
+            <exception cref="T:System.NotSupportedException">Thrown if the type is not a recognized collection type.</exception>
+        </member>
         <member name="T:RepoTool.Flags.Parser.JsonSpecialFlag">
             <summary>
             Defines special flags for JSON schema generation related to properties.
@@ -2148,12 +2196,13 @@
             <param name="obj">The object to serialize.</param>
             <returns>A JSON string representation of the object.</returns>
         </member>
-        <member name="M:RepoTool.Helpers.JsonHelper.GetOrCreateJsonSchemaAsync(System.Type,System.Nullable{RepoTool.Enums.Inference.EnInferenceProvider})">
+        <member name="M:RepoTool.Helpers.JsonHelper.GetOrCreateJsonSchemaAsync(System.Type,System.Nullable{RepoTool.Enums.Inference.EnInferenceProvider},System.Nullable{RepoTool.Enums.Inference.EnInferenceSchema})">
             <summary>
             Gets the JsonSchema object for the specified type, creating and caching it if necessary.
             </summary>
             <param name="type">The type for which to get the schema object.</param>
             <param name="provider">Optional inference provider for schema generation.</param>
+            <param name="schema">Optional schema type for generation.</param>
             <returns>A task representing the asynchronous operation, containing the <see cref="T:Json.Schema.JsonSchema"/> object.</returns>
         </member>
         <member name="M:RepoTool.Helpers.JsonHelper.ComputeTypeHash(System.Type)">
@@ -2475,7 +2524,8 @@
             Advances the code window view by a specified number of lines in-place.
             Modifies the current instance.
             </summary>
-            <param name="linesToScroll">The number of lines to advance the window start.</param>
+            <param name="linesToScroll">The number of lines to advance the window start. Must be positive.</param>
+            <returns>True if the window was scrolled successfully; false otherwise (e.g., invalid input or already at the end).</returns>
         </member>
         <member name="M:RepoTool.Models.Inference.Contexts.Parser.CodeWindow.PageWindow(System.Int32)">
             <summary>
@@ -4957,6 +5007,11 @@
             The type of inference provider to use.
             </summary>
         </member>
+        <member name="P:RepoTool.Options.ModelOptions.Schema">
+            <summary>
+            The type of JSON Schema to use for inference
+            </summary>
+        </member>
         <member name="P:RepoTool.Options.ModelOptions.Model">
             <summary>
             The model to use for inference.
@@ -5194,7 +5249,7 @@
             </summary>
             <returns>A <see cref="T:Json.Schema.JsonSchema"/> instance representing the Ollama meta-schema.</returns>
         </member>
-        <member name="T:RepoTool.Schemas.OpenAiOutputSchema">
+        <member name="T:RepoTool.Schemas.OpenAIOutputSchema">
             <summary>
             Provides functionality to build the JSON Meta-Schema that validates schemas intended for OpenAI Structured Outputs.
             This meta-schema defines the structure and constraints that a JSON schema must adhere to
@@ -5202,14 +5257,14 @@
             It reflects the capabilities and limitations documented for OpenAI's schema processing.
             </summary>
         </member>
-        <member name="M:RepoTool.Schemas.OpenAiOutputSchema.CreateSchemaBuilder">
+        <member name="M:RepoTool.Schemas.OpenAIOutputSchema.CreateSchemaBuilder">
             <summary>
             Creates and configures a <see cref="T:Json.Schema.JsonSchemaBuilder"/> for the OpenAI meta-schema.
             This builder defines the structure and constraints of a schema compatible with OpenAI Structured Outputs.
             </summary>
             <returns>A configured <see cref="T:Json.Schema.JsonSchemaBuilder"/> instance representing the OpenAI meta-schema.</returns>
         </member>
-        <member name="M:RepoTool.Schemas.OpenAiOutputSchema.BuildSchema">
+        <member name="M:RepoTool.Schemas.OpenAIOutputSchema.BuildSchema">
             <summary>
             Builds the JSON Meta-Schema that defines and validates schemas intended for OpenAI Structured Outputs.
             This schema ensures any provided schema conforms to OpenAI's supported structure and constraints.
@@ -5261,6 +5316,32 @@
             </summary>
             <param name="context">The schema generation context.</param>
             TODO: Change to not clear all intents first
+        </member>
+        <member name="T:RepoTool.Schemas.Refiners.MultipleTypesRefiner">
+            <summary>
+            Refines the schema generation process for types that can represent multiple JSON types
+            (e.g., string | number, or int? which is integer | null).
+            It replaces the default <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/> with an <see cref="T:Json.Schema.Generation.Intents.AnyOfIntent"/>
+            containing individual <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/>s for each possible JSON type.
+            </summary>
+        </member>
+        <member name="M:RepoTool.Schemas.Refiners.MultipleTypesRefiner.ShouldRun(Json.Schema.Generation.SchemaGenerationContextBase)">
+            <summary>
+            Determines whether this refiner should run based on the generation context.
+            Runs only if the context contains a <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/> indicating multiple possible JSON types.
+            </summary>
+            <param name="context">The schema generation context.</param>
+            <returns>
+            True if the context contains a <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/> with multiple type flags set, false otherwise.
+            </returns>
+        </member>
+        <member name="M:RepoTool.Schemas.Refiners.MultipleTypesRefiner.Run(Json.Schema.Generation.SchemaGenerationContextBase)">
+            <summary>
+            Modifies the schema generation intents for properties representing multiple JSON types.
+            Replaces the original <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/> with an <see cref="T:Json.Schema.Generation.Intents.AnyOfIntent"/>
+            containing a separate <see cref="T:Json.Schema.Generation.Intents.TypeIntent"/> for each possible JSON type.
+            </summary>
+            <param name="context">The schema generation context.</param>
         </member>
         <member name="M:RepoTool.Terminal.CommandInterceptor.Intercept(Spectre.Console.Cli.CommandContext,Spectre.Console.Cli.CommandSettings)">
             <param name="context">The command context.</param>

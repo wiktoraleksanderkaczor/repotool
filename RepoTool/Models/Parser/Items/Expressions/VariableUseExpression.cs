@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
 namespace RepoTool.Models.Parser.Items.Expressions
@@ -61,7 +64,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
         /// </code>
         /// </example>
         public required string Value { get; init; }
-        
+
         /// <summary>
         /// The type information for this component.
         /// </summary>

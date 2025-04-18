@@ -1,13 +1,16 @@
-﻿using Spectre.Console;
-using Microsoft.Extensions.Hosting;
-using RepoTool.Constants;
+﻿// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RepoTool.Constants;
 using RepoTool.Terminal;
+using Spectre.Console;
 
 namespace RepoTool
 {
-    class Program
+    internal class Program
     {
         public static async Task<int> Main(string[] args)
         {
@@ -22,12 +25,12 @@ namespace RepoTool
                     .UseConsoleLifetime()
                     .ConfigureAppConfiguration((context, config) =>
                     {
-                        if (Directory.Exists(PathConstants.RepoToolFolder))
+                        if ( Directory.Exists(PathConstants.RepoToolFolder) )
                         {
                             config.SetBasePath(PathConstants.RepoToolFolder);
 
                             // Load configuration from settings.json
-                            if (context.HostingEnvironment.IsDevelopment())
+                            if ( context.HostingEnvironment.IsDevelopment() )
                             {
                                 config.AddJsonFile("settings.Development.json", optional: true, reloadOnChange: true);
                             }
@@ -54,7 +57,7 @@ namespace RepoTool
 
                 return await builder.RunSpectreCommands(args);
             }
-            catch (Exception ex)
+            catch ( Exception ex )
             {
                 AnsiConsole.WriteException(ex);
                 return 1;

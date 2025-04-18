@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using RepoTool.Constants;
 
@@ -7,13 +10,13 @@ namespace RepoTool.Helpers
     {
         public static string GetParserLanguagesJson()
         {
-            return GetResourceContent(ResourceConstants.ParserLanguages) 
+            return GetResourceContent(ResourceConstants.ParserLanguages)
                 ?? throw new FileNotFoundException("Parser languages JSON file not found.");
         }
 
         public static string GetModelDocumentation()
         {
-            return GetResourceContent(ResourceConstants.ModelDocumentation) 
+            return GetResourceContent(ResourceConstants.ModelDocumentation)
                 ?? throw new FileNotFoundException("Model documentation file not found.");
         }
 
@@ -25,7 +28,7 @@ namespace RepoTool.Helpers
         public static string? GetResourceContent(string path)
         {
             string filePath = Path.Combine(PathConstants.UserRepoToolFolder, path);
-            if (File.Exists(filePath))
+            if ( File.Exists(filePath) )
             {
                 return File.ReadAllText(filePath);
             }
@@ -35,17 +38,15 @@ namespace RepoTool.Helpers
                 string? resourceName = assembly.GetManifestResourceNames()
                     .FirstOrDefault(name => name.Contains(path));
 
-                if (resourceName == null)
+                if ( resourceName == null )
                 {
                     return null;
                 }
                 else
                 {
-                    using (Stream stream = assembly.GetManifestResourceStream(resourceName)!)
-                    using (StreamReader reader = new(stream))
-                    {
-                        return reader.ReadToEnd();
-                    }
+                    using Stream stream = assembly.GetManifestResourceStream(resourceName)!;
+                    using StreamReader reader = new(stream);
+                    return reader.ReadToEnd();
                 }
             }
         }
@@ -57,7 +58,7 @@ namespace RepoTool.Helpers
         public static List<string> GetTemplateResourceNames()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            
+
             List<string> resourceNames = assembly
                 .GetManifestResourceNames()
                 .Where(r => r.EndsWith(".sbn"))

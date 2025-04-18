@@ -1,4 +1,7 @@
-namespace RepoTool.Models.Documentation
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Models.Documentation.Common
 {
     public abstract record BaseDocumentation
     {

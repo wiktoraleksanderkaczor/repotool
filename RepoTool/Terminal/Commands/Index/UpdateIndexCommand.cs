@@ -1,3 +1,7 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using System.ComponentModel;
 using RepoTool.Helpers;
 using RepoTool.Models.Inference;
 using RepoTool.Models.Inference.Contexts;
@@ -7,9 +11,8 @@ using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console.Cli;
-using System.ComponentModel;
 
-namespace RepoTool.Commands.Index
+namespace RepoTool.Terminal.Commands.Index
 {
     public class UpdateIndexSettings : CommonSettings
     {
@@ -33,17 +36,18 @@ namespace RepoTool.Commands.Index
 
         public override async Task<int> ExecuteAsync(CommandContext context, UpdateIndexSettings settings)
         {
-            if (settings.Commit != null)
+            if ( settings.Commit != null )
             {
                 List<SourceChange>? sourceChanges = _repositoryHelper.GetSourceChangesForCommit(settings.Commit);
 
-                if (sourceChanges != null && sourceChanges.Count != 0)
+                if ( sourceChanges != null && sourceChanges.Count != 0 )
                 {
                     InferenceRequest<ChangelogContext> inferenceRequest = new()
                     {
                         Context = new ChangelogContext
                         {
-                            ItemPath = new ItemPath() {
+                            ItemPath = new ItemPath()
+                            {
                                 Components = [
                                     new ItemPathToolComponent() {
                                         ToolType = typeof(ChangelogEntity),
@@ -57,7 +61,7 @@ namespace RepoTool.Commands.Index
 
                     ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest);
 
-                    if (changelog != null)
+                    if ( changelog != null )
                     {
                         _dbContext.Changelogs.Add(changelog);
                         await _dbContext.SaveChangesAsync();
@@ -68,18 +72,19 @@ namespace RepoTool.Commands.Index
             {
                 List<string> singleParentCommits = _repositoryHelper.GetSingleParentCommits();
                 // For each pair of commits, generate a changelog
-                for (int i = 0; i < singleParentCommits.Count - 1; i++)
+                for ( int i = 0; i < singleParentCommits.Count - 1; i++ )
                 {
                     List<SourceChange>? sourceChanges = _repositoryHelper.GetSourceChangesBetween(
                         singleParentCommits[i], singleParentCommits[i + 1]);
 
-                    if (sourceChanges != null && sourceChanges.Count != 0)
+                    if ( sourceChanges != null && sourceChanges.Count != 0 )
                     {
                         InferenceRequest<ChangelogContext> inferenceRequest = new()
                         {
                             Context = new ChangelogContext
                             {
-                                ItemPath = new ItemPath() {
+                                ItemPath = new ItemPath()
+                                {
                                     Components = [
                                         new ItemPathToolComponent() {
                                             ToolType = typeof(ChangelogEntity),
@@ -93,7 +98,7 @@ namespace RepoTool.Commands.Index
 
                         ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest);
 
-                        if (changelog != null)
+                        if ( changelog != null )
                         {
                             _dbContext.Changelogs.Add(changelog);
                             await _dbContext.SaveChangesAsync();

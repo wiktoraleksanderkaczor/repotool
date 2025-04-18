@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Enums.Parser.Items.Directives;
 using RepoTool.Models.Parser.Items.Directives.Common;
 
@@ -23,7 +26,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required string Symbol { get; init; }
-        
+
         /// <summary>
         /// The type of definition directive.
         /// </summary>
@@ -39,7 +42,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public required EnDefinitionType DefinitionType { get; init; }
-        
+
         /// <summary>
         /// The value assigned to the symbol if applicable (for #define with value).
         /// </summary>
@@ -55,7 +58,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// </code>
         /// </example>
         public string? Value { get; init; }
-        
+
         /// <summary>
         /// The purpose of this symbol definition.
         /// </summary>

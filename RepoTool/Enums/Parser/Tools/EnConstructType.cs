@@ -1,4 +1,7 @@
-using RepoTool.Attributes;
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+using RepoTool.Attributes.Parser;
 using RepoTool.Models.Parser.Tools.Builders.Common;
 using RepoTool.Models.Parser.Tools.Navigation;
 using RepoTool.Models.Parser.Tools.Selectors;
@@ -21,7 +24,7 @@ namespace RepoTool.Enums.Parser.Tools
         /// </summary>
         [ToolChoice(typeof(DirectiveSelector))]
         PreprocessorDirective,
-        
+
         /// <summary>
         /// Represents the start of a named block of code
         /// </summary>

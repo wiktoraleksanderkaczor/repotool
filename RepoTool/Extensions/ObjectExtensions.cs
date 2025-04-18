@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Helpers;
 
 namespace RepoTool.Extensions
@@ -12,9 +15,6 @@ namespace RepoTool.Extensions
         /// </summary>
         /// <param name="obj">The object to convert.</param>
         /// <returns>A JSON string representation of the object.</returns>
-        public static string ToJson(this object obj)
-        {
-            return JsonHelper.SerializeToJson(obj);
-        }
+        public static string ToJson(this object obj) => JsonHelper.SerializeToJson(obj);
     }
 }

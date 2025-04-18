@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -17,20 +20,21 @@ namespace RepoTool.Terminal.Commands
     public class InitCommand : AsyncCommand<CommonSettings>
     {
         private readonly RepoToolDbContext _dbContext;
-        public InitCommand(RepoToolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public InitCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
 
         public override async Task<int> ExecuteAsync(CommandContext context, CommonSettings settings)
         {
             // Ensure containing directory exists
-            if (!Directory.Exists(PathConstants.RepoToolFolder))
+            if ( !Directory.Exists(PathConstants.RepoToolFolder) )
+            {
                 Directory.CreateDirectory(PathConstants.RepoToolFolder);
+            }
 
             // Ensure database file exists
-            if (!File.Exists(PathConstants.DatabasePath))
+            if ( !File.Exists(PathConstants.DatabasePath) )
+            {
                 File.Create(PathConstants.DatabasePath).Dispose();
+            }
 
             // Apply migrations
             // Ensure the database is created and migrated
@@ -41,13 +45,13 @@ namespace RepoTool.Terminal.Commands
             Assembly callingAssembly = Assembly.GetExecutingAssembly();
             IEnumerable<Type> optionModelTypes = callingAssembly
                 .GetTypes()
-                .Where(t => 
-                    t is { IsClass: true, IsAbstract: false } 
+                .Where(t =>
+                    t is { IsClass: true, IsAbstract: false }
                     && t.IsAssignableTo(typeof(IOptionModel)))
                 .Distinct();
 
             JsonSchema jsonSchema = JsonSchema.Empty;
-            foreach (Type modelType in optionModelTypes)
+            foreach ( Type modelType in optionModelTypes )
             {
                 try
                 {
@@ -61,12 +65,12 @@ namespace RepoTool.Terminal.Commands
                         .GetValue(null) as string
                             ?? throw new InvalidOperationException($"Static property 'Section' not found on type {modelType.FullName}.");
 
-                    
+
                     JsonSchema jsonSchemaSection = await JsonHelper.GetOrCreateJsonSchemaAsync(modelType);
                     jsonSchema = jsonSchema.Merge(jsonSchemaSection, sectionName);
 
                 }
-                catch (Exception ex) when (ex is not InvalidOperationException) // Catch reflection/invocation issues, but let InvalidOperationExceptions propagate
+                catch ( Exception ex ) when ( ex is not InvalidOperationException ) // Catch reflection/invocation issues, but let InvalidOperationExceptions propagate
                 {
                     // Wrap the original exception for clarity if needed, or simply rethrow.
                     // Since logging is removed, rethrowing is crucial for visibility.
@@ -84,7 +88,7 @@ namespace RepoTool.Terminal.Commands
             }
             """;
 
-            if (File.Exists(PathConstants.SettingsPath))
+            if ( File.Exists(PathConstants.SettingsPath) )
             {
                 try
                 {
@@ -93,13 +97,14 @@ namespace RepoTool.Terminal.Commands
                     JsonNode? jsonNode = JsonNode.Parse(existingContent, new JsonNodeOptions
                     {
                         PropertyNameCaseInsensitive = true
-                    }, new JsonDocumentOptions() {
+                    }, new JsonDocumentOptions()
+                    {
                         AllowTrailingCommas = true,
                         CommentHandling = JsonCommentHandling.Skip
                     });
 
                     // Check if it's a JSON object
-                    if (jsonNode is JsonObject jsonObject)
+                    if ( jsonNode is JsonObject jsonObject )
                     {
                         // Add or update the $schema property
                         jsonObject["$schema"] = schemaValue;
@@ -114,13 +119,13 @@ namespace RepoTool.Terminal.Commands
                         Environment.Exit(1);
                     }
                 }
-                catch (JsonException)
+                catch ( JsonException )
                 {
                     // If parsing fails (invalid JSON)
                     AnsiConsole.WriteLine("Invalid JSON format in settings file.");
                     throw;
                 }
-                catch (Exception)
+                catch ( Exception )
                 {
                     throw; // Rethrow if the error should halt execution
                 }

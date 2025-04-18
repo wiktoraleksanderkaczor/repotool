@@ -1,8 +1,11 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RepoTool.Persistence.Entities.Common;
 
-namespace RepoTool.Persistence.Entities.Configuration
+namespace RepoTool.Persistence.Configuration.Common
 {
     public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
     {
@@ -16,7 +19,7 @@ namespace RepoTool.Persistence.Entities.Configuration
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
-            
+
             // Add last modified timestamp with default value
             builder.Property(x => x.LastModifiedAt)
                 .ValueGeneratedOnAddOrUpdate()

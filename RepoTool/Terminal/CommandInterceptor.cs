@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using RepoTool.Constants;
 using Spectre.Console.Cli;
 
@@ -13,17 +16,17 @@ namespace RepoTool.Terminal
         /// <param name="settings">The command settings.</param>
         public void Intercept(CommandContext context, CommandSettings settings)
         {
-            if (context.Name != "init")
+            if ( context.Name != "init" )
             {
                 // Ensure the directory contains a git repo
-                if (!Directory.Exists(PathConstants.GitFolder))
+                if ( !Directory.Exists(PathConstants.GitFolder) )
                 {
                     Console.WriteLine($"Directory '{PathConstants.CurrentDirectory}' does not contain git repository.");
                     Environment.Exit(1);
                 }
 
-                if (!Directory.Exists(PathConstants.RepoToolFolder)
-                    || !File.Exists(PathConstants.DatabasePath))
+                if ( !Directory.Exists(PathConstants.RepoToolFolder)
+                    || !File.Exists(PathConstants.DatabasePath) )
                 {
                     Console.WriteLine("Must run initialization command first");
                     Environment.Exit(1);

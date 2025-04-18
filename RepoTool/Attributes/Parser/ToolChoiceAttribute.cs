@@ -1,4 +1,7 @@
-namespace RepoTool.Attributes
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
+namespace RepoTool.Attributes.Parser
 {
     /// <summary>
     /// An attribute to indicate which tool to use for a specific selection.
@@ -10,10 +13,7 @@ namespace RepoTool.Attributes
         /// Initializes a new instance of the <see cref="ToolChoiceAttribute"/> class.
         /// </summary>
         /// <param name="toolChoice">The model to choose tool.</param>
-        public ToolChoiceAttribute(Type toolChoice)
-        {
-            ToolChoice = toolChoice;
-        }
+        public ToolChoiceAttribute(Type toolChoice) => ToolChoice = toolChoice;
 
         /// <summary>
         /// Gets the model to choose tool.

@@ -1,6 +1,9 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Reflection;
 using Json.Schema.Generation;
-using RepoTool.Attributes;
+using RepoTool.Attributes.Parser;
 using RepoTool.Flags.Parser;
 
 namespace RepoTool.Extensions
@@ -22,13 +25,13 @@ namespace RepoTool.Extensions
             JsonSpecialFlag flag = JsonSpecialFlag.None;
 
             FullContentScanAttribute? fullContentScanAttribute = propertyInfo.GetCustomAttribute<FullContentScanAttribute>();
-            if (fullContentScanAttribute != null)
+            if ( fullContentScanAttribute != null )
             {
                 flag |= JsonSpecialFlag.FullContentScan;
             }
 
             UniqueItemsAttribute? uniqueItemsAttribute = propertyInfo.GetCustomAttribute<UniqueItemsAttribute>();
-            if (uniqueItemsAttribute != null)
+            if ( uniqueItemsAttribute != null )
             {
                 flag |= JsonSpecialFlag.UniqueItems;
             }

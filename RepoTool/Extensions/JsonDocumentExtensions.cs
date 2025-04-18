@@ -1,3 +1,6 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Json.More;
@@ -33,27 +36,22 @@ namespace RepoTool.Extensions
         /// </exception>
         public static JsonDocument RemoveAtPointer(this JsonDocument document, JsonPointer pointer)
         {
-            if (pointer.Count == 0)
+            if ( pointer.Count == 0 )
             {
                 throw new ArgumentNullException(nameof(pointer), "Pointer cannot be empty.");
             }
 
             // Parse the document into a mutable JsonNode for modification.
-            JsonNode? rootNode = document.RootElement.AsNode();
-            if (rootNode is null)
-            {
-                // This should generally not happen if the input JsonDocument is valid.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonNode.");
-            }
+            JsonNode? rootNode = document.RootElement.AsNode() ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonNode.");
 
             JsonNode? parentNode = rootNode;
             // Traverse the path using all segments *except* the last one to find the parent node.
-            foreach (string segmentValue in pointer[..^1])
+            foreach ( string segmentValue in pointer[..^1] )
             {
-                if (parentNode is JsonObject jsonObject)
+                if ( parentNode is JsonObject jsonObject )
                 {
                     // Try to get the next node using the segment value as a key.
-                    if (jsonObject.TryGetPropertyValue(segmentValue, out JsonNode? nextNode) && nextNode is not null)
+                    if ( jsonObject.TryGetPropertyValue(segmentValue, out JsonNode? nextNode) && nextNode is not null )
                     {
                         parentNode = nextNode;
                     }
@@ -64,17 +62,17 @@ namespace RepoTool.Extensions
                             $"Invalid pointer path: Segment '{segmentValue}' not found in object.", nameof(pointer));
                     }
                 }
-                else if (parentNode is JsonArray jsonArray)
+                else if ( parentNode is JsonArray jsonArray )
                 {
                     // Try to parse the segment value as an integer index.
                     // Use System.Linq.Enumerable.All for the check
-                    if (Enumerable.All(segmentValue, char.IsDigit) && int.TryParse(segmentValue, out int index) && index >= 0 && index < jsonArray.Count)
+                    if ( Enumerable.All(segmentValue, char.IsDigit) && int.TryParse(segmentValue, out int index) && index >= 0 && index < jsonArray.Count )
                     {
                         // Access the element at the specified index.
                         JsonNode? nextNode = jsonArray[index];
                         // Even if the index is valid, the element itself might be JSON null.
                         // We need a non-null node to continue traversal.
-                        if (nextNode is not null)
+                        if ( nextNode is not null )
                         {
                             parentNode = nextNode;
                         }
@@ -102,30 +100,26 @@ namespace RepoTool.Extensions
 
             // After the loop, 'parentNode' holds the direct parent of the element to be removed.
             // 'lastSegment' holds the key or index of the element to remove within that parent.
-            string lastSegmentValue = pointer[pointer.Count - 1];
+            string lastSegmentValue = pointer[^1];
 
-            if (parentNode is JsonObject finalParentObject)
+            if ( parentNode is JsonObject finalParentObject )
             {
                 // Check if the key exists before attempting removal.
-                if (finalParentObject.ContainsKey(lastSegmentValue))
-                {
-                    finalParentObject.Remove(lastSegmentValue);
-                }
-                else
+                if ( !finalParentObject.Remove(lastSegmentValue) )
                 {
                     // The current node is a value (string, number, boolean, null), not a container. Cannot traverse further.
                     throw new ArgumentException(
                     $"Invalid pointer path: Target key '{lastSegmentValue}' not found in the final object.", nameof(pointer));
                 }
             }
-            else if (parentNode is JsonArray finalParentArray)
+            else if ( parentNode is JsonArray finalParentArray )
             {
                 // Check if the last segment represents a valid integer index.
                 // Use System.Linq.Enumerable.All for the check
-                if (Enumerable.All(lastSegmentValue, char.IsDigit) && int.TryParse(lastSegmentValue, out int indexToRemove))
+                if ( Enumerable.All(lastSegmentValue, char.IsDigit) && int.TryParse(lastSegmentValue, out int indexToRemove) )
                 {
                     // Check if the index is within the bounds of the array.
-                    if (indexToRemove >= 0 && indexToRemove < finalParentArray.Count)
+                    if ( indexToRemove >= 0 && indexToRemove < finalParentArray.Count )
                     {
                         finalParentArray.RemoveAt(indexToRemove);
                     }
@@ -166,35 +160,24 @@ namespace RepoTool.Extensions
         public static JsonDocument UpdateJsonDocument(this JsonDocument document, object item, EnIterableInsertAt insertAt)
         {
             // Ensure the root element is an object
-            if (document.RootElement.ValueKind != JsonValueKind.Array)
+            if ( document.RootElement.ValueKind != JsonValueKind.Array )
             {
                 throw new InvalidOperationException("The root element of the JsonDocument must be an array.");
             }
 
             // Parse the root element into a JsonArray for modification
-            JsonArray? jsonArray = document.RootElement.AsNode()?.AsArray();
-
-            if (jsonArray is null)
-            {
-                // This should theoretically not happen if the ValueKind check passed, but defensive check.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonArray.");
-            }
+            JsonArray? jsonArray = ( document.RootElement.AsNode()?.AsArray() ) ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonArray.");
 
             // Directly serialize the object value to a JsonNode.
             JsonNode? valueNode = JsonSerializer.SerializeToNode(item);
 
             // Add the new JsonNode to the JsonArray.
-            switch (insertAt)
+            jsonArray = insertAt switch
             {
-                case EnIterableInsertAt.Start:
-                    jsonArray = jsonArray.Prepend(valueNode).ToJsonArray();
-                    break;
-                case EnIterableInsertAt.End:
-                    jsonArray = jsonArray.Append(valueNode).ToJsonArray();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(insertAt), insertAt, null);
-            }
+                EnIterableInsertAt.Start => jsonArray.Prepend(valueNode).ToJsonArray(),
+                EnIterableInsertAt.End => jsonArray.Append(valueNode).ToJsonArray(),
+                _ => throw new ArgumentOutOfRangeException(nameof(insertAt), insertAt, null),
+            };
 
             // Serialize the modified JsonArray back to a string and parse it into a new JsonDocument.
             return jsonArray.ToJsonDocument();
@@ -203,43 +186,31 @@ namespace RepoTool.Extensions
         public static object? GetPropertyValue(this JsonDocument document, string propertyName, Type propertyType)
         {
             // Ensure the root element is an object
-            if (document.RootElement.ValueKind != JsonValueKind.Object)
+            if ( document.RootElement.ValueKind != JsonValueKind.Object )
             {
                 throw new InvalidOperationException("The root element of the JsonDocument must be an object.");
             }
 
             // Parse the root element into a JsonObject for modification
-            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
+            JsonObject? jsonObject = ( document.RootElement.AsNode()?.AsObject() ) ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
 
-            if (jsonObject is null)
-            {
-                // This should theoretically not happen if the ValueKind check passed, but defensive check.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
-            }
-
-            jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value);
-
-            return value != null
-                ? JsonHelper.DeserializeJsonToType(value.ToJsonString(), propertyType)
-                : null;
+            return !jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value)
+                ? throw new InvalidOperationException($"Property '{propertyName}' not found in the JsonDocument.")
+                : value != null
+                    ? JsonHelper.DeserializeJsonToType(value.ToJsonString(), propertyType)
+                    : null;
         }
 
         public static JsonNode? GetPropertyValue(this JsonDocument document, string propertyName)
         {
 
-            if (document.RootElement.ValueKind != JsonValueKind.Object)
+            if ( document.RootElement.ValueKind != JsonValueKind.Object )
             {
                 throw new InvalidOperationException("The root element of the JsonDocument must be an object.");
             }
 
 
-            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
-
-            if (jsonObject is null)
-            {
-
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
-            }
+            JsonObject? jsonObject = ( document.RootElement.AsNode()?.AsObject() ) ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
 
             return jsonObject.TryGetPropertyValue(propertyName, out JsonNode? value)
                 ? value ?? JsonNode.Parse("null")
@@ -256,19 +227,13 @@ namespace RepoTool.Extensions
         public static JsonArray GetAsJsonArray(this JsonDocument document)
         {
             // Ensure the root element is an array
-            if (document.RootElement.ValueKind != JsonValueKind.Array)
+            if ( document.RootElement.ValueKind != JsonValueKind.Array )
             {
                 throw new InvalidOperationException("The root element of the JsonDocument must be an array.");
             }
 
             // Parse the root element into a JsonArray for modification
-            JsonArray? jsonArray = document.RootElement.AsNode()?.AsArray();
-
-            if (jsonArray is null)
-            {
-                // This should theoretically not happen if the ValueKind check passed, but defensive check.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonArray.");
-            }
+            JsonArray? jsonArray = ( document.RootElement.AsNode()?.AsArray() ) ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonArray.");
 
             return jsonArray;
         }
@@ -289,13 +254,7 @@ namespace RepoTool.Extensions
             // }
 
             // Parse the root element into a JsonObject for modification
-            JsonNode? jsonObject = document.RootElement.AsNode();
-
-            if (jsonObject is null)
-            {
-                // This should theoretically not happen if the ValueKind check passed, but defensive check.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
-            }
+            JsonNode? jsonObject = document.RootElement.AsNode() ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
 
             return jsonObject;
         }
@@ -309,10 +268,7 @@ namespace RepoTool.Extensions
         /// <param name="value">The value to set for the specified field.</param>
         /// <returns>A new JsonDocument with the applied update.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the root element is not a JSON object or parsing fails.</exception>
-        public static JsonDocument UpdateJsonDocument(this JsonDocument document, string fieldName, JsonDocument value)
-        {
-            return document.UpdateJsonDocument(new Dictionary<string, JsonDocument> { { fieldName, value } });
-        }
+        public static JsonDocument UpdateJsonDocument(this JsonDocument document, string fieldName, JsonDocument value) => document.UpdateJsonDocument(new Dictionary<string, JsonDocument> { { fieldName, value } });
 
         /// <summary>
         /// Updates a JsonDocument with the provided key-JsonDocument pairs. This version optimizes performance
@@ -325,21 +281,15 @@ namespace RepoTool.Extensions
         public static JsonDocument UpdateJsonDocument(this JsonDocument document, Dictionary<string, JsonDocument> updates)
         {
             // Ensure the root element is an object
-            if (document.RootElement.ValueKind != JsonValueKind.Object)
+            if ( document.RootElement.ValueKind != JsonValueKind.Object )
             {
                 throw new InvalidOperationException("The root element of the JsonDocument must be an object.");
             }
 
             // Parse the root element into a JsonObject for modification
-            JsonObject? jsonObject = document.RootElement.AsNode()?.AsObject();
+            JsonObject? jsonObject = ( document.RootElement.AsNode()?.AsObject() ) ?? throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
 
-            if (jsonObject is null)
-            {
-                // This should theoretically not happen if the ValueKind check passed, but defensive check.
-                throw new InvalidOperationException("Failed to parse the JsonDocument root element into a JsonObject.");
-            }
-
-            foreach (KeyValuePair<string, JsonDocument> update in updates)
+            foreach ( KeyValuePair<string, JsonDocument> update in updates )
             {
                 // Clone the root element of the source JsonDocument.
                 // Cloning is necessary because JsonDocument owns its memory, and we need a copy.

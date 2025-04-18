@@ -1,10 +1,13 @@
+// Copyright (c) 2025 RepoTool. All rights reserved.
+// Licensed under the Business Source License
+
 using System.ComponentModel;
 using RepoTool.Persistence;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace RepoTool.Commands.Cache
+namespace RepoTool.Terminal.Commands.Cache
 {
     public class ClearCacheSettings : CommonSettings
     {
@@ -17,10 +20,7 @@ namespace RepoTool.Commands.Cache
     {
         private readonly RepoToolDbContext _dbContext;
 
-        public ClearCacheCommand(RepoToolDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public ClearCacheCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
         public override async Task<int> ExecuteAsync(CommandContext context, ClearCacheSettings settings)
         {
             _dbContext.InferenceCache.RemoveRange(_dbContext.InferenceCache);
