@@ -95,7 +95,12 @@ Then step-into the `ProcessMessageAsync` method and check the `Response` propert
 
 ---
 
-Issue with vLLM structured generation was that my JSON schema within the system prompt was not properly escaped. I have updated the README.md for templates to prevent this from happening again. It produced silent failures.
+Issue with vLLM structured generation was that my JSON schema within the system prompt was not properly escaped. I have updated the README.md for templates to prevent this from happening again. It produced silent failures. Note, this only happens when not running it through a JSON serializer... which the official clients seem to do. BinaryData-only issue.
+
+---
+
+vLLM appears to only support string-typed `type` fields in the schema.
+{{"object":"error","message":"'type' must be a string","type":"BadRequestError","param":null,"code":400}}
 
 ---
 
