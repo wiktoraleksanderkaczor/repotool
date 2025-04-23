@@ -1,8 +1,6 @@
 // Copyright (c) 2025 RepoTool. All rights reserved.
 // Licensed under the Business Source License
 
-using System.Text;
-using System.Text.Json;
 using RepoTool.Helpers;
 using RepoTool.Models.Resources;
 using Spectre.Console;
@@ -19,21 +17,26 @@ namespace RepoTool.Terminal.Commands.Language.Available
         public override int Execute(CommandContext context, ListLanguageSettings settings)
         {
             string languagesJson = ResourceHelper.GetParserLanguagesJson();
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            List<LanguageEntry> languages = JsonSerializer.Deserialize<List<LanguageEntry>>(languagesJson, options)
-                ?? throw new Exception("Failed to deserialize languages JSON.");
+            List<LanguageEntry> languages = JsonHelper.DeserializeJsonToType<List<LanguageEntry>>(languagesJson)
+                ?? throw new InvalidOperationException("Failed to deserialize languages JSON or the resource contained null.");
 
-            StringBuilder sb = new();
-            sb.AppendLine("Available languages:");
-            sb.AppendLine();
-            for ( int i = 0; i < languages.Count; i++ )
+            Table table = new Table()
+                .Title("Available Languages")
+                .AddColumn("Name")
+                .AddColumn("File Extensions/Patterns");
+
+            if ( languages.Count == 0 )
             {
-                sb.AppendLine($"{i + 1}. {languages[i].Name}");
-                sb.AppendLine($"  - Extensions: {string.Join(", ", languages[i].Patterns)}");
-                sb.AppendLine();
+                AnsiConsole.MarkupLine("[yellow]No available languages found in the configuration.[/]");
+                return 0;
             }
 
-            AnsiConsole.WriteLine(sb.ToString());
+            foreach ( LanguageEntry language in languages )
+            {
+                table = table.AddRow(language.Name, string.Join(", ", language.Patterns));
+            }
+
+            AnsiConsole.Write(table);
 
             return 0;
         }

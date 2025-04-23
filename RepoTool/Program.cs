@@ -10,7 +10,7 @@ using Spectre.Console;
 
 namespace RepoTool
 {
-    internal class Program
+    internal sealed class Program
     {
         public static async Task<int> Main(string[] args)
         {
@@ -20,39 +20,38 @@ namespace RepoTool
                 HostBuilder builder = new();
 
                 // Configure the host builder
-                builder
+                builder = (HostBuilder)builder
                     .UseEnvironment(Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Production")
                     .UseConsoleLifetime()
                     .ConfigureAppConfiguration((context, config) =>
                     {
                         if ( Directory.Exists(PathConstants.RepoToolFolder) )
                         {
-                            config.SetBasePath(PathConstants.RepoToolFolder);
+                            config = config.SetBasePath(PathConstants.RepoToolFolder);
 
                             // Load configuration from settings.json
+                            config = config.AddJsonFile("settings.json", optional: true, reloadOnChange: true);
+
+                            // Override for development
                             if ( context.HostingEnvironment.IsDevelopment() )
                             {
-                                config.AddJsonFile("settings.Development.json", optional: true, reloadOnChange: true);
-                            }
-                            else
-                            {
-                                config.AddJsonFile("settings.json", optional: true, reloadOnChange: true);
+                                config = config.AddJsonFile("settings.Development.json", optional: true, reloadOnChange: true);
                             }
                         }
 
                         // Load configuration from environment variables
                         // e.g. Repotool_Providers__OpenAI__ApiKey is Providers:OpenAI:ApiKey
-                        config.AddEnvironmentVariables(prefix: "Repotool_");
+                        config = config.AddEnvironmentVariables(prefix: "Repotool_");
 
                         // Load configuration from key per file
                         // e.g. Providers__OpenAI__ApiKey is Providers:OpenAI:ApiKey
-                        config.AddKeyPerFile(directoryPath: PathConstants.RepoToolFolder, optional: true, reloadOnChange: true);
+                        config = config.AddKeyPerFile(directoryPath: PathConstants.RepoToolFolder, optional: true, reloadOnChange: true);
                     })
                     .ConfigureServices(DependencyInjection.ConfigureServices)
                     .ConfigureLogging((context, logging) =>
                     {
-                        logging.AddConfiguration(context.Configuration.GetSection("Logging"));
-                        logging.AddConsole();
+                        logging = logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+                        logging = logging.AddConsole();
                     });
 
                 return await builder.RunSpectreCommands(args);

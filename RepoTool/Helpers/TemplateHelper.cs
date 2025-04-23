@@ -77,7 +77,7 @@ namespace RepoTool.Helpers
             string templateResource = templateName.Replace('/', '.');
             List<string> matches = resourceNames
                 .Where(r =>
-                    r.EndsWith($"{templateResource}.sbn"))
+                    r.EndsWith($"{templateResource}.sbn", StringComparison.InvariantCulture))
                 .ToList();
             if ( matches.Count > 1 )
             {

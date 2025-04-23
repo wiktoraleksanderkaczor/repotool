@@ -58,7 +58,7 @@ namespace RepoTool.Providers
 
             try
             {
-                StringBuilder stringBuilder = new();
+                StringBuilder sb = new();
                 await foreach ( ChatResponseStream? response in ollama.ChatAsync(chatRequest) )
                 {
                     if ( response != null )
@@ -68,12 +68,12 @@ namespace RepoTool.Providers
                             break;
                         }
 
-                        stringBuilder.Append(response.Message?.Content ?? string.Empty);
+                        sb = sb.Append(response.Message?.Content ?? string.Empty);
                     }
                 }
 
                 // Return the accumulated response content
-                return stringBuilder.ToString();
+                return sb.ToString();
             }
             catch ( Exception ex )
             {

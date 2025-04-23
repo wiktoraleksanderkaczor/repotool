@@ -44,7 +44,7 @@ namespace RepoTool.Models.Parser.Items.Declarations.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnDeclarationModifierFlag> DeclarationModifiers { get; init; }
+        public required List<EnDeclarationModifier> DeclarationModifiers { get; init; }
         /// <summary>
         /// The list of access modifiers.
         /// </summary>
@@ -59,7 +59,7 @@ namespace RepoTool.Models.Parser.Items.Declarations.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnAccessModifierFlag>? AccessModifiers { get; init; }
+        public required List<EnAccessModifier>? AccessModifiers { get; init; }
         /// <summary>
         /// The list of attributes applied to the declaration.
         /// </summary>

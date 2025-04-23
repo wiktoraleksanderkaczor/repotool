@@ -6,8 +6,8 @@ using RepoTool.Models.Parser.Interfaces;
 
 namespace RepoTool.Models.Parser.Tools.Builders
 {
-    public record ObjectBuilderSelector : IToolSelector<EnObjectBuilderTool>
+    public record ItemBuilderSelector : IToolSelector<EnItemBuilderTool>
     {
-        public required EnObjectBuilderTool ToolSelection { get; init; }
+        public required EnItemBuilderTool ToolSelection { get; init; }
     }
 }

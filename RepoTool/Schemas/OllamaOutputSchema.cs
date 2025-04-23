@@ -110,7 +110,7 @@ namespace RepoTool.Schemas
                 .AdditionalProperties(false);
 
             // Add conditional logic using AllOf, If, Then, Not
-            metaSchemaBuilder.AllOf(
+            metaSchemaBuilder = metaSchemaBuilder.AllOf(
                 // Condition 1: If type is 'object'
                 new JsonSchemaBuilder()
                     .If(new JsonSchemaBuilder().Properties(("type", new JsonSchemaBuilder().Const("object"))))

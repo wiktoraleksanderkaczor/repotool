@@ -17,10 +17,10 @@ namespace RepoTool.Terminal
         public static async Task<int> RunSpectreCommands(this IHostBuilder hostBuilder, string[] args)
         {
             TypeRegistrar? registrar = null;
-            hostBuilder
+            IHost host = hostBuilder
                 .ConfigureServices(services =>
                 {
-                    services.AddSingleton(hostBuilder);
+                    services = services.AddSingleton(hostBuilder);
 
                     registrar = new TypeRegistrar(services);
                 })
@@ -36,65 +36,65 @@ namespace RepoTool.Terminal
             // Configure the command app
             app.Configure(config =>
             {
-                config.SetApplicationName("repotool");
-                config.SetInterceptor(new CommandInterceptor());
+                config = config.SetApplicationName("repotool");
+                config = config.SetInterceptor(new CommandInterceptor());
 
                 // Register commands
-                config.AddCommand<StatusCommand>("status")
+                _ = config.AddCommand<StatusCommand>("status")
                     .WithDescription("Show repository status.");
 
-                config.AddBranch("index", index =>
+                _ = config.AddBranch("index", index =>
                 {
-                    index.AddCommand<UpdateIndexCommand>("update")
+                    _ = index.AddCommand<UpdateIndexCommand>("update")
                         .WithDescription("Update the index with changelogs.");
 
-                    index.AddCommand<ClearIndexCommand>("clear")
+                    _ = index.AddCommand<ClearIndexCommand>("clear")
                         .WithDescription("Clear the changelog index.");
 
-                    index.AddCommand<ShowIndexCommand>("show")
+                    _ = index.AddCommand<ShowIndexCommand>("show")
                         .WithDescription("Show the changelog index.");
                 });
 
-                config.AddBranch("cache", cache =>
+                _ = config.AddBranch("cache", cache =>
                 {
-                    cache.AddCommand<ClearCacheCommand>("clear")
+                    _ = cache.AddCommand<ClearCacheCommand>("clear")
                         .WithDescription("Clear the inference cache.");
 
-                    cache.AddCommand<ShowCacheCommand>("show")
+                    _ = cache.AddCommand<ShowCacheCommand>("show")
                         .WithDescription("Show the inference cache.");
                 });
 
-                config.AddCommand<SearchCommand>("search")
+                _ = config.AddCommand<SearchCommand>("search")
                     .WithDescription("Search for changelogs.");
 
-                config.AddCommand<SummarizeCommand>("summarize")
+                _ = config.AddCommand<SummarizeCommand>("summarize")
                     .WithDescription("Summarize a file.");
 
-                config.AddBranch("language", language =>
+                _ = config.AddBranch("language", language =>
                 {
-                    language.AddBranch("available", available =>
+                    _ = language.AddBranch("available", available =>
                     {
-                        available.AddCommand<ListAvailableLanguagesCommand>("list")
+                        _ = available.AddCommand<ListAvailableLanguagesCommand>("list")
                             .WithDescription("List available languages.");
 
-                        available.AddCommand<AddAvailableLanguageCommand>("add")
+                        _ = available.AddCommand<AddAvailableLanguageCommand>("add")
                             .WithDescription("Add an available language.");
                     });
 
-                    language.AddCommand<ListLanguageCommand>("list")
+                    _ = language.AddCommand<ListLanguageCommand>("list")
                         .WithDescription("List supported languages.");
 
-                    language.AddCommand<AddLanguageCommand>("add")
+                    _ = language.AddCommand<AddLanguageCommand>("add")
                         .WithDescription("Add a supported language.");
 
-                    language.AddCommand<RemoveLanguageCommand>("remove")
+                    _ = language.AddCommand<RemoveLanguageCommand>("remove")
                         .WithDescription("Remove a supported language.");
                 });
 
-                config.AddCommand<ParseCommand>("parse")
+                _ = config.AddCommand<ParseCommand>("parse")
                     .WithDescription("Parse a file.");
 
-                config.AddCommand<InitCommand>("init")
+                _ = config.AddCommand<InitCommand>("init")
                     .WithDescription("Initialize the application.");
             });
 

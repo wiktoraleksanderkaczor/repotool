@@ -28,8 +28,8 @@ namespace RepoTool.Terminal.Commands.Language
             LanguageEntity? languageEntity = await _dbContext.Languages.FirstOrDefaultAsync(l => l.Name == settings.Name);
             if ( languageEntity != null )
             {
-                _dbContext.Languages.Remove(languageEntity);
-                await _dbContext.SaveChangesAsync();
+                _ = _dbContext.Languages.Remove(languageEntity);
+                _ = await _dbContext.SaveChangesAsync();
                 AnsiConsole.WriteLine($"Removed language '{settings.Name}'.");
             }
             else

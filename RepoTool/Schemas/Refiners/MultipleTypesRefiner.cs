@@ -43,7 +43,10 @@ namespace RepoTool.Schemas.Refiners
                 .First(intent => intent.Type.HasMultipleFlags());
 
             // Remove the original multi-type intent.
-            context.Intents.Remove(originalTypeIntent);
+            if ( !context.Intents.Remove(originalTypeIntent) )
+            {
+                throw new InvalidOperationException("Failed to remove the original TypeIntent.");
+            }
 
             List<ISchemaKeywordIntent> otherIntents = context.Intents.ToList();
 

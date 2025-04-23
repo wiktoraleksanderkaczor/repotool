@@ -41,6 +41,6 @@ namespace RepoTool.Models.Parser.Items.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnCallableModifierFlag> CallableModifierFlags { get; init; }
+        public required List<EnCallableModifier> CallableModifierFlags { get; init; }
     }
 }

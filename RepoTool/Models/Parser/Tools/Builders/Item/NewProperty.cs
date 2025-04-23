@@ -1,7 +1,7 @@
 // Copyright (c) 2025 RepoTool. All rights reserved.
 // Licensed under the Business Source License
 
-namespace RepoTool.Models.Parser.Tools.Builders.Object
+namespace RepoTool.Models.Parser.Tools.Builders.Item
 {
     public record NewProperty
     {

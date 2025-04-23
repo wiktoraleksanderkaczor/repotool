@@ -13,27 +13,27 @@ namespace RepoTool.Persistence.Configuration
         {
             base.Configure(builder);
 
-            builder.Property(x => x.PromptHash)
+            _ = builder.Property(x => x.PromptHash)
                 .IsRequired();
 
-            builder.Property(x => x.OutputType)
+            _ = builder.Property(x => x.OutputType)
                 .IsRequired();
 
-            builder.Property(x => x.InferenceProvider)
+            _ = builder.Property(x => x.InferenceProvider)
                 .IsRequired();
 
-            builder.Property(x => x.InferenceModel)
+            _ = builder.Property(x => x.InferenceModel)
                 .IsRequired();
 
-            builder.Property(x => x.ResponseContent)
+            _ = builder.Property(x => x.ResponseContent)
                 .IsRequired();
 
-            builder.HasIndex(x => x.PromptHash);
-            builder.HasIndex(x => x.OutputType);
-            builder.HasIndex(x => x.InferenceProvider);
+            _ = builder.HasIndex(x => x.PromptHash);
+            _ = builder.HasIndex(x => x.OutputType);
+            _ = builder.HasIndex(x => x.InferenceProvider);
 
             // Composite key unique index
-            builder.HasIndex(x => new { x.PromptHash, x.OutputType, x.InferenceProvider })
+            _ = builder.HasIndex(x => new { x.PromptHash, x.OutputType, x.InferenceProvider })
                 .IsUnique();
         }
     }

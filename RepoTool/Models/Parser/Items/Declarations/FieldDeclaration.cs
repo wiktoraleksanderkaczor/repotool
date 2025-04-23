@@ -2,6 +2,7 @@
 // Licensed under the Business Source License
 
 using RepoTool.Enums.Parser.Tools.Common;
+using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Declarations.Common;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
@@ -29,7 +30,7 @@ namespace RepoTool.Models.Parser.Items.Declarations
         /// }
         /// </code>
         /// </example>
-        public required List<EnAccessModifierFlag> AccessModifierFlags { get; init; }
+        public required List<EnAccessModifier> AccessModifierFlags { get; init; }
 
         /// <summary>
         /// The variable modifiers for the field.
@@ -45,7 +46,7 @@ namespace RepoTool.Models.Parser.Items.Declarations
         /// }
         /// </code>
         /// </example>
-        public required List<EnVariableModifierFlag> VariableModifierFlags { get; init; }
+        public required List<EnVariableModifier> VariableModifierFlags { get; init; }
 
         /// <summary>
         /// The default value of the field, if any.

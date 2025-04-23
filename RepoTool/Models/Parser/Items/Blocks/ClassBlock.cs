@@ -55,7 +55,7 @@ namespace RepoTool.Models.Parser.Items.Blocks
         /// <summary>
         /// List of inheritance modifiers.
         /// </summary>
-        public required List<EnInheritanceModifierFlag> InheritanceModifiers { get; init; }
+        public required List<EnInheritanceModifier> InheritanceModifiers { get; init; }
     }
 
     /// <inheritdoc />
@@ -101,6 +101,6 @@ namespace RepoTool.Models.Parser.Items.Blocks
         /// }
         /// </code>
         /// </example>
-        public required List<EnClassModifierFlag> ClassModifierFlags { get; init; }
+        public required List<EnClassModifier> ClassModifierFlags { get; init; }
     }
 }

@@ -3,12 +3,12 @@
 
 using RepoTool.Attributes.Parser;
 using RepoTool.Models.Parser.Tools.Builders.Common;
-using RepoTool.Models.Parser.Tools.Builders.Object;
+using RepoTool.Models.Parser.Tools.Builders.Item;
 using RepoTool.Models.Parser.Tools.Navigation;
 
 namespace RepoTool.Enums.Parser.Tools.Builders
 {
-    public enum EnObjectBuilderTool
+    public enum EnItemBuilderTool
     {
         /// <summary>
         /// Represents a scroll down action.

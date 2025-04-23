@@ -62,10 +62,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <exception cref="ArgumentException"></exception>
         public void AddComponent(ItemPathComponent component)
         {
-            if ( component == null )
-            {
-                throw new ArgumentNullException(nameof(component));
-            }
+            ArgumentNullException.ThrowIfNull(component);
 
             // Modify the list in-place
             Components.Add(component);
@@ -117,16 +114,16 @@ namespace RepoTool.Models.Inference.Contexts.Parser
             // Get the parent component for the last component
             Components.Count > 0 ? Components[^2] : null;
 
-        public JsonSpecialFlag GetJsonSpecialFlag()
+        public JsonSpecialModifier GetJsonSpecialFlag()
         {
             // Get the special flag for the last component
             return Components.Count > 0
                 ? Components[^1] switch
                 {
                     ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialFlag,
-                    _ => JsonSpecialFlag.None
+                    _ => JsonSpecialModifier.None
                 }
-                : JsonSpecialFlag.None;
+                : JsonSpecialModifier.None;
         }
 
         /// <summary>
@@ -136,10 +133,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="currentObject"/> is null.</exception>
         public void UpdateCurrentObject(JsonDocument? currentObject)
         {
-            if ( currentObject == null )
-            {
-                throw new ArgumentNullException(nameof(currentObject));
-            }
+            ArgumentNullException.ThrowIfNull(currentObject);
 
             // Update the current object for the last component
             if ( Components.Count > 0 )
@@ -255,7 +249,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         /// <summary>
         /// Specifies the special flags associated with the property.
         /// </summary>
-        public required JsonSpecialFlag JsonSpecialFlag { get; init; }
+        public required JsonSpecialModifier JsonSpecialFlag { get; init; }
     }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace RepoTool.Extensions
         /// from its parent object or array.
         /// </summary>
         /// <param name="document">The JsonDocument to modify.</param>
-        /// <param name="pointer">The JSON Pointer indicating the element to remove.</param>
+        /// <param name="jsonPointer">The JSON Pointer indicating the element to remove.</param>
         /// <returns>A new, independent JsonDocument instance with the specified element removed.</returns>
         /// <exception cref="ArgumentException">
         /// Thrown if the pointer path is invalid (e.g., segment not found, incorrect type for segment, index out of bounds)
@@ -34,11 +34,11 @@ namespace RepoTool.Extensions
         /// <exception cref="ArgumentNullException">
         /// Thrown if the pointer is empty or null.
         /// </exception>
-        public static JsonDocument RemoveAtPointer(this JsonDocument document, JsonPointer pointer)
+        public static JsonDocument RemoveAtPointer(this JsonDocument document, JsonPointer jsonPointer)
         {
-            if ( pointer.Count == 0 )
+            if ( jsonPointer.Count == 0 )
             {
-                throw new ArgumentNullException(nameof(pointer), "Pointer cannot be empty.");
+                throw new ArgumentNullException(nameof(jsonPointer), "Pointer cannot be empty.");
             }
 
             // Parse the document into a mutable JsonNode for modification.
@@ -46,7 +46,7 @@ namespace RepoTool.Extensions
 
             JsonNode? parentNode = rootNode;
             // Traverse the path using all segments *except* the last one to find the parent node.
-            foreach ( string segmentValue in pointer[..^1] )
+            foreach ( string segmentValue in jsonPointer[..^1] )
             {
                 if ( parentNode is JsonObject jsonObject )
                 {
@@ -59,7 +59,7 @@ namespace RepoTool.Extensions
                     {
                         // The key specified by the segment does not exist in the current object.
                         throw new ArgumentException(
-                            $"Invalid pointer path: Segment '{segmentValue}' not found in object.", nameof(pointer));
+                            $"Invalid pointer path: Segment '{segmentValue}' not found in object.", nameof(jsonPointer));
                     }
                 }
                 else if ( parentNode is JsonArray jsonArray )
@@ -80,27 +80,27 @@ namespace RepoTool.Extensions
                         {
                             // Found a JSON null at a valid index. Cannot traverse further through it.
                             throw new ArgumentException(
-                            $"Invalid pointer path: Cannot traverse through null element found at index {index}.", nameof(pointer));
+                            $"Invalid pointer path: Cannot traverse through null element found at index {index}.", nameof(jsonPointer));
                         }
                     }
                     else
                     {
                         // The segment value is not a valid integer index or is out of the array bounds.
                         throw new ArgumentException(
-                            $"Invalid pointer path: Segment '{segmentValue}' is not a valid index or is out of bounds for the array.", nameof(pointer));
+                            $"Invalid pointer path: Segment '{segmentValue}' is not a valid index or is out of bounds for the array.", nameof(jsonPointer));
                     }
                 }
                 else
                 {
                     // The current node is a value (string, number, boolean, null), not a container. Cannot traverse further.
                     throw new ArgumentException(
-                    $"Invalid pointer path: Cannot traverse through non-container element at segment '{segmentValue}'.", nameof(pointer));
+                    $"Invalid pointer path: Cannot traverse through non-container element at segment '{segmentValue}'.", nameof(jsonPointer));
                 }
             }
 
             // After the loop, 'parentNode' holds the direct parent of the element to be removed.
             // 'lastSegment' holds the key or index of the element to remove within that parent.
-            string lastSegmentValue = pointer[^1];
+            string lastSegmentValue = jsonPointer[^1];
 
             if ( parentNode is JsonObject finalParentObject )
             {
@@ -109,7 +109,7 @@ namespace RepoTool.Extensions
                 {
                     // The current node is a value (string, number, boolean, null), not a container. Cannot traverse further.
                     throw new ArgumentException(
-                    $"Invalid pointer path: Target key '{lastSegmentValue}' not found in the final object.", nameof(pointer));
+                    $"Invalid pointer path: Target key '{lastSegmentValue}' not found in the final object.", nameof(jsonPointer));
                 }
             }
             else if ( parentNode is JsonArray finalParentArray )
@@ -127,14 +127,14 @@ namespace RepoTool.Extensions
                     {
                         // The index is out of bounds for the parent array.
                         throw new ArgumentException(
-                            $"Invalid pointer path: Target index {indexToRemove} is out of bounds for the final array (size: {finalParentArray.Count}).", nameof(pointer));
+                            $"Invalid pointer path: Target index {indexToRemove} is out of bounds for the final array (size: {finalParentArray.Count}).", nameof(jsonPointer));
                     }
                 }
                 else
                 {
                     // The last segment is not a valid non-negative integer index for the parent array.
                     throw new ArgumentException(
-                    $"Invalid pointer path: Target segment '{lastSegmentValue}' is not a valid index for the final array.", nameof(pointer));
+                    $"Invalid pointer path: Target segment '{lastSegmentValue}' is not a valid index for the final array.", nameof(jsonPointer));
                 }
             }
             else

@@ -2,6 +2,7 @@
 // Licensed under the Business Source License
 
 using System.Reflection;
+using System.Xml;
 using System.Xml.XPath;
 using Json.Schema.Generation;
 using LoxSmoke.DocXml;
@@ -39,7 +40,14 @@ namespace RepoTool.Helpers
             {
                 string xmlContent = ResourceHelper.GetModelDocumentation();
                 using StringReader stringReader = new(xmlContent);
-                XPathDocument xpathDoc = new(stringReader);
+                // Use XmlReader with secure settings to prevent DTD processing and external resolution
+                XmlReaderSettings settings = new()
+                {
+                    DtdProcessing = DtdProcessing.Prohibit, // Disable DTD processing
+                    XmlResolver = null // Do not resolve external resources
+                };
+                using XmlReader xmlReader = XmlReader.Create(stringReader, settings);
+                XPathDocument xpathDoc = new(xmlReader);
                 _docXmlReader = new DocXmlReader(xpathDoc);
             }
             catch ( Exception ex )
@@ -110,15 +118,15 @@ namespace RepoTool.Helpers
         public PropertyDocumentation GetPropertyDocumentation(PropertyInfo propertyInfo)
         {
             CommonComments? propertyComments = _docXmlReader.GetMemberComments(propertyInfo);
-            JsonSpecialFlag jsonSpecialFlag = propertyInfo.GetJsonSpecialFlag();
-            EnumComments? enumComments = jsonSpecialFlag != JsonSpecialFlag.None
-                ? _docXmlReader.GetEnumComments(typeof(JsonSpecialFlag)) : null;
+            JsonSpecialModifier jsonSpecialFlag = propertyInfo.GetJsonSpecialFlag();
+            EnumComments? enumComments = jsonSpecialFlag != JsonSpecialModifier.None
+                ? _docXmlReader.GetEnumComments(typeof(JsonSpecialModifier)) : null;
 
             return new PropertyDocumentation()
             {
                 PropertyName = propertyInfo.Name,
                 Handling = enumComments?.ValueComments
-                    .Where(x => jsonSpecialFlag.HasFlag((JsonSpecialFlag)x.Value) && x.Value != default)
+                    .Where(x => jsonSpecialFlag.HasFlag((JsonSpecialModifier)x.Value) && x.Value != default)
                     .Select(x =>
                         new HandlingDocumentation()
                         {
@@ -198,7 +206,7 @@ namespace RepoTool.Helpers
         /// </summary>
         /// <param name="baseType">The base type to find direct derived types for.</param>
         /// <returns>A HashSet of types that directly derive from the specified type.</returns>
-        private HashSet<Type> GetDirectlyDerivedTypes(Type baseType)
+        private static HashSet<Type> GetDirectlyDerivedTypes(Type baseType)
         {
             HashSet<Type> derivedTypes = [];
 
@@ -223,7 +231,7 @@ namespace RepoTool.Helpers
                         // Check for class inheritance
                         if ( baseType.IsClass && type.BaseType == baseType )
                         {
-                            derivedTypes.Add(type);
+                            _ = derivedTypes.Add(type);
                             continue;
                         }
 
@@ -238,7 +246,7 @@ namespace RepoTool.Helpers
                                 !interfaces.Any(i => i != baseType &&
                                                       i.GetInterfaces().Contains(baseType)) )
                             {
-                                derivedTypes.Add(type);
+                                _ = derivedTypes.Add(type);
                             }
                         }
                     }
@@ -259,7 +267,7 @@ namespace RepoTool.Helpers
                         // Check for class inheritance
                         if ( baseType.IsClass && loadableType.BaseType == baseType )
                         {
-                            derivedTypes.Add(loadableType);
+                            _ = derivedTypes.Add(loadableType);
                             continue;
                         }
 
@@ -275,7 +283,7 @@ namespace RepoTool.Helpers
                                     !interfaces.Any(i => i != baseType &&
                                                          i.GetInterfaces().Contains(baseType)) )
                                 {
-                                    derivedTypes.Add(loadableType);
+                                    _ = derivedTypes.Add(loadableType);
                                 }
                             }
                             catch
@@ -481,7 +489,7 @@ namespace RepoTool.Helpers
 
             Type[] interfaces = type
                 .GetInterfaces()
-                .Where(i => !i.Namespace?.StartsWith("System") ?? false) // Exclude System interfaces
+                .Where(i => !i.Namespace?.StartsWith("System", StringComparison.InvariantCulture) ?? false) // Exclude System interfaces
                 .ToArray();
 
             // Add directly implemented interfaces

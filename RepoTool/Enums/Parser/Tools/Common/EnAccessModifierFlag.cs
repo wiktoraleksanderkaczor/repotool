@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Tools.Common
     /// <summary>
     /// Represents the access modifiers for members.
     /// </summary>
-    public enum EnAccessModifierFlag
+    public enum EnAccessModifier
     {
         /// <summary>
         /// Public access modifier.

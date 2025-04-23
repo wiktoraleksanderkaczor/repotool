@@ -129,7 +129,8 @@ namespace RepoTool.Extensions
                 foreach ( KeyValuePair<string, JsonSchema> def in targetDefinitionsKeyword.Definitions )
                 {
                     // Avoid overwriting if already present from $defs
-                    mergedDefs.TryAdd(def.Key, def.Value);
+                    // TODO: Handle boolean returned if also returns true for already existing
+                    _ = mergedDefs.TryAdd(def.Key, def.Value);
                 }
             }
 
@@ -246,7 +247,8 @@ namespace RepoTool.Extensions
             {
                 foreach ( KeyValuePair<string, JsonSchema> def in definitionsKeyword.Definitions )
                 {
-                    definitions.TryAdd(def.Key, def.Value); // Prefer $defs if key exists
+                    // TODO: Handle boolean returned if also returns true for already existing
+                    _ = definitions.TryAdd(def.Key, def.Value); // Prefer $defs if key exists
                 }
             }
 
@@ -313,7 +315,7 @@ namespace RepoTool.Extensions
                         finally
                         {
                             // Backtrack: Remove the ref from the visited set for this path
-                            visitedRefs.Remove(refString);
+                            _ = visitedRefs.Remove(refString);
                         }
                     }
                     else

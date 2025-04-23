@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Tools.Blocks
 {
-    public enum EnTypeModifierFlag
+    public enum EnTypeModifier
     {
         /// <summary>
         /// Indicates that a class is partial (can be split across multiple files)

@@ -2,6 +2,7 @@
 // Licensed under the Business Source License
 
 using RepoTool.Enums.Parser.Items.Expressions;
+using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Expressions.Common;
 
 namespace RepoTool.Models.Parser.Items.Expressions
@@ -96,6 +97,6 @@ namespace RepoTool.Models.Parser.Items.Expressions
         /// }
         /// </code>
         /// </example>
-        public required List<EnCallableUseModifierFlag> CallableUseModifierFlags { get; init; }
+        public required List<EnCallableUseModifier> CallableUseModifierFlags { get; init; }
     }
 }

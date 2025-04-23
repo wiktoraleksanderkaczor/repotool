@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Tools.Declarations
     /// <summary>
     /// Represents the access modifiers for declarations.
     /// </summary>
-    public enum EnDeclarationModifierFlag
+    public enum EnDeclarationModifier
     {
         /// <summary>
         /// Indicates that a variable is readonly (can only be set in constructor)

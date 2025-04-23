@@ -14,26 +14,26 @@ namespace RepoTool.Extensions
     public static class PropertyInfoExtensions
     {
         /// <summary>
-        /// Gets the <see cref="JsonSpecialFlag"/> for a given property if specific attributes are present.
+        /// Gets the <see cref="JsonSpecialModifier"/> for a given property if specific attributes are present.
         /// This method checks for the presence of <see cref="FullContentScanAttribute"/> or <see cref="UniqueItemsAttribute"/>
         /// and sets the corresponding flags. Returns null if neither attribute is found.
         /// </summary>
         /// <param name="propertyInfo">The property information to inspect.</param>
-        /// <returns>A <see cref="JsonSpecialFlag"/> value if relevant attributes are found; otherwise, null.</returns>
-        public static JsonSpecialFlag GetJsonSpecialFlag(this PropertyInfo propertyInfo)
+        /// <returns>A <see cref="JsonSpecialModifier"/> value if relevant attributes are found; otherwise, null.</returns>
+        public static JsonSpecialModifier GetJsonSpecialFlag(this PropertyInfo propertyInfo)
         {
-            JsonSpecialFlag flag = JsonSpecialFlag.None;
+            JsonSpecialModifier flag = JsonSpecialModifier.None;
 
             FullContentScanAttribute? fullContentScanAttribute = propertyInfo.GetCustomAttribute<FullContentScanAttribute>();
             if ( fullContentScanAttribute != null )
             {
-                flag |= JsonSpecialFlag.FullContentScan;
+                flag |= JsonSpecialModifier.FullContentScan;
             }
 
             UniqueItemsAttribute? uniqueItemsAttribute = propertyInfo.GetCustomAttribute<UniqueItemsAttribute>();
             if ( uniqueItemsAttribute != null )
             {
-                flag |= JsonSpecialFlag.UniqueItems;
+                flag |= JsonSpecialModifier.UniqueItems;
             }
 
             // Return the flag only if at least one relevant attribute was found

@@ -72,7 +72,7 @@ namespace RepoTool.Options
         /// <summary>
         /// API key for the server.
         /// </summary>
-        public string? ApiKey { get; set; } = null;
+        public string? ApiKey { get; set; }
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ namespace RepoTool.Options
         /// <summary>
         /// The temperature for sampling.
         /// </summary>
-        public float Temperature { get; set; } = 0;
+        public float Temperature { get; set; }
 
         /// <summary>
         /// The top-p sampling parameter.
@@ -103,12 +103,12 @@ namespace RepoTool.Options
         /// <summary>
         /// The frequency penalty for generated text.
         /// </summary>
-        public float FrequencyPenalty { get; set; } = 0.0f;
+        public float FrequencyPenalty { get; set; }
 
         /// <summary>
         /// The presence penalty for generated text.
         /// </summary>
-        public float PresencePenalty { get; set; } = 0.0f;
+        public float PresencePenalty { get; set; }
     }
 
     public record LoggingOptions
@@ -116,6 +116,6 @@ namespace RepoTool.Options
         /// <summary>
         /// The path to the log file.
         /// </summary>
-        public string? RawMessageFolder { get; set; } = null;
+        public string? RawMessageFolder { get; set; }
     }
 }

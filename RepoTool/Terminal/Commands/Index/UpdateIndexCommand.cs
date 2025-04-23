@@ -63,8 +63,8 @@ namespace RepoTool.Terminal.Commands.Index
 
                     if ( changelog != null )
                     {
-                        _dbContext.Changelogs.Add(changelog);
-                        await _dbContext.SaveChangesAsync();
+                        _ = _dbContext.Changelogs.Add(changelog);
+                        _ = await _dbContext.SaveChangesAsync();
                     }
                 }
             }
@@ -100,8 +100,8 @@ namespace RepoTool.Terminal.Commands.Index
 
                         if ( changelog != null )
                         {
-                            _dbContext.Changelogs.Add(changelog);
-                            await _dbContext.SaveChangesAsync();
+                            _ = _dbContext.Changelogs.Add(changelog);
+                            _ = await _dbContext.SaveChangesAsync();
                         }
                     }
                 }

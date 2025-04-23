@@ -3,42 +3,42 @@
 
 namespace RepoTool.Enums.Parser.Common
 {
-    public enum EnTypeInfoModifierFlag
+    public enum EnTypeInfoModifier
     {
         /// <summary>
         /// Indicates that the type is nullable
         /// </summary>
-        Nullable,
+        IsNullable,
 
         /// <summary>
         /// Indicates that the type is generic
         /// </summary>
-        Generic,
+        IsGeneric,
 
         /// <summary>
         /// Indicates that the type is a primitive type
         /// </summary>
-        Primitive,
+        IsPrimitive,
 
         /// <summary>
         /// Indicates that the type is dynamically typed
         /// </summary>
-        Dynamic,
+        IsDynamic,
 
         /// <summary>
         /// Indicates that the type is pointer
         /// </summary>
-        Pointer,
+        IsPointer,
 
         /// <summary>
         /// Indicates that the type is object
         /// Used for classes, structs, interfaces, enums, delegates, etc.
         /// </summary>
-        Object,
+        IsObject,
 
         /// <summary>
         /// Indicates that the type is duck-typed
         /// </summary>
-        DuckTyped
+        IsDuckTyped
     }
 }

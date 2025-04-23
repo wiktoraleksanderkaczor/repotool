@@ -31,7 +31,7 @@ namespace RepoTool.Models.Parser.Items.Declarations
         /// }
         /// </code>
         /// </example>
-        public required List<EnPropertyModifierFlag> ModifierFlags { get; init; }
+        public required List<EnPropertyModifier> ModifierFlags { get; init; }
 
         /// <summary>
         /// Default value of the member by expression, if applicable.

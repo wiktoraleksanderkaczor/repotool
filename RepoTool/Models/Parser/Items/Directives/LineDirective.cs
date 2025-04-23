@@ -57,6 +57,6 @@ namespace RepoTool.Models.Parser.Items.Directives
         /// }
         /// </code>
         /// </example>
-        public List<EnLineDirectiveModifierFlag>? ModifierFlags { get; init; }
+        public List<EnLineDirectiveModifier>? ModifierFlags { get; init; }
     }
 }

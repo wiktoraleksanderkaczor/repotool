@@ -10,18 +10,27 @@ namespace RepoTool.Persistence
     {
         public RepoToolDbContext CreateDbContext(string[] args)
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string dbPath = Path.Combine(currentDirectory, ".repotool", "database.db");
-            if ( !File.Exists(dbPath) )
+            string connectionString;
+            try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(dbPath) ?? throw new InvalidOperationException());
-                File.Create(dbPath);
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string dbPath = Path.Combine(currentDirectory, ".repotool", "database.db");
+                if ( !File.Exists(dbPath) )
+                {
+                    _ = Directory.CreateDirectory(Path.GetDirectoryName(dbPath) ?? throw new InvalidOperationException());
+                    _ = File.Create(dbPath);
+                }
+                connectionString = $"Data Source={dbPath}";
+                // connectionString = $"Data Source=:memory:";
             }
-            string connectionString = $"Data Source={dbPath}";
-            // string connectionString = $"Data Source=:memory:";
+            catch ( Exception ex )
+            {
+                throw new InvalidOperationException("Could not create the database context.", ex);
+            }
+
 
             DbContextOptionsBuilder<RepoToolDbContext> optionsBuilder = new();
-            optionsBuilder.UseSqlite(connectionString);
+            optionsBuilder = optionsBuilder.UseSqlite(connectionString);
 
             return new RepoToolDbContext(optionsBuilder.Options);
         }

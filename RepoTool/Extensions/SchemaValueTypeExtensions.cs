@@ -8,14 +8,14 @@ namespace RepoTool.Extensions
 {
     public static class SchemaValueTypeExtensions
     {
-        public static EnOutputHandlingType GetOutputHandlingType(this SchemaValueType schemaValueType)
+        public static EnSchemaOutput GetOutputHandlingType(this SchemaValueType schemaValueType)
         {
             return schemaValueType switch
             {
-                SchemaValueType.Object => EnOutputHandlingType.Object,
-                SchemaValueType.Array => EnOutputHandlingType.Iterable,
+                SchemaValueType.Object => EnSchemaOutput.ObjectType,
+                SchemaValueType.Array => EnSchemaOutput.IterableType,
                 // All primitive JSON types map to Value
-                SchemaValueType.Boolean or SchemaValueType.String or SchemaValueType.Number or SchemaValueType.Integer or SchemaValueType.Null => EnOutputHandlingType.Value,
+                SchemaValueType.Boolean or SchemaValueType.String or SchemaValueType.Number or SchemaValueType.Integer or SchemaValueType.Null => EnSchemaOutput.ValueType,
                 _ => throw new InvalidOperationException($"Unknown '{schemaValueType}' SchemaValueType encountered."),
             };
         }

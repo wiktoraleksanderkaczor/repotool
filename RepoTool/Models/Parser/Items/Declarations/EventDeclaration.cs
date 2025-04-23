@@ -2,6 +2,7 @@
 // Licensed under the Business Source License
 
 using RepoTool.Enums.Parser.Tools.Common;
+using RepoTool.Models.Parser.Items.Common;
 using RepoTool.Models.Parser.Items.Declarations.Common;
 
 namespace RepoTool.Models.Parser.Items.Declarations
@@ -28,6 +29,6 @@ namespace RepoTool.Models.Parser.Items.Declarations
         /// }
         /// </code>
         /// </example>
-        public required List<EnAccessModifierFlag> AccessModifierFlags { get; init; }
+        public required List<EnAccessModifier> AccessModifierFlags { get; init; }
     }
 }

@@ -22,6 +22,6 @@ namespace RepoTool.Models.Parser.Items.Blocks
         /// }
         /// </code>
         /// </example>
-        public required List<EnStructModifierFlag> StructModifierFlags { get; init; }
+        public required List<EnStructModifier> StructModifierFlags { get; init; }
     }
 }

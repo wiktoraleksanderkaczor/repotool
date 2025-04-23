@@ -27,7 +27,7 @@ namespace RepoTool.Extensions
 
             // Ensure validation services are registered if ValidateOnStart is used.
             // This adds the necessary IValidateOptions services. Safe to call multiple times.
-            services.AddOptions();
+            services = services.AddOptions();
 
             // Find the generic helper method within this class ONCE.
             MethodInfo registerMethodInfo = typeof(ServiceCollectionExtensions)
@@ -63,7 +63,7 @@ namespace RepoTool.Extensions
                     MethodInfo genericRegisterMethod = registerMethodInfo.MakeGenericMethod(modelType);
 
                     // Invoke RegisterAndValidateOption<modelType>(services, configSection).
-                    genericRegisterMethod.Invoke(null, [services, configSection]);
+                    _ = genericRegisterMethod.Invoke(null, [services, configSection]);
                 }
                 catch ( Exception ex ) when ( ex is not InvalidOperationException ) // Catch reflection/invocation issues, but let InvalidOperationExceptions propagate
                 {
@@ -87,7 +87,7 @@ namespace RepoTool.Extensions
             where T : class
         {
             // Use the standard, type-safe fluent API for registration, binding, and validation.
-            services.AddOptions<T>()
+            _ = services.AddOptions<T>()
                 .Bind(section)
                 // Enables DataAnnotations validation on application startup.
                 .ValidateOnStart();

@@ -27,7 +27,7 @@ namespace RepoTool.Terminal.Commands
             // Ensure containing directory exists
             if ( !Directory.Exists(PathConstants.RepoToolFolder) )
             {
-                Directory.CreateDirectory(PathConstants.RepoToolFolder);
+                _ = Directory.CreateDirectory(PathConstants.RepoToolFolder);
             }
 
             // Ensure database file exists

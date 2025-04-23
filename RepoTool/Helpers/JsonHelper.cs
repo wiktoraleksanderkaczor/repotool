@@ -33,7 +33,8 @@ namespace RepoTool.Helpers
             UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
             // Nulls included by default when deserializing
             WriteIndented = true,
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver(),
+            PropertyNameCaseInsensitive = true
         };
 
         public static SchemaGeneratorConfiguration DefaultSchemaGeneratorConfiguration { get; } = new()
@@ -185,14 +186,14 @@ namespace RepoTool.Helpers
         {
             // Create a string representation of the type structure
             StringBuilder sb = new();
-            sb.Append(type.FullName);
+            sb = sb.Append(type.FullName);
 
             // Include all public instance properties, ordered by name
             foreach ( PropertyInfo property in type.GetProperties(TypeConstants.DefaultBindingFlags)
                 .OrderBy(p => p.Name) ) // Ensure consistent ordering
             {
-                sb.Append(property.Name);
-                sb.Append(property.PropertyType.FullName);
+                sb = sb.Append(property.Name);
+                sb = sb.Append(property.PropertyType.FullName);
                 // Consider adding attributes relevant to schema generation if needed
             }
 
@@ -203,7 +204,7 @@ namespace RepoTool.Helpers
                     .OrderBy(t => t.Name) )
                 {
                     // Recursively compute hash for nested types
-                    sb.Append(ComputeTypeHash(nestedType));
+                    sb = sb.Append(ComputeTypeHash(nestedType));
                 }
             }
 
@@ -253,9 +254,9 @@ namespace RepoTool.Helpers
         /// Gets the primary JSON schema value handling type for the specified C# type.
         /// </summary>
         /// <param name="type">The C# type.</param>
-        /// <returns>A task representing the asynchronous operation, containing the <see cref="EnOutputHandlingType"/> representing the root type(s) of the generated JSON schema.</returns>
+        /// <returns>A task representing the asynchronous operation, containing the <see cref="EnSchemaOutput"/> representing the root type(s) of the generated JSON schema.</returns>
         /// <exception cref="InvalidOperationException">Thrown if the schema type cannot be determined.</exception>
-        public static async Task<EnOutputHandlingType> GetItemSchemaHandlingTypeAsync(Type type)
+        public static async Task<EnSchemaOutput> GetItemSchemaHandlingTypeAsync(Type type)
         {
             JsonSchema schema = await GetOrCreateJsonSchemaAsync(type);
             SchemaValueType? schemaValueType = schema.GetJsonType();
@@ -269,7 +270,7 @@ namespace RepoTool.Helpers
             if ( schema.TryGetKeyword<EnumKeyword>(EnumKeyword.Name, out _) )
             {
                 // Schemas defined by 'enum' represent a fixed set of values.
-                return EnOutputHandlingType.Value;
+                return EnSchemaOutput.ValueType;
             }
 
             // Fallback or error handling if type and enum keywords are missing.

@@ -29,7 +29,7 @@ namespace RepoTool
         private static void ConfigureDatabase(IServiceCollection services)
         {
             string connectionString = $"Data Source={PathConstants.DatabasePath}";
-            services.AddDbContext<RepoToolDbContext>(options =>
+            services = services.AddDbContext<RepoToolDbContext>(options =>
                 options.UseSqlite(connectionString));
         }
 
@@ -40,14 +40,13 @@ namespace RepoTool
                 .Where(type =>
                     !type.IsAbstract
                     && !type.IsInterface
-                    && type.Name.EndsWith("Helper"))
+                    && type.Name.EndsWith("Helper", StringComparison.InvariantCulture))
                 .ToList();
 
             foreach ( Type type in helpers )
             {
                 ServiceLifetimeAttribute? serviceLifetimeAttribute = type
-                    .GetCustomAttribute(typeof(ServiceLifetimeAttribute))
-                    as ServiceLifetimeAttribute;
+                    .GetCustomAttribute<ServiceLifetimeAttribute>();
 
                 // Default to Transient if no attribute is found
                 ServiceLifetime lifetime = serviceLifetimeAttribute?.ServiceLifetime ?? ServiceLifetime.Transient;
@@ -58,7 +57,7 @@ namespace RepoTool
                     ServiceLifetime.Singleton => services.AddSingleton(type),
                     ServiceLifetime.Scoped => services.AddScoped(type),
                     ServiceLifetime.Transient => services.AddTransient(type),
-                    _ => throw new ArgumentOutOfRangeException(nameof(lifetime), lifetime, "Invalid service lifetime specified."),
+                    _ => throw new InvalidOperationException($"Invalid service lifetime '{lifetime}' specified for type '{type.FullName}'."),
                 };
 
                 // TODO: Register the Lazy<T> version of the helper

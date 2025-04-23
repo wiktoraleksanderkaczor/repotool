@@ -79,7 +79,7 @@ namespace RepoTool.Models.Parser.Items.Statements
         /// }
         /// </code>
         /// </example>
-        public required List<EnImportModifierFlag> ImportModifierFlags { get; init; }
+        public required List<EnImportModifier> ImportModifierFlags { get; init; }
     }
 
     /// <summary>

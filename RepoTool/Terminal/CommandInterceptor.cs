@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
 {
-    internal class CommandInterceptor : ICommandInterceptor
+    internal sealed class CommandInterceptor : ICommandInterceptor
     {
         // <summary>
         // Intercepts the command settings and performs any necessary init checks.

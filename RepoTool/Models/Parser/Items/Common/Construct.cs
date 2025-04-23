@@ -3,6 +3,7 @@
 
 using Json.Schema.Generation;
 using RepoTool.Attributes.Parser;
+using RepoTool.Models.Parser.Tools;
 
 namespace RepoTool.Models.Parser.Items.Common
 {

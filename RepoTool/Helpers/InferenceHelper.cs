@@ -103,16 +103,16 @@ namespace RepoTool.Helpers
 
             // Get prompt output type
             string promptOutputType = outputType.FullName
-                ?? throw new ArgumentNullException(nameof(outputType), "Output type cannot be null.");
+                ?? throw new ArgumentNullException(nameof(inferenceRequest), "Output type derived from inferenceRequest.Context.ItemPath cannot have a null FullName.");
 
             // Determine the type to use for schema generation
-            EnOutputHandlingType outputHandlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(outputType);
+            EnSchemaOutput outputHandlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(outputType);
 
             // Wrap the output type if not object
             Type schemaGenerationType = outputHandlingType switch
             {
-                EnOutputHandlingType.Object => outputType,
-                EnOutputHandlingType.Iterable or EnOutputHandlingType.Value => typeof(InferenceValueWrapper<>).MakeGenericType(outputType),
+                EnSchemaOutput.ObjectType => outputType,
+                EnSchemaOutput.IterableType or EnSchemaOutput.ValueType => typeof(InferenceValueWrapper<>).MakeGenericType(outputType),
                 _ => throw new NotImplementedException()
             };
 
@@ -153,7 +153,7 @@ namespace RepoTool.Helpers
                 string logsFolder = _options.Value.Logging.RawMessageFolder;
                 if ( !Directory.Exists(logsFolder) )
                 {
-                    Directory.CreateDirectory(logsFolder);
+                    _ = Directory.CreateDirectory(logsFolder);
                 }
 
                 int fileCount = Directory.GetFiles(logsFolder, "*.txt").Length;
@@ -218,8 +218,8 @@ namespace RepoTool.Helpers
                         OutputType = promptOutputType,
                         ResponseContent = output
                     };
-                    _dbContext.InferenceCache.Add(cacheEntry);
-                    await _dbContext.SaveChangesAsync();
+                    _ = _dbContext.InferenceCache.Add(cacheEntry);
+                    _ = await _dbContext.SaveChangesAsync();
                 }
                 catch ( DbUpdateException e )
                 {
@@ -229,7 +229,7 @@ namespace RepoTool.Helpers
             }
 
             // If needed, unwrap InferenceValueWrapper<T> to get value
-            if ( outputHandlingType != EnOutputHandlingType.Object )
+            if ( outputHandlingType != EnSchemaOutput.ObjectType )
             {
                 // Get property name with reflection
                 string propertyName = schemaGenerationType
@@ -257,7 +257,7 @@ namespace RepoTool.Helpers
         private static List<InferenceMessage> ParseMessages(string rawMessages)
         {
             // List<InferenceMessage> messages = new();
-            string messageRoles = string.Join("|", Enum.GetNames(typeof(EnInferenceRole)));
+            string messageRoles = string.Join("|", Enum.GetNames<EnInferenceRole>());
             Regex regex = new(@$"<(?<role>{messageRoles})>(?<message>[\s\S]*?)</\k<role>>", RegexOptions.Multiline);
             MatchCollection matches = regex.Matches(rawMessages);
 
@@ -284,9 +284,9 @@ namespace RepoTool.Helpers
                             Role = EnInferenceRole.Assistant,
                             Content = message
                         },
-                        _ => throw new ArgumentOutOfRangeException(nameof(parsedRole), $"Unsupported message role: {parsedRole}"),
+                        _ => throw new ArgumentOutOfRangeException(nameof(rawMessages), $"Unsupported message role: {parsedRole}"),
                     }
-                    : throw new ArgumentOutOfRangeException(nameof(role), $"Unsupported message role: {role}");
+                    : throw new ArgumentOutOfRangeException(nameof(rawMessages), $"Unsupported message role: {role}");
             }).ToList();
         }
     }

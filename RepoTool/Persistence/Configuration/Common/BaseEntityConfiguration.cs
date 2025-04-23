@@ -12,23 +12,23 @@ namespace RepoTool.Persistence.Configuration.Common
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             // Add primary key
-            builder.HasKey(x => x.Id);
+            _ = builder.HasKey(x => x.Id);
 
             // Add created timestamp with default value
-            builder.Property(x => x.CreatedAt)
+            _ = builder.Property(x => x.CreatedAt)
                 .IsRequired()
                 .ValueGeneratedOnAdd()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             // Add last modified timestamp with default value
-            builder.Property(x => x.LastModifiedAt)
+            _ = builder.Property(x => x.LastModifiedAt)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             // Add indexes
-            builder.HasIndex(x => x.Id).IsUnique();
-            builder.HasIndex(x => x.CreatedAt);
-            builder.HasIndex(x => x.LastModifiedAt);
+            _ = builder.HasIndex(x => x.Id).IsUnique();
+            _ = builder.HasIndex(x => x.CreatedAt);
+            _ = builder.HasIndex(x => x.LastModifiedAt);
         }
     }
 }

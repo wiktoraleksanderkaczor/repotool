@@ -81,18 +81,17 @@ namespace RepoTool.Persistence.Entities
                 _ => ""
             };
 
-            StringBuilder formatted = new();
-            _ = formatted
-                .AppendLine($"- {Description}")
-                .AppendLine($"  - Importance: {importanceLabel}")
-                .AppendLine($"  - Quality: {qualityLabel}")
-                .AppendLine($"  - Area: {Area}")
-                .AppendLine($"  - Type: {Type}")
-                .AppendLine($"  - Specialization: {Specialization}")
-                .AppendLine($"  - Technical Debt: {TechnicalDebt}")
-                .AppendLine($"  - Performance Impact: {PerformanceImpact}");
-
-            return formatted.ToString();
+            return $"""
+                   - {Description}
+                     - Importance: {importanceLabel}
+                     - Quality: {qualityLabel}
+                     - Area: {Area}
+                     - Type: {Type}
+                     - Specialization: {Specialization}
+                     - Technical Debt: {TechnicalDebt}
+                     - Performance Impact: {PerformanceImpact}
+                     - Size: {Size}
+                   """;
         }
     }
 
@@ -116,10 +115,10 @@ namespace RepoTool.Persistence.Entities
         public string FormatChanges()
         {
             StringBuilder formatted = new();
-            formatted.AppendLine("Changelog:");
+            formatted = formatted.AppendLine("Changelog:");
             foreach ( Change change in Changes )
             {
-                formatted.AppendLine(change.FormatChange());
+                formatted = formatted.AppendLine(change.FormatChange());
             }
             return formatted.ToString();
         }

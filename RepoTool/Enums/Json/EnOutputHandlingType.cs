@@ -3,10 +3,10 @@
 
 namespace RepoTool.Enums.Json
 {
-    public enum EnOutputHandlingType
+    public enum EnSchemaOutput
     {
-        Object,
-        Iterable,
-        Value
+        ObjectType,
+        IterableType,
+        ValueType
     }
 }

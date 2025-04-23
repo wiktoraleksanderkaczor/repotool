@@ -15,30 +15,30 @@ namespace RepoTool.Persistence.Configuration
             base.Configure(builder);
 
             // Changes to be serialized as JSON
-            builder.OwnsMany(x => x.Changes, b =>
+            _ = builder.OwnsMany(x => x.Changes, b =>
             {
-                b.Property(x => x.Description)
+                _ = b.Property(x => x.Description)
                     .IsRequired();
-                b.Property(x => x.Reason)
+                _ = b.Property(x => x.Reason)
                     .IsRequired();
-                b.Property(x => x.Importance)
+                _ = b.Property(x => x.Importance)
                     .IsRequired();
-                b.Property(x => x.Quality)
+                _ = b.Property(x => x.Quality)
                     .IsRequired();
-                b.Property(x => x.Area)
+                _ = b.Property(x => x.Area)
                     .IsRequired();
-                b.Property(x => x.Type)
+                _ = b.Property(x => x.Type)
                     .IsRequired();
-                b.Property(x => x.Specialization)
+                _ = b.Property(x => x.Specialization)
                     .IsRequired();
-                b.Property(x => x.TechnicalDebt)
+                _ = b.Property(x => x.TechnicalDebt)
                     .IsRequired();
-                b.Property(x => x.PerformanceImpact)
+                _ = b.Property(x => x.PerformanceImpact)
                     .IsRequired();
-                b.Property(x => x.Size)
+                _ = b.Property(x => x.Size)
                     .IsRequired();
 
-                b.ToJson();
+                _ = b.ToJson();
             });
 
         }

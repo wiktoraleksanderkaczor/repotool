@@ -13,11 +13,11 @@ namespace RepoTool.Extensions
             Array enumValues = Enum.GetValues(type);
             int matchCount = 0;
 
-            long longValue = Convert.ToInt64(value);
+            long longValue = Convert.ToInt64(value, null);
 
             foreach ( Enum enumVal in enumValues )
             {
-                long enumLong = Convert.ToInt64(enumVal);
+                long enumLong = Convert.ToInt64(enumVal, null);
                 if ( enumLong != 0 && ( longValue & enumLong ) == enumLong )
                 {
                     matchCount++;
@@ -50,12 +50,12 @@ namespace RepoTool.Extensions
             }
 
             List<T> flags = [];
-            long longValue = Convert.ToInt64(value);
+            long longValue = Convert.ToInt64(value, null);
 
             // Iterate through all defined enum values
             foreach ( T enumVal in Enum.GetValues(type).Cast<T>() )
             {
-                long enumLong = Convert.ToInt64(enumVal);
+                long enumLong = Convert.ToInt64(enumVal, null);
 
                 // Check if the enum value is a non-zero flag and is set in the input value
                 if ( enumLong != 0 && ( longValue & enumLong ) == enumLong )

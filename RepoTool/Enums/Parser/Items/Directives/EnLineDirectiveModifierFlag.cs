@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Directives
     /// <summary>
     /// Represents flags for line preprocessor directive modifiers (hidden, default).
     /// </summary>
-    public enum EnLineDirectiveModifierFlag
+    public enum EnLineDirectiveModifier
     {
         /// <summary>
         /// Represents setting a specific line number.

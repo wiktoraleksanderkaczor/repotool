@@ -18,8 +18,8 @@ using RepoTool.Models.Parser.Interfaces;
 using RepoTool.Models.Parser.Tools;
 using RepoTool.Models.Parser.Tools.Builders;
 using RepoTool.Models.Parser.Tools.Builders.Common;
+using RepoTool.Models.Parser.Tools.Builders.Item;
 using RepoTool.Models.Parser.Tools.Builders.Iterable;
-using RepoTool.Models.Parser.Tools.Builders.Object;
 using RepoTool.Models.Parser.Tools.Navigation;
 using RepoTool.Persistence;
 using RepoTool.Persistence.Entities;
@@ -45,7 +45,7 @@ namespace RepoTool.Helpers
 
         public async Task<ParsedFileEntity> ParseFileAsync(string filePath, string? reference = null)
         {
-            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference) ?? throw new Exception($"File '{filePath}' not found.");
+            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference) ?? throw new FileNotFoundException($"File '{filePath}' not found.");
 
             // Compute SHA256 hash of the string representation
             string contentHash = content.ToSha256Hash();
@@ -67,7 +67,7 @@ namespace RepoTool.Helpers
 
             if ( languageEntity == null )
             {
-                throw new Exception($"Language not found for file '{filePath}'.");
+                throw new InvalidOperationException($"Language configuration not found for file '{filePath}'. Ensure a language entry with matching patterns exists.");
             }
 
 #if !DEBUG
@@ -105,9 +105,9 @@ namespace RepoTool.Helpers
 
             JsonDocument parsedDataDocument = await ParseRecursively(parserContext);
             string parsedDataDocumentJson = parsedDataDocument.ToString()
-                ?? throw new Exception("Parsed data parsing failed");
+                ?? throw new InvalidOperationException("Parsed data parsing failed");
             ParsedData parsedData = JsonHelper.DeserializeJsonToType<ParsedData>(parsedDataDocumentJson)
-                ?? throw new Exception("Parsed data deserialization failed");
+                ?? throw new InvalidOperationException("Parsed data deserialization failed");
 
             ParsedFileEntity parsedFileEntity = new()
             {
@@ -125,7 +125,7 @@ namespace RepoTool.Helpers
             }
             catch ( Exception ex )
             {
-                throw new Exception("Error saving parsed file entity.", ex);
+                throw new InvalidOperationException("Error saving parsed file entity.", ex);
             }
 
             return parsedFileEntity;
@@ -144,12 +144,12 @@ namespace RepoTool.Helpers
         {
             // Get Handling Type (using the refined helper method)
             Type objectType = parserContext.ItemPath.GetLastObjectType();
-            EnOutputHandlingType handlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(objectType);
+            EnSchemaOutput handlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(objectType);
 
             // Branch Based on Handling Type
             switch ( handlingType )
             {
-                case EnOutputHandlingType.Object:
+                case EnSchemaOutput.ObjectType:
                     // --- Object Handling ---
                     switch ( objectType.IsCollectionType() )
                     {
@@ -160,7 +160,7 @@ namespace RepoTool.Helpers
                             // Handle standard object types
                             return await ParseRecord(parserContext);
                     }
-                case EnOutputHandlingType.Iterable:
+                case EnSchemaOutput.IterableType:
                     // Assume ParseIterable handles its own relative path additions correctly.
                     // No need to reset path here, as ParseIterable receives the current context.
                     if ( !objectType.IsCollectionType() )
@@ -170,7 +170,7 @@ namespace RepoTool.Helpers
                     }
                     return await ParseIterable(parserContext);
 
-                case EnOutputHandlingType.Value:
+                case EnSchemaOutput.ValueType:
                     // Directly infer the value
                     InferenceRequest<ParserContext> inferenceRequest = new() { Context = parserContext };
                     return await _inferenceHelper.GetInferenceAsync<JsonDocument, ParserContext>(inferenceRequest)
@@ -216,28 +216,28 @@ namespace RepoTool.Helpers
                 // Parse tool choice as IToolSelector<T>
                 Type? toolSelectorInterface = toolComponent.ToolType.GetInterfaces()
                     .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IToolSelector<>))
-                    ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not implement IToolSelector<T>.");
+                    ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not implement IToolSelector<T>.");
 
                 // Get the generic type argument (enum type) from the interface
                 Type enumType = toolSelectorInterface.GetGenericArguments().FirstOrDefault()
-                    ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a generic argument for IToolSelector<T>.");
+                    ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a generic argument for IToolSelector<T>.");
 
                 // Verify that the tool choice type has a ToolSelection property
                 PropertyInfo? toolSelectionProperty = toolComponent.ToolType
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .FirstOrDefault(p => p.PropertyType == enumType)
-                    ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a tool selection property.");
+                    ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a tool selection property.");
 
                 // Continue with tool use by getting enumeration value from the tool choice
                 object toolChoiceEnum = toolChoice.GetPropertyValue(toolSelectionProperty.Name, toolSelectionProperty.PropertyType)
-                    ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value.");
+                    ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value.");
 
                 // Check for ToolChoice on the tool choice enum
                 ToolChoiceAttribute? toolChoiceEnumAttribute = toolChoiceEnum
                     .GetType()
                     .GetField(
                         toolChoiceEnum.ToString()
-                            ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value."))
+                            ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value."))
                     ?.GetCustomAttributes(typeof(ToolChoiceAttribute), false)
                     .FirstOrDefault() as ToolChoiceAttribute;
 
@@ -246,14 +246,14 @@ namespace RepoTool.Helpers
                     .GetType()
                     .GetField(
                         toolChoiceEnum.ToString()
-                            ?? throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value."))
+                            ?? throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value."))
                     ?.GetCustomAttributes(typeof(ItemChoiceAttribute), false)
                     .FirstOrDefault() as ItemChoiceAttribute;
 
                 switch (toolChoiceEnumAttribute, itemChoiceEnumAttribute)
                 {
                     case (null, null):
-                        throw new Exception($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value.");
+                        throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} does not have a valid tool selection value.");
                     case (null, not null):
                         // ItemChoice attribute found
                         return itemChoiceEnumAttribute.ItemChoice;
@@ -274,11 +274,11 @@ namespace RepoTool.Helpers
                         return await ParseToolSelector(parserContext);
                     default:
                         // Both attributes found, invalid
-                        throw new Exception($"Tool choice type {toolComponent.ToolType.Name} has both ToolChoice and ItemChoice attributes, which is not allowed.");
+                        throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} has both ToolChoice and ItemChoice attributes, which is not allowed.");
                 }
             }
 
-            throw new Exception($"Tool type {toolComponent.ToolType.Name} does not implement IToolSelector<T>.");
+            throw new InvalidOperationException($"Tool type {toolComponent.ToolType.Name} does not implement IToolSelector<T>.");
         }
 
         private async Task<JsonDocument> ParseRecord(
@@ -392,10 +392,10 @@ namespace RepoTool.Helpers
         {
             Type objectType = parserContext.ItemPath.GetLastObjectType();
 
-            JsonSpecialFlag jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
-                ?? JsonSpecialFlag.None;
+            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
+                ?? JsonSpecialModifier.None;
 
-            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
             {
                 parserContext.CodeWindow.StashWindow();
                 parserContext.CodeWindow.ResetWindowPosition();
@@ -414,7 +414,7 @@ namespace RepoTool.Helpers
                 parserContext.ItemPath.AddComponent(
                     new ItemPathToolComponent
                     {
-                        ToolType = typeof(ObjectBuilderSelector),
+                        ToolType = typeof(ItemBuilderSelector),
                         CurrentObject = null,
                     });
                 InferenceRequest<ParserContext> selectorRequest = new() { Context = parserContext };
@@ -471,7 +471,7 @@ namespace RepoTool.Helpers
 
                     case EndItem endItem:
                         // Code to execute if FullContentScan is present
-                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
                         {
                             if ( !parserContext.CodeWindow.IsFinished )
                             {
@@ -526,7 +526,7 @@ namespace RepoTool.Helpers
                 }
             }
 
-            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
             {
                 parserContext.CodeWindow.PopWindow();
             }
@@ -538,10 +538,10 @@ namespace RepoTool.Helpers
         private async Task<JsonDocument> ParseIterable(
             ParserContext parserContext)
         {
-            JsonSpecialFlag jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
-                ?? JsonSpecialFlag.None;
+            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
+                ?? JsonSpecialModifier.None;
 
-            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
             {
                 parserContext.CodeWindow.StashWindow();
                 parserContext.CodeWindow.ResetWindowPosition();
@@ -622,7 +622,7 @@ namespace RepoTool.Helpers
                         JsonArray items = currentObject?.GetAsJsonArray()
                             ?? throw new InvalidOperationException($"Current object is null at path {parserContext.ItemPath}");
 
-                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.UniqueItems)
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.UniqueItems)
                             && items.Any(item => item?.ToJsonString() == parsedItem.GetAsJsonNode().ToJsonString()) )
                         {
                             parserContext.ActionWindow.AddAction(new Action
@@ -650,7 +650,7 @@ namespace RepoTool.Helpers
 
                     case EndItem endItem:
                         // Code to execute if FullContentScan is present
-                        if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+                        if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
                         {
                             if ( !parserContext.CodeWindow.IsFinished )
                             {
@@ -704,7 +704,7 @@ namespace RepoTool.Helpers
                 }
             }
 
-            if ( jsonSpecialFlag.HasFlag(JsonSpecialFlag.FullContentScan) )
+            if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
             {
                 parserContext.CodeWindow.PopWindow();
             }
@@ -721,7 +721,7 @@ namespace RepoTool.Helpers
         /// <param name="toolItem">The tool call object.</param>
         /// <returns>True if the tool call was handled; otherwise, false.</returns>
         /// <exception cref="ArgumentNullException">Thrown if toolCall is null.</exception>
-        private bool HandleCommonTools<T>(
+        private static bool HandleCommonTools<T>(
             ParserContext parserContext,
             T toolItem) where T : class
         {
@@ -740,13 +740,24 @@ namespace RepoTool.Helpers
                     }
                     else
                     {
-                        parserContext.CodeWindow?.ScrollWindow(scrollDownTool.NumberOfLines);
-                        parserContext.ActionWindow.AddAction(new Action
+                        if ( parserContext.CodeWindow?.ScrollWindow(scrollDownTool.NumberOfLines) ?? false )
                         {
-                            IsSuccess = true,
-                            Message = $"Scrolled down {scrollDownTool.NumberOfLines} lines at {parserContext.ItemPath.FullPath}",
-                            ItemPath = null
-                        });
+                            parserContext.ActionWindow.AddAction(new Action
+                            {
+                                IsSuccess = true,
+                                Message = $"Scrolled down {scrollDownTool.NumberOfLines} lines at {parserContext.ItemPath.FullPath}",
+                                ItemPath = null
+                            });
+                        }
+                        else
+                        {
+                            parserContext.ActionWindow.AddAction(new Action
+                            {
+                                IsSuccess = true,
+                                Message = $"Scrolling down {scrollDownTool.NumberOfLines} lines did not change window position",
+                                ItemPath = null
+                            });
+                        }
                     }
                     return true;
 

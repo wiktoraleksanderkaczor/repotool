@@ -24,7 +24,7 @@ namespace RepoTool.Terminal.Commands.Cache
         public override async Task<int> ExecuteAsync(CommandContext context, ClearCacheSettings settings)
         {
             _dbContext.InferenceCache.RemoveRange(_dbContext.InferenceCache);
-            await _dbContext.SaveChangesAsync();
+            _ = await _dbContext.SaveChangesAsync();
             AnsiConsole.WriteLine("Cache cleared.");
             return 0;
         }

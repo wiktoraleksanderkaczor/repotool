@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Tools.Declarations
 {
-    public enum EnPropertyModifierFlag
+    public enum EnPropertyModifier
     {
         /// <summary>
         /// Indicates that a property is read-only

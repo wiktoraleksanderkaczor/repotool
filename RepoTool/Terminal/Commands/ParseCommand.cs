@@ -2,7 +2,9 @@
 // Licensed under the Business Source License
 
 using System.ComponentModel;
+using RepoTool.Extensions;
 using RepoTool.Helpers;
+using RepoTool.Persistence.Entities;
 using RepoTool.Terminal.Commands.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -29,7 +31,8 @@ namespace RepoTool.Terminal.Commands
         public override async Task<int> ExecuteAsync(CommandContext context, ParseSettings settings)
         {
             AnsiConsole.WriteLine("Parse file command executed.");
-            await _parserHelper.ParseFileAsync(settings.FilePath);
+            ParsedFileEntity entity = await _parserHelper.ParseFileAsync(settings.FilePath);
+            JsonHelper.SerializeToJson(entity).DisplayAsJson(Color.Green);
             return await Task.FromResult(0);
         }
     }

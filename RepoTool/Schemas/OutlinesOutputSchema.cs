@@ -106,7 +106,7 @@ namespace RepoTool.Schemas
                 );
 
             // Add conditional logic using AllOf, If, Then, Not
-            metaSchemaBuilder.AllOf(
+            metaSchemaBuilder = metaSchemaBuilder.AllOf(
                 // Condition 1: Root object must not be anyOf
                 new JsonSchemaBuilder()
                     .Not(new JsonSchemaBuilder().Required("anyOf")),

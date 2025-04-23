@@ -44,7 +44,7 @@ namespace RepoTool.Models.Parser.Items.Blocks.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnAccessModifierFlag>? AccessModifiers { get; init; }
+        public required List<EnAccessModifier>? AccessModifiers { get; init; }
 
         /// <summary>
         /// The list of inheritance modifiers for this block.
@@ -60,7 +60,7 @@ namespace RepoTool.Models.Parser.Items.Blocks.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnInheritanceModifierFlag>? InheritanceModifiers { get; init; }
+        public required List<EnInheritanceModifier>? InheritanceModifiers { get; init; }
 
         /// <summary>
         /// The list of type modifiers for this block.
@@ -76,7 +76,7 @@ namespace RepoTool.Models.Parser.Items.Blocks.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnTypeModifierFlag>? TypeModifiers { get; init; }
+        public required List<EnTypeModifier>? TypeModifiers { get; init; }
 
         /// <summary>
         /// The list of attributes applied to this block.

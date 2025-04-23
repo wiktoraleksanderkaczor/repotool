@@ -15,31 +15,31 @@ namespace RepoTool.Persistence.Configuration
         {
             base.Configure(builder);
 
-            builder.Property(x => x.FilePath)
+            _ = builder.Property(x => x.FilePath)
                 .IsRequired(false);
 
-            builder.Property(x => x.FileHash)
+            _ = builder.Property(x => x.FileHash)
                 .IsRequired(false);
 
-            builder
+            _ = builder
                 .HasOne(x => x.Language)
                 .WithMany()
                 .HasForeignKey(x => x.LanguageId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(x => x.ParsedFile)
+            _ = builder.Property(x => x.ParsedFile)
                 .IsRequired(false)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
                     v => DeserializeParsedData(v));
 
             // Add individual indexes
-            builder.HasIndex(x => x.FilePath);
-            builder.HasIndex(x => x.FileHash);
-            builder.HasIndex(x => x.LanguageId);
+            _ = builder.HasIndex(x => x.FilePath);
+            _ = builder.HasIndex(x => x.FileHash);
+            _ = builder.HasIndex(x => x.LanguageId);
 
             // Composite key unique index
-            builder.HasIndex(x => new { x.FilePath, x.FileHash })
+            _ = builder.HasIndex(x => new { x.FilePath, x.FileHash })
                 .IsUnique();
         }
 

@@ -34,8 +34,8 @@ namespace RepoTool.Terminal.Commands.Language
                 Name = settings.Name,
                 Patterns = settings.Patterns
             };
-            _dbContext.Languages.Add(languageEntity);
-            await _dbContext.SaveChangesAsync();
+            _ = _dbContext.Languages.Add(languageEntity);
+            _ = await _dbContext.SaveChangesAsync();
             AnsiConsole.WriteLine($"Added language '{settings.Name}'.");
             return 0;
         }

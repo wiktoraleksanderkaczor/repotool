@@ -31,7 +31,7 @@ namespace RepoTool.Models.Parser.Items.Common
         /// }
         /// </code>
         /// </example>
-        public required List<EnParameterModifierFlag> ParameterModifierFlags { get; init; }
+        public required List<EnParameterModifier> ParameterModifierFlags { get; init; }
 
         /// <summary>
         /// Default value for optional parameter by expression, if applicable.

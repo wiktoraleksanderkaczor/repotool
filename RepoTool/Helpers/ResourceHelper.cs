@@ -61,7 +61,7 @@ namespace RepoTool.Helpers
 
             List<string> resourceNames = assembly
                 .GetManifestResourceNames()
-                .Where(r => r.EndsWith(".sbn"))
+                .Where(r => r.EndsWith(".sbn", StringComparison.InvariantCulture))
                 .ToList();
 
             return resourceNames;

@@ -15,8 +15,9 @@ namespace RepoTool.Persistence.Configuration
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Name)
+            _ = builder.Property(x => x.Name)
                 .IsRequired();
+
             builder.Property(x => x.Patterns)
                 .IsRequired()
                 .HasConversion(
@@ -28,7 +29,7 @@ namespace RepoTool.Persistence.Configuration
                         c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                         c => c.ToList()));
 
-            builder.HasIndex(x => x.Name)
+            _ = builder.HasIndex(x => x.Name)
                 .IsUnique();
         }
     }

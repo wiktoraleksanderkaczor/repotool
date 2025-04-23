@@ -2,7 +2,6 @@
 // Licensed under the Business Source License
 
 using System.ComponentModel;
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using RepoTool.Helpers;
 using RepoTool.Models.Resources;
@@ -30,12 +29,11 @@ namespace RepoTool.Terminal.Commands.Language.Available
         public override async Task<int> ExecuteAsync(CommandContext context, AddAvailableLanguageSettings settings)
         {
             string languagesJson = ResourceHelper.GetParserLanguagesJson();
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
-            List<LanguageEntry> languages = JsonSerializer.Deserialize<List<LanguageEntry>>(languagesJson, options)
-                ?? throw new Exception("Failed to deserialize languages JSON.");
+            List<LanguageEntry> languages = JsonHelper.DeserializeJsonToType<List<LanguageEntry>>(languagesJson)
+                ?? throw new InvalidOperationException("Failed to deserialize languages JSON.");
             if ( string.IsNullOrEmpty(settings.Name) || !languages.Any(l => l.Name.Equals(settings.Name, StringComparison.OrdinalIgnoreCase)) )
             {
-                throw new ArgumentOutOfRangeException(nameof(settings.Name), "Invalid language name.");
+                throw new ArgumentOutOfRangeException(nameof(settings), "Invalid language name provided in settings.");
             }
             LanguageEntry language = languages.First(l => l.Name.Equals(settings.Name, StringComparison.OrdinalIgnoreCase));
 
@@ -53,8 +51,9 @@ namespace RepoTool.Terminal.Commands.Language.Available
                 Name = language.Name,
                 Patterns = language.Patterns
             };
-            _dbContext.Languages.Add(languageEntity);
-            await _dbContext.SaveChangesAsync();
+            _ = _dbContext.Languages.Add(languageEntity);
+            _ = await _dbContext.SaveChangesAsync();
+            AnsiConsole.WriteLine($"Language '{language.Name}' added successfully.");
             return 0;
         }
     }

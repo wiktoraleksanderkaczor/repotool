@@ -14,7 +14,7 @@ namespace RepoTool.Helpers
 
         public RepositoryHelper() => _repository = new Repository(".");
 
-        public string DownloadRepository(string url, string path = ".")
+        public static string DownloadRepository(string url, string path = ".")
         {
             try
             {
@@ -188,7 +188,7 @@ namespace RepoTool.Helpers
         public List<SourceChange>? GetSourceChangesForCommit(string commitSha)
         {
             Commit commit = _repository.Lookup<Commit>(commitSha);
-            List<SourceChange>? changes = commit.Parents.Count() == 0
+            List<SourceChange>? changes = !commit.Parents.Any()
                 ? commit.Tree.Select(x => new SourceChange
                 {
                     Path = x.Path,

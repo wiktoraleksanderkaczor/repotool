@@ -41,7 +41,7 @@ namespace RepoTool.Providers
                         EnInferenceRole.User => ChatMessage.CreateUserMessage(m.Content),
                         EnInferenceRole.Assistant => ChatMessage.CreateAssistantMessage(m.Content),
                         EnInferenceRole.System => ChatMessage.CreateSystemMessage(m.Content),
-                        _ => throw new ArgumentOutOfRangeException()
+                        _ => throw new ArgumentOutOfRangeException(nameof(messages), $"Unsupported inference role: {m.Role}")
                     };
                 }).ToList();
 

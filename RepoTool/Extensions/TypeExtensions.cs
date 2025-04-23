@@ -65,7 +65,7 @@ namespace RepoTool.Extensions
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <returns><c>true</c> if the type's namespace starts with "RepoTool"; otherwise, <c>false</c>.</returns>
-        public static bool IsDefinedInRepoToolNamespace(this Type type) => type.Namespace?.StartsWith("RepoTool") ?? false;
+        public static bool IsDefinedInRepoToolNamespace(this Type type) => type.Namespace?.StartsWith("RepoTool", StringComparison.InvariantCulture) ?? false;
 
         /// <summary>
         /// Gets the element type of a collection type. If the type is not a collection, it throws an exception.

@@ -21,14 +21,9 @@ namespace RepoTool.Extensions
         /// <exception cref="ArgumentNullException">Thrown if the input string is null.</exception>
         public static string ToSha256Hash(this string input)
         {
-            if ( input is null )
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
-            using SHA256 sha256 = SHA256.Create();
+            ArgumentNullException.ThrowIfNull(input);
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            byte[] hashBytes = sha256.ComputeHash(inputBytes);
+            byte[] hashBytes = SHA256.HashData(inputBytes);
             string hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
             return hashString;
         }

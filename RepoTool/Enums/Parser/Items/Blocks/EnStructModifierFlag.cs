@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Blocks
     /// <summary>
     /// Defines the possible modifier flags for a struct.
     /// </summary>
-    public enum EnStructModifierFlag
+    public enum EnStructModifier
     {
         /// <summary>
         /// Indicates that the struct represents a union.

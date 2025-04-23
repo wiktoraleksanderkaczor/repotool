@@ -8,7 +8,7 @@ namespace RepoTool.Terminal
 {
     public sealed class TypeRegistrar : ITypeRegistrar
     {
-        private readonly IServiceCollection _builder;
+        private IServiceCollection _builder;
 
         public TypeRegistrar(IServiceCollection builder) => _builder = builder;
 
@@ -18,14 +18,11 @@ namespace RepoTool.Terminal
 
         public void RegisterInstance(Type service, object implementation) => _builder.AddSingleton(service, implementation);
 
-        public void RegisterLazy(Type service, Func<object> func)
+        public void RegisterLazy(Type service, Func<object> factory)
         {
-            if ( func is null )
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(factory);
 
-            _builder.AddSingleton(service, (_) => func());
+            _builder = _builder.AddSingleton(service, (_) => factory());
         }
     }
 }

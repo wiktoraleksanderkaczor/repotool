@@ -21,7 +21,7 @@ namespace RepoTool.Persistence
             base.OnModelCreating(modelBuilder);
 
             // Automatically scan and register EntityConfiguration classes
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepoToolDbContext).Assembly);
+            _ = modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepoToolDbContext).Assembly);
         }
     }
 }
