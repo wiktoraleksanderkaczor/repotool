@@ -17,7 +17,7 @@ namespace RepoTool.Terminal.Commands.Index
         public override async Task<int> ExecuteAsync(CommandContext context, ClearIndexSettings settings)
         {
             _dbContext.Changelogs.RemoveRange(_dbContext.Changelogs);
-            await _dbContext.SaveChangesAsync();
+            _ = await _dbContext.SaveChangesAsync();
             AnsiConsole.WriteLine("Changelogs cleared.");
             return 0;
         }
