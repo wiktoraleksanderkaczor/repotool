@@ -481,6 +481,11 @@
             Parse a file into a language-agnostic representation
             </summary>
         </member>
+        <member name="F:RepoTool.Enums.Inference.EnInferenceReason.Unknown">
+            <summary>
+            Unknown reason
+            </summary>
+        </member>
         <member name="T:RepoTool.Enums.Inference.EnInferenceRole">
             <summary>
             Represents the type of message being sent to the inference engine
@@ -1893,7 +1898,7 @@
             Extension methods for <see cref="T:System.Reflection.PropertyInfo"/>.
             </summary>
         </member>
-        <member name="M:RepoTool.Extensions.PropertyInfoExtensions.GetJsonSpecialFlag(System.Reflection.PropertyInfo)">
+        <member name="M:RepoTool.Extensions.PropertyInfoExtensions.GetJsonSpecialModifier(System.Reflection.PropertyInfo)">
             <summary>
             Gets the <see cref="T:RepoTool.Flags.Parser.JsonSpecialModifier"/> for a given property if specific attributes are present.
             This method checks for the presence of <see cref="T:RepoTool.Attributes.Parser.FullContentScanAttribute"/> or <see cref="T:Json.Schema.Generation.UniqueItemsAttribute"/>
@@ -2498,11 +2503,10 @@
             Convenience to show the full path as a string.
             </summary>
         </member>
-        <member name="M:RepoTool.Models.Inference.Contexts.Parser.ItemPath.GetLastObjectType">
+        <member name="P:RepoTool.Models.Inference.Contexts.Parser.ItemPath.LastObjectType">
             <summary>
-            Convenience to get the last component object type.
+            Convenience property to get the last component object type.
             </summary>
-            <returns>Type</returns>
             <exception cref="T:System.InvalidOperationException"></exception>
             <exception cref="T:System.NotSupportedException"></exception>
         </member>
@@ -2533,11 +2537,15 @@
             <returns>Type</returns>
             <exception cref="T:System.InvalidOperationException"></exception>
         </member>
-        <member name="M:RepoTool.Models.Inference.Contexts.Parser.ItemPath.GetParentComponent">
+        <member name="P:RepoTool.Models.Inference.Contexts.Parser.ItemPath.ParentComponent">
             <summary>
-            Get the parent component object.
+            Gets the parent component object.
             </summary>
-            <returns>ItemPathComponent?</returns>
+        </member>
+        <member name="P:RepoTool.Models.Inference.Contexts.Parser.ItemPath.JsonSpecialModifier">
+            <summary>
+            Gets the JSON special flag for the last component.
+            </summary>
         </member>
         <member name="M:RepoTool.Models.Inference.Contexts.Parser.ItemPath.UpdateCurrentObject(System.Text.Json.JsonDocument)">
             <summary>
@@ -2598,9 +2606,9 @@
             Property currently being processed
             </summary>
         </member>
-        <member name="P:RepoTool.Models.Inference.Contexts.Parser.ItemPathPropertyComponent.JsonSpecialFlag">
+        <member name="P:RepoTool.Models.Inference.Contexts.Parser.ItemPathPropertyComponent.JsonSpecialModifier">
             <summary>
-            Specifies the special flags associated with the property.
+            Specifies the special modifiers associated with the property.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Inference.Contexts.Parser.ItemPathToolComponent">
@@ -2658,7 +2666,7 @@
             Context for inference
             </summary>
         </member>
-        <member name="M:RepoTool.Models.Inference.InferenceRequest`1.GetInferenceReason">
+        <member name="P:RepoTool.Models.Inference.InferenceRequest`1.InferenceReason">
             <summary>
             Gets the inference reason based on the context type.
             </summary>
