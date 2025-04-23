@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,7 +15,7 @@
     <PackageReference Include="DeepCloner" Version="0.10.4" />
     <PackageReference Include="JsonPointer.Net" Version="5.3.1" />
     <PackageReference Include="JsonSchema.Net" Version="7.3.4" />
-    <PackageReference Include="JsonSchema.Net.Generation" Version="5.0.0" />
+    <PackageReference Include="JsonSchema.Net.Generation" Version="5.0.1" />
     <PackageReference Include="JsonSchema.Net.OpenApi" Version="3.2.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <PackageReference Include="LoxSmoke.DocXml" Version="3.8.0" />
