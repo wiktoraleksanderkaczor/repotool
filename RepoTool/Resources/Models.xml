@@ -4,51 +4,51 @@
         <name>RepoTool</name>
     </assembly>
     <members>
-        <member name="T:RepoTool.Attributes.ServiceLifetimeAttribute">
+        <member name="T:RepoTool.Attributes.Helpers.ServiceLifetimeAttribute">
             <summary>
             An attribute to indicate that the full content of the code must be scanned to answer.
             </summary>
         </member>
-        <member name="M:RepoTool.Attributes.ServiceLifetimeAttribute.#ctor(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+        <member name="M:RepoTool.Attributes.Helpers.ServiceLifetimeAttribute.#ctor(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            Initializes a new instance of the <see cref="T:RepoTool.Attributes.ServiceLifetimeAttribute"/> class.
+            Initializes a new instance of the <see cref="T:RepoTool.Attributes.Helpers.ServiceLifetimeAttribute"/> class.
             </summary>
             <param name="serviceLifetime">The lifetime of the service.</param>
         </member>
-        <member name="T:RepoTool.Attributes.ItemChoiceAttribute">
+        <member name="T:RepoTool.Attributes.Parser.ItemChoiceAttribute">
             <summary>
             An attribute to indicate which item to instantiate for a specific choice in a selection.
             </summary>
         </member>
-        <member name="M:RepoTool.Attributes.ItemChoiceAttribute.#ctor(System.Type)">
+        <member name="M:RepoTool.Attributes.Parser.ItemChoiceAttribute.#ctor(System.Type)">
             <summary>
-            Initializes a new instance of the <see cref="T:RepoTool.Attributes.ItemChoiceAttribute"/> class.
+            Initializes a new instance of the <see cref="T:RepoTool.Attributes.Parser.ItemChoiceAttribute"/> class.
             </summary>
             <param name="itemChoice">The model to choose item.</param>
         </member>
-        <member name="P:RepoTool.Attributes.ItemChoiceAttribute.ItemChoice">
+        <member name="P:RepoTool.Attributes.Parser.ItemChoiceAttribute.ItemChoice">
             <summary>
             Gets the model to choose item.
             </summary>
         </member>
-        <member name="T:RepoTool.Attributes.FullContentScanAttribute">
+        <member name="T:RepoTool.Attributes.Parser.FullContentScanAttribute">
             <summary>
             An attribute to indicate that the full content of the code must be scanned to answer.
             Only applicable to iterable properties, it will be ignored for other types.
             </summary>
         </member>
-        <member name="T:RepoTool.Attributes.ToolChoiceAttribute">
+        <member name="T:RepoTool.Attributes.Parser.ToolChoiceAttribute">
             <summary>
             An attribute to indicate which tool to use for a specific selection.
             </summary>
         </member>
-        <member name="M:RepoTool.Attributes.ToolChoiceAttribute.#ctor(System.Type)">
+        <member name="M:RepoTool.Attributes.Parser.ToolChoiceAttribute.#ctor(System.Type)">
             <summary>
-            Initializes a new instance of the <see cref="T:RepoTool.Attributes.ToolChoiceAttribute"/> class.
+            Initializes a new instance of the <see cref="T:RepoTool.Attributes.Parser.ToolChoiceAttribute"/> class.
             </summary>
             <param name="toolChoice">The model to choose tool.</param>
         </member>
-        <member name="P:RepoTool.Attributes.ToolChoiceAttribute.ToolChoice">
+        <member name="P:RepoTool.Attributes.Parser.ToolChoiceAttribute.ToolChoice">
             <summary>
             Gets the model to choose tool.
             </summary>
@@ -526,180 +526,180 @@
             Use LM-Format-Enforcer
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.EnCallableModifierFlag">
+        <member name="T:RepoTool.Enums.Parser.Common.EnCallableModifier">
             <summary>
             Unified flag enum for callable modifiers
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Static">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Static">
             <summary>
             Indicates that a callable is static (class-level)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Instance">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Instance">
             <summary>
             Indicates that a callable is instance (instance-level)
             Indicates whether the callable is a method (associated with a class/object) or a standalone callable.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Async">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Async">
             <summary>
             Indicates that a callable is asynchronous
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Generator">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Generator">
             <summary>
             Indicates that a callable is a generator callable
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Recursive">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Recursive">
             <summary>
             Indicates that a callable is recursive
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Pure">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Pure">
             <summary>
             Indicates that a callable is pure (no side effects)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.HigherOrder">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.HigherOrder">
             <summary>
             Indicates that a callable is higher-order (accepts or returns callables)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Variadic">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Variadic">
             <summary>
             Indicates that a callable is variadic (accepts variable number of arguments)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Constructor">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Constructor">
             <summary>
             Indicates that a callable is a constructor
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Destructor">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Destructor">
             <summary>
             Indicates that a callable is a destructor/finalizer
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Override">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Override">
             <summary>
             Indicates that a callable overrides a base class callable
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Virtual">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Virtual">
             <summary>
             Indicates that a callable can be overridden by derived classes
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Abstract">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Abstract">
             <summary>
             Indicates that a callable is abstract and must be implemented by derived classes
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Sealed">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Sealed">
             <summary>
             Indicates that a callable cannot be overridden by derived classes
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Operator">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Operator">
             <summary>
             Indicates that a callable is an operator overload
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Extension">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Extension">
             <summary>
             Indicates that a callable is an extension callable
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Getter">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Getter">
             <summary>
             Indicates that a callable is a getter
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.Setter">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.Setter">
             <summary>
             Indicates that a callable is a setter
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnCallableModifierFlag.OperatorOverload">
+        <member name="F:RepoTool.Enums.Parser.Common.EnCallableModifier.OperatorOverload">
             <summary>
             Indicates that a callable is an operator overload
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.Optional">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.Optional">
             <summary>
             Indicates that a parameter is optional
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.Rest">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.Rest">
             <summary>
             Indicates that a parameter is a rest/varargs parameter
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.ByReference">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.ByReference">
             <summary>
             Indicates that a parameter is passed by reference
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.ByValue">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.ByValue">
             <summary>
             Indicates that a parameter is passed by value
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.Output">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.Output">
             <summary>
             Indicates that a parameter is an output parameter
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.HasDefaultValue">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.HasDefaultValue">
             <summary>
             Indicates that a parameter has a default value
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.Keyword">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.Keyword">
             <summary>
             Indicates that a parameter is a keyword parameter (named parameter)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnParameterModifierFlag.This">
+        <member name="F:RepoTool.Enums.Parser.Common.EnParameterModifier.This">
             <summary>
             Indicates that a parameter is 'this' meaning acting on the current variable
             e.g. the instance of the class
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Nullable">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsNullable">
             <summary>
             Indicates that the type is nullable
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Generic">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsGeneric">
             <summary>
             Indicates that the type is generic
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Primitive">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsPrimitive">
             <summary>
             Indicates that the type is a primitive type
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Dynamic">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsDynamic">
             <summary>
             Indicates that the type is dynamically typed
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Pointer">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsPointer">
             <summary>
             Indicates that the type is pointer
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.Object">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsObject">
             <summary>
             Indicates that the type is object
             Used for classes, structs, interfaces, enums, delegates, etc.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeInfoModifierFlag.DuckTyped">
+        <member name="F:RepoTool.Enums.Parser.Common.EnTypeInfoModifier.IsDuckTyped">
             <summary>
             Indicates that the type is duck-typed
             </summary>
@@ -770,12 +770,12 @@
             Represents interface implementation.
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.Items.Blocks.EnStructModifierFlag">
+        <member name="T:RepoTool.Enums.Parser.Items.Blocks.EnStructModifier">
             <summary>
             Defines the possible modifier flags for a struct.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Blocks.EnStructModifierFlag.Union">
+        <member name="F:RepoTool.Enums.Parser.Items.Blocks.EnStructModifier.Union">
             <summary>
             Indicates that the struct represents a union.
             </summary>
@@ -890,22 +890,22 @@
             Represents other types of diagnostics.
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag">
+        <member name="T:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifier">
             <summary>
             Represents flags for line preprocessor directive modifiers (hidden, default).
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.SetNumber">
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifier.SetNumber">
             <summary>
             Represents setting a specific line number.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.Hidden">
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifier.Hidden">
             <summary>
             Represents the #line hidden directive.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifierFlag.Default">
+        <member name="F:RepoTool.Enums.Parser.Items.Directives.EnLineDirectiveModifier.Default">
             <summary>
             Represents the #line default directive.
             </summary>
@@ -935,12 +935,12 @@
             Represents curly brackets {}.
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifierFlag">
+        <member name="T:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifier">
             <summary>
             Defines the possible modifier flags for a callable use.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifierFlag.IsBuiltIn">
+        <member name="F:RepoTool.Enums.Parser.Items.Expressions.EnCallableUseModifier.IsBuiltIn">
             <summary>
             Indicates that the callable is a built-in function.
             </summary>
@@ -1210,23 +1210,23 @@
             Represents a throw statement.
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag">
+        <member name="T:RepoTool.Enums.Parser.Items.Statements.EnImportModifier">
             <summary>
             Defines the possible modifier flags for an import statement.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.System">
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifier.System">
             <summary>
             Import is a system module.
             Part of the standard library.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.Relative">
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifier.Relative">
             <summary>
             Import is a relative path.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifierFlag.Wildcard">
+        <member name="F:RepoTool.Enums.Parser.Items.Statements.EnImportModifier.Wildcard">
             <summary>
             Import is a wildcard import.
             </summary>
@@ -1241,32 +1241,32 @@
             Represents a label.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnClassModifierFlag.Partial">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnClassModifier.Partial">
             <summary>
             Indicates that a class is partial (can be split across multiple files)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnClassModifierFlag.Generic">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnClassModifier.Generic">
             <summary>
             Indicates that a class is generic
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnClassModifierFlag.Interface">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnClassModifier.Interface">
             <summary>
             Indicates that a class is an interface
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnClassModifierFlag.Attribute">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnClassModifier.Attribute">
             <summary>
             Indicates that a class is a attribute
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeModifierFlag.Partial">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnTypeModifier.Partial">
             <summary>
             Indicates that a class is partial (can be split across multiple files)
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.EnTypeModifierFlag.Unsafe">
+        <member name="F:RepoTool.Enums.Parser.Tools.Blocks.EnTypeModifier.Unsafe">
             <summary>
             Indicates that type allows unsafe code
             </summary>
@@ -1291,22 +1291,22 @@
             Represents the end of an iterable.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.ScrollDown">
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnItemBuilderTool.ScrollDown">
             <summary>
             Represents a scroll down action.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.PageDown">
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnItemBuilderTool.PageDown">
             <summary>
             Represents a page down action.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.NewProperty">
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnItemBuilderTool.NewProperty">
             <summary>
             Represents a new property.
             </summary>
         </member>
-        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnObjectBuilderTool.EndItem">
+        <member name="F:RepoTool.Enums.Parser.Tools.Builders.EnItemBuilderTool.EndItem">
             <summary>
             Represents the end of an object.
             </summary>
@@ -1319,6 +1319,107 @@
         <member name="F:RepoTool.Enums.Parser.Tools.Builders.Iterable.EnIterableInsertAt.Start">
             <summary>
             Indicates that the item should be inserted at the beginning of the iterable.
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Common.EnAccessModifier">
+            <summary>
+            Represents the access modifiers for members.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnAccessModifier.Public">
+            <summary>
+            Public access modifier.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnAccessModifier.Private">
+            <summary>
+            Private access modifier.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnAccessModifier.Protected">
+            <summary>
+            Protected access modifier.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnAccessModifier.Internal">
+            <summary>
+            Internal access modifier.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Abstract">
+            <summary>
+            Indicates that the inheritance is abstract and cannot be instantiated
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Static">
+            <summary>
+            Indicates that a item is static and cannot be instantiated
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Sealed">
+            <summary>
+            Indicates that a item cannot be inherited from
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Virtual">
+            <summary>
+            Indicates that a item is virtual and can be overriden
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Override">
+            <summary>
+            Indicates that a item overrides a base item property
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.Extern">
+            <summary>
+            Indicates that the item is defined in another place
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnInheritanceModifier.New">
+            <summary>
+            Indicates that a item is new and hides a base item property
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnVariableModifier.Constant">
+            <summary>
+            Indicates that a variable is constant/final and cannot be changed after initialization
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Common.EnVariableModifier.Volatile">
+            <summary>
+            Indicates that a variable is volatile (can be modified by multiple threads)
+            </summary>
+        </member>
+        <member name="T:RepoTool.Enums.Parser.Tools.Declarations.EnDeclarationModifier">
+            <summary>
+            Represents the access modifiers for declarations.
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Declarations.EnDeclarationModifier.ReadOnly">
+            <summary>
+            Indicates that a variable is readonly (can only be set in constructor)
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Declarations.EnPropertyModifier.ReadOnly">
+            <summary>
+            Indicates that a property is read-only
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Declarations.EnPropertyModifier.HasCustomGetter">
+            <summary>
+            Indicates that a property has a custom getter
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Declarations.EnPropertyModifier.HasCustomSetter">
+            <summary>
+            Indicates that a property has a custom setter
+            </summary>
+        </member>
+        <member name="F:RepoTool.Enums.Parser.Tools.Declarations.EnPropertyModifier.AutoProperty">
+            <summary>
+            Indicates that a property is an auto-property
+            i.e. compiler automatically provides the backing field
             </summary>
         </member>
         <member name="T:RepoTool.Enums.Parser.Tools.EnConstructType">
@@ -1625,187 +1726,6 @@
             Represents a ternary operator (e.g., the conditional operator ?:)
             </summary>
         </member>
-        <member name="T:RepoTool.Enums.Parser.EnAccessModifierFlag">
-            <summary>
-            Represents the access modifiers for members.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnAccessModifierFlag.Public">
-            <summary>
-            Public access modifier.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnAccessModifierFlag.Private">
-            <summary>
-            Private access modifier.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnAccessModifierFlag.Protected">
-            <summary>
-            Protected access modifier.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnAccessModifierFlag.Internal">
-            <summary>
-            Internal access modifier.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Abstract">
-            <summary>
-            Indicates that the inheritance is abstract and cannot be instantiated
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Static">
-            <summary>
-            Indicates that a item is static and cannot be instantiated
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Sealed">
-            <summary>
-            Indicates that a item cannot be inherited from
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Virtual">
-            <summary>
-            Indicates that a item is virtual and can be overriden
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Override">
-            <summary>
-            Indicates that a item overrides a base item property
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.Extern">
-            <summary>
-            Indicates that the item is defined in another place
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnInheritanceModifierFlag.New">
-            <summary>
-            Indicates that a item is new and hides a base item property
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnVariableModifierFlag.Constant">
-            <summary>
-            Indicates that a variable is constant/final and cannot be changed after initialization
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnVariableModifierFlag.Volatile">
-            <summary>
-            Indicates that a variable is volatile (can be modified by multiple threads)
-            </summary>
-        </member>
-        <member name="T:RepoTool.Enums.Parser.EnDeclarationModifierFlag">
-            <summary>
-            Represents the access modifiers for declarations.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnDeclarationModifierFlag.ReadOnly">
-            <summary>
-            Indicates that a variable is readonly (can only be set in constructor)
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnPropertyModifierFlag.ReadOnly">
-            <summary>
-            Indicates that a property is read-only
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnPropertyModifierFlag.HasCustomGetter">
-            <summary>
-            Indicates that a property has a custom getter
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnPropertyModifierFlag.HasCustomSetter">
-            <summary>
-            Indicates that a property has a custom setter
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Parser.EnPropertyModifierFlag.AutoProperty">
-            <summary>
-            Indicates that a property is an auto-property
-            i.e. compiler automatically provides the backing field
-            </summary>
-        </member>
-        <member name="T:RepoTool.Enums.Schemas.EnOllamaType">
-            <summary>
-            Enum representing the allowed data types in Ollama output schema.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.String">
-            <summary>
-            Represents a string type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Number">
-            <summary>
-            Represents a numeric (floating-point) type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Integer">
-            <summary>
-            Represents an integer type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Boolean">
-            <summary>
-            Represents a boolean type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Array">
-            <summary>
-            Represents an array type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Object">
-            <summary>
-            Represents an object type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOllamaType.Null">
-            <summary>
-            Represents a null type.
-            </summary>
-        </member>
-        <member name="T:RepoTool.Enums.Schemas.EnOpenAIType">
-            <summary>
-            Enum representing the allowed data types in OpenAI output schema.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.String">
-            <summary>
-            Represents a string type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Number">
-            <summary>
-            Represents a numeric (floating-point) type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Integer">
-            <summary>
-            Represents an integer type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Boolean">
-            <summary>
-            Represents a boolean type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Array">
-            <summary>
-            Represents an array type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Object">
-            <summary>
-            Represents an object type.
-            </summary>
-        </member>
-        <member name="F:RepoTool.Enums.Schemas.EnOpenAIType.Null">
-            <summary>
-            Represents a null type.
-            </summary>
-        </member>
         <member name="M:RepoTool.Extensions.EnumExtensions.GetFlags``1(``0)">
             <summary>
             Gets a list of individual flags that are set in an enum value.
@@ -1828,7 +1748,7 @@
             from its parent object or array.
             </summary>
             <param name="document">The JsonDocument to modify.</param>
-            <param name="pointer">The JSON Pointer indicating the element to remove.</param>
+            <param name="jsonPointer">The JSON Pointer indicating the element to remove.</param>
             <returns>A new, independent JsonDocument instance with the specified element removed.</returns>
             <exception cref="T:System.ArgumentException">
             Thrown if the pointer path is invalid (e.g., segment not found, incorrect type for segment, index out of bounds)
@@ -1975,12 +1895,12 @@
         </member>
         <member name="M:RepoTool.Extensions.PropertyInfoExtensions.GetJsonSpecialFlag(System.Reflection.PropertyInfo)">
             <summary>
-            Gets the <see cref="T:RepoTool.Flags.Parser.JsonSpecialFlag"/> for a given property if specific attributes are present.
-            This method checks for the presence of <see cref="T:RepoTool.Attributes.FullContentScanAttribute"/> or <see cref="T:Json.Schema.Generation.UniqueItemsAttribute"/>
+            Gets the <see cref="T:RepoTool.Flags.Parser.JsonSpecialModifier"/> for a given property if specific attributes are present.
+            This method checks for the presence of <see cref="T:RepoTool.Attributes.Parser.FullContentScanAttribute"/> or <see cref="T:Json.Schema.Generation.UniqueItemsAttribute"/>
             and sets the corresponding flags. Returns null if neither attribute is found.
             </summary>
             <param name="propertyInfo">The property information to inspect.</param>
-            <returns>A <see cref="T:RepoTool.Flags.Parser.JsonSpecialFlag"/> value if relevant attributes are found; otherwise, null.</returns>
+            <returns>A <see cref="T:RepoTool.Flags.Parser.JsonSpecialModifier"/> value if relevant attributes are found; otherwise, null.</returns>
         </member>
         <member name="M:RepoTool.Extensions.ServiceCollectionExtensions.AddOptionModelsWithValidation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
@@ -2022,10 +1942,10 @@
         <member name="M:RepoTool.Extensions.TypeExtensions.GetToolSelectorType(System.Type)">
             <summary>
             Recursively searches the inheritance hierarchy and implemented interfaces of a type
-            for the <see cref="T:RepoTool.Attributes.ToolChoiceAttribute"/> and returns the associated tool choice type.
+            for the <see cref="T:RepoTool.Attributes.Parser.ToolChoiceAttribute"/> and returns the associated tool choice type.
             </summary>
             <param name="recordType">The type to start searching from.</param>
-            <returns>The <see cref="T:System.Type"/> specified in the <see cref="T:RepoTool.Attributes.ToolChoiceAttribute"/> if found; otherwise, the original <paramref name="recordType"/>.</returns>
+            <returns>The <see cref="T:System.Type"/> specified in the <see cref="T:RepoTool.Attributes.Parser.ToolChoiceAttribute"/> if found; otherwise, the original <paramref name="recordType"/>.</returns>
         </member>
         <member name="M:RepoTool.Extensions.TypeExtensions.IsCollectionType(System.Type)">
             <summary>
@@ -2049,22 +1969,22 @@
             <returns>The element type of the collection.</returns>
             <exception cref="T:System.NotSupportedException">Thrown if the type is not a recognized collection type.</exception>
         </member>
-        <member name="T:RepoTool.Flags.Parser.JsonSpecialFlag">
+        <member name="T:RepoTool.Flags.Parser.JsonSpecialModifier">
             <summary>
             Defines special flags for JSON schema generation related to properties.
             </summary>
         </member>
-        <member name="F:RepoTool.Flags.Parser.JsonSpecialFlag.None">
+        <member name="F:RepoTool.Flags.Parser.JsonSpecialModifier.None">
             <summary>
             Indicates that no special flags are set.
             </summary>
         </member>
-        <member name="F:RepoTool.Flags.Parser.JsonSpecialFlag.FullContentScan">
+        <member name="F:RepoTool.Flags.Parser.JsonSpecialModifier.FullContentScan">
             <summary>
             Property requires checking over the entire content.
             </summary>
         </member>
-        <member name="F:RepoTool.Flags.Parser.JsonSpecialFlag.UniqueItems">
+        <member name="F:RepoTool.Flags.Parser.JsonSpecialModifier.UniqueItems">
             <summary>
             Property must be composed of unique items only.
             </summary>
@@ -2235,7 +2155,7 @@
             Gets the primary JSON schema value handling type for the specified C# type.
             </summary>
             <param name="type">The C# type.</param>
-            <returns>A task representing the asynchronous operation, containing the <see cref="T:RepoTool.Enums.Json.EnOutputHandlingType"/> representing the root type(s) of the generated JSON schema.</returns>
+            <returns>A task representing the asynchronous operation, containing the <see cref="T:RepoTool.Enums.Json.EnSchemaOutput"/> representing the root type(s) of the generated JSON schema.</returns>
             <exception cref="T:System.InvalidOperationException">Thrown if the schema type cannot be determined.</exception>
         </member>
         <member name="M:RepoTool.Helpers.ParserHelper.ParseRecursively(RepoTool.Models.Inference.Contexts.ParserContext)">
@@ -2281,36 +2201,22 @@
             </summary>
             <returns>List of template embedded resource names</returns>
         </member>
-        <member name="T:RepoTool.Helpers.ToolingHelper">
-            <summary>
-            Helper class for tool-related operations.
-            </summary>
-        </member>
-        <member name="M:RepoTool.Helpers.ToolingHelper.GetToolPrompt(System.Type)">
-            <summary>
-            Gets the tool prompt from the XML comment blocks.
-            e.g. &lt;summary&gt;, &lt;remarks&gt;, &lt;example&gt; which contains &lt;code&gt; tags. 
-            </summary>
-            <param name="type">The type to get the tool prompt from.</param>
-            <returns>The tool prompt as a string.</returns>
-            <exception cref="T:System.Exception">Thrown when an unexpected error occurs.</exception>
-        </member>
-        <member name="P:RepoTool.Models.Documentation.BaseDocumentation.Summary">
+        <member name="P:RepoTool.Models.Documentation.Common.BaseDocumentation.Summary">
             <summary>
             Summary block documentation for the item. Can be null if not present.
             </summary>
         </member>
-        <member name="P:RepoTool.Models.Documentation.BaseDocumentation.Remarks">
+        <member name="P:RepoTool.Models.Documentation.Common.BaseDocumentation.Remarks">
             <summary>
             Remarks block documentation for the item. Can be null if not present.
             </summary>
         </member>
-        <member name="P:RepoTool.Models.Documentation.BaseDocumentation.Example">
+        <member name="P:RepoTool.Models.Documentation.Common.BaseDocumentation.Example">
             <summary>
             Example block documentation for the item. Can be null if not present.
             </summary>
         </member>
-        <member name="P:RepoTool.Models.Documentation.BaseTypedDocumentation.TypeName">
+        <member name="P:RepoTool.Models.Documentation.Common.BaseTypedDocumentation.TypeName">
             <summary>
             Full name of the type, including namespace and generic types.
             </summary>
@@ -3078,6 +2984,26 @@
         <member name="T:RepoTool.Models.Parser.Items.Blocks.InterfaceBlock">
             <inheritdoc />
         </member>
+        <member name="T:RepoTool.Models.Parser.Items.Blocks.NamespaceBlock">
+            <inheritdoc />
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Blocks.NamespaceBlock.FullyQualifiedPath">
+            <summary>
+            Fully qualified name of the namespace
+            e.g. MyApp.MyNamespace.InnerNamespace would be ["MyApp", "MyNamespace", "InnerNamespace"]
+            </summary>
+            <example>
+            <code>
+            namespace MyApp.MyNamespace { }
+            </code>
+            Would be parsed as:
+            <code>
+            {
+                "FullyQualifiedPath": ["MyApp", "MyNamespace"]
+            }
+            </code>
+            </example>
+        </member>
         <member name="T:RepoTool.Models.Parser.Items.Blocks.RecordBlock">
             <inheritdoc />
         </member>
@@ -3236,6 +3162,176 @@
             <summary>
             Default value for optional parameter by expression, if applicable.
             </summary>
+        </member>
+        <member name="T:RepoTool.Models.Parser.Items.Common.TypeInfoDefinition">
+            <summary>
+            Represents information about a type definition.
+            - Handles generics and generic constraints
+            - Works with wrapped types like lists, dictionaries, etc.
+            </summary>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoDefinition.Type">
+            <summary>
+            The type itself.
+            </summary>
+            <example>
+            <code>
+            List&lt;string&gt;
+            </code>
+            Would be parsed as:
+            <code>
+            {
+                "Type": { "TypeName": "List" }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoDefinition.InnerComponents">
+            <summary>
+            The types that this type contains.
+            E.g. for a List&lt;int&gt;, the component is int.
+            Do not include current level of type itself in the components list.
+            </summary>
+            <example>
+            <code>
+            List&lt;string&gt;
+            </code>
+            Would be parsed as:
+            <code>
+            {
+                "InnerComponents": [ { "TypeName": "string" } ]
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:RepoTool.Models.Parser.Items.Common.TypeInfoComponent">
+            <summary>
+            Represents a component of a type definition.
+            </summary>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoComponent.TypeName">
+            <summary>
+            The type name, e.g. int, string, List, Dictionary etc.
+            It could be a user-defined type like MyType.
+            More complex ones like Dict&lt;string, int&gt; when built from collections.
+            It could also be TEntity or TKey, TValue etc. for generics.
+            It could also be null for duck-typed languages.
+            </summary>
+            <example>
+            <code>
+            List&lt;string&gt;
+            </code>
+            Would have "TypeName": "List" for the outer component.
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoComponent.FullyQualifiedPath">
+            <summary>
+            Fully qualified name of the type in its namespace or where it was imported
+            e.g. MyNamespace.MyClass.MyStruct.MyType would be ["MyNamespace", "MyClass", "MyStruct"]
+            e.g. System.Collections.Generic.List&lt;int&gt; would be ["System", "Collections", "Generic"]
+            Primitive types do not have a fully qualified name so those would be null.
+            </summary>
+            <example>
+            <code>
+            System.Collections.Generic.List&lt;string&gt;
+            </code>
+            Would be parsed as:
+            <code>
+            {
+               "FullyQualifiedPath": ["System", "Collections", "Generic"]
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoComponent.ModifierFlags">
+            <summary>
+            List of all applicable modifier flags for this type.
+            Apply all applicable flags for the current item.
+            </summary>
+            <example>
+            <code>
+            int?
+            </code>
+            Would be parsed as:
+            <code>
+            {
+              "ModifierFlags": ["Nullable"]
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoComponent.Constraints">
+            <summary>
+            Generic constraint information.
+            </summary>
+            <example>
+            <code>
+            where T : class
+            </code>
+            Would be parsed as:
+            <code>
+            {
+              "Constraints": [{ "ConstraintFlags": "IsReferenceTypeKind" }]
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.TypeInfoComponent.GenericArguments">
+            <summary>
+            Generic type arguments.
+            </summary>
+            <example>
+            <code>
+            List&lt;string&gt;
+            </code>
+            Would be parsed as:
+            <code>
+            {
+              "GenericArguments": [ { "Type": { "TypeName": "string" } } ]
+            }
+            </code>
+            </example>
+        </member>
+        <member name="T:RepoTool.Models.Parser.Items.Common.GenericConstraintInfo">
+            <summary>
+            Represents information about generic constraints.
+            </summary>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.GenericConstraintInfo.Name">
+            <summary>
+            Name accompanying constraint flag
+            e.g. which class to inherit from for Inherits constraint
+            or which value/reference type to use for IsValueTypeKind or IsReferenceTypeKind
+            It could also be null for constraints like NotNull
+            </summary>
+            <example>
+            <code>
+            where T : MyClass
+            </code>
+            Would be parsed as:
+            <code>
+            {
+                "Name": "MyClass"
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Items.Common.GenericConstraintInfo.ConstraintFlags">
+            <summary>
+            List of all applicable constraint flags for this type.
+            Apply all applicable flags for the current item.
+            </summary>
+            <example>
+            <code>
+            where T : class
+            </code>
+            Would be parsed as:
+            <code>
+            {
+              "ConstraintFlags": ["IsReferenceTypeKind"]
+            }
+            </code>
+            </example>
         </member>
         <member name="T:RepoTool.Models.Parser.Items.Declarations.Common.DeclarationConstruct">
             <inheritdoc />
@@ -4790,14 +4886,24 @@
             Indicates why the end of the item has been reached.
             </summary>
         </member>
+        <member name="P:RepoTool.Models.Parser.Tools.Builders.Item.NewProperty.PropertyName">
+            <summary>
+            Indicates the name of the property.
+            </summary>
+        </member>
         <member name="P:RepoTool.Models.Parser.Tools.Builders.Iterable.NewItem.InsertAt">
             <summary>
             Indicates whether a new item has been created.
             </summary>
         </member>
-        <member name="P:RepoTool.Models.Parser.Tools.Builders.Object.NewProperty.PropertyName">
+        <member name="T:RepoTool.Models.Parser.Tools.ConstructSelector">
             <summary>
-            Indicates the name of the property.
+            Represents a selection in the parser.
+            </summary>
+        </member>
+        <member name="P:RepoTool.Models.Parser.Tools.ConstructSelector.ToolSelection">
+            <summary>
+            The selected tool.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Parser.Tools.Navigation.PageDown">
@@ -5346,206 +5452,6 @@
         <member name="M:RepoTool.Terminal.CommandInterceptor.Intercept(Spectre.Console.Cli.CommandContext,Spectre.Console.Cli.CommandSettings)">
             <param name="context">The command context.</param>
             <param name="settings">The command settings.</param>
-        </member>
-        <member name="T:NamespaceBlock">
-            <inheritdoc />
-        </member>
-        <member name="P:NamespaceBlock.FullyQualifiedPath">
-            <summary>
-            Fully qualified name of the namespace
-            e.g. MyApp.MyNamespace.InnerNamespace would be ["MyApp", "MyNamespace", "InnerNamespace"]
-            </summary>
-            <example>
-            <code>
-            namespace MyApp.MyNamespace { }
-            </code>
-            Would be parsed as:
-            <code>
-            {
-                "FullyQualifiedPath": ["MyApp", "MyNamespace"]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="T:TypeInfoDefinition">
-            <summary>
-            Represents information about a type definition.
-            - Handles generics and generic constraints
-            - Works with wrapped types like lists, dictionaries, etc.
-            </summary>
-        </member>
-        <member name="P:TypeInfoDefinition.Type">
-            <summary>
-            The type itself.
-            </summary>
-            <example>
-            <code>
-            List&lt;string&gt;
-            </code>
-            Would be parsed as:
-            <code>
-            {
-                "Type": { "TypeName": "List" }
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:TypeInfoDefinition.InnerComponents">
-            <summary>
-            The types that this type contains.
-            E.g. for a List&lt;int&gt;, the component is int.
-            Do not include current level of type itself in the components list.
-            </summary>
-            <example>
-            <code>
-            List&lt;string&gt;
-            </code>
-            Would be parsed as:
-            <code>
-            {
-                "InnerComponents": [ { "TypeName": "string" } ]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="T:TypeInfoComponent">
-            <summary>
-            Represents a component of a type definition.
-            </summary>
-        </member>
-        <member name="P:TypeInfoComponent.TypeName">
-            <summary>
-            The type name, e.g. int, string, List, Dictionary etc.
-            It could be a user-defined type like MyType.
-            More complex ones like Dict&lt;string, int&gt; when built from collections.
-            It could also be TEntity or TKey, TValue etc. for generics.
-            It could also be null for duck-typed languages.
-            </summary>
-            <example>
-            <code>
-            List&lt;string&gt;
-            </code>
-            Would have "TypeName": "List" for the outer component.
-            </example>
-        </member>
-        <member name="P:TypeInfoComponent.FullyQualifiedPath">
-            <summary>
-            Fully qualified name of the type in its namespace or where it was imported
-            e.g. MyNamespace.MyClass.MyStruct.MyType would be ["MyNamespace", "MyClass", "MyStruct"]
-            e.g. System.Collections.Generic.List&lt;int&gt; would be ["System", "Collections", "Generic"]
-            Primitive types do not have a fully qualified name so those would be null.
-            </summary>
-            <example>
-            <code>
-            System.Collections.Generic.List&lt;string&gt;
-            </code>
-            Would be parsed as:
-            <code>
-            {
-               "FullyQualifiedPath": ["System", "Collections", "Generic"]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:TypeInfoComponent.ModifierFlags">
-            <summary>
-            List of all applicable modifier flags for this type.
-            Apply all applicable flags for the current item.
-            </summary>
-            <example>
-            <code>
-            int?
-            </code>
-            Would be parsed as:
-            <code>
-            {
-              "ModifierFlags": ["Nullable"]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:TypeInfoComponent.Constraints">
-            <summary>
-            Generic constraint information.
-            </summary>
-            <example>
-            <code>
-            where T : class
-            </code>
-            Would be parsed as:
-            <code>
-            {
-              "Constraints": [{ "ConstraintFlags": "IsReferenceTypeKind" }]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:TypeInfoComponent.GenericArguments">
-            <summary>
-            Generic type arguments.
-            </summary>
-            <example>
-            <code>
-            List&lt;string&gt;
-            </code>
-            Would be parsed as:
-            <code>
-            {
-              "GenericArguments": [ { "Type": { "TypeName": "string" } } ]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="T:GenericConstraintInfo">
-            <summary>
-            Represents information about generic constraints.
-            </summary>
-        </member>
-        <member name="P:GenericConstraintInfo.Name">
-            <summary>
-            Name accompanying constraint flag
-            e.g. which class to inherit from for Inherits constraint
-            or which value/reference type to use for IsValueTypeKind or IsReferenceTypeKind
-            It could also be null for constraints like NotNull
-            </summary>
-            <example>
-            <code>
-            where T : MyClass
-            </code>
-            Would be parsed as:
-            <code>
-            {
-                "Name": "MyClass"
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:GenericConstraintInfo.ConstraintFlags">
-            <summary>
-            List of all applicable constraint flags for this type.
-            Apply all applicable flags for the current item.
-            </summary>
-            <example>
-            <code>
-            where T : class
-            </code>
-            Would be parsed as:
-            <code>
-            {
-              "ConstraintFlags": ["IsReferenceTypeKind"]
-            }
-            </code>
-            </example>
-        </member>
-        <member name="T:ConstructSelector">
-            <summary>
-            Represents a selection in the parser.
-            </summary>
-        </member>
-        <member name="P:ConstructSelector.ToolSelection">
-            <summary>
-            The selected tool.
-            </summary>
         </member>
     </members>
 </doc>
