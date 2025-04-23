@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents the definition of an attribute.
     /// </summary>
-    public record AttributeDefinition : Construct
+    internal sealed record AttributeDefinition : Construct
     {
         /// <summary>
         /// The target of the attribute.

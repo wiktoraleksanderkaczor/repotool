@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record NewVariableExpression : ExpressionConstruct
+    internal sealed record NewVariableExpression : ExpressionConstruct
     {
         /// <summary>
         /// The name of the new variable being declared.

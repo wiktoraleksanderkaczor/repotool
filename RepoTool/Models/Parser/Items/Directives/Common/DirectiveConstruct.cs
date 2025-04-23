@@ -10,7 +10,7 @@ namespace RepoTool.Models.Parser.Items.Directives.Common
 {
     /// <inheritdoc />
     [ToolChoice(typeof(DirectiveSelector))]
-    public abstract record DirectiveConstruct : Construct
+    internal abstract record DirectiveConstruct : Construct
     {
         /// <summary>
         /// The type of the preprocessor directive.

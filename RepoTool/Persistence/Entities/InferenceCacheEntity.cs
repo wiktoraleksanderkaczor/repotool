@@ -6,7 +6,7 @@ using RepoTool.Persistence.Entities.Common;
 
 namespace RepoTool.Persistence.Entities
 {
-    public class InferenceCacheEntity : BaseEntity
+    internal sealed class InferenceCacheEntity : BaseEntity
     {
         public required string PromptHash { get; set; }
         public required EnInferenceProvider InferenceProvider { get; set; }

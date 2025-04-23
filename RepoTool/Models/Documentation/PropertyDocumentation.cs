@@ -5,12 +5,12 @@ using RepoTool.Models.Documentation.Common;
 
 namespace RepoTool.Models.Documentation
 {
-    public record HandlingDocumentation : BaseDocumentation
+    internal sealed record HandlingDocumentation : BaseDocumentation
     {
         public required string Name { get; init; }
     }
 
-    public record PropertyDocumentation : BaseTypedDocumentation
+    internal sealed record PropertyDocumentation : BaseTypedDocumentation
     {
         public required string PropertyName { get; init; }
 

@@ -11,7 +11,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Extension methods for <see cref="PropertyInfo"/>.
     /// </summary>
-    public static class PropertyInfoExtensions
+    internal static class PropertyInfoExtensions
     {
         /// <summary>
         /// Gets the <see cref="JsonSpecialModifier"/> for a given property if specific attributes are present.
@@ -20,7 +20,7 @@ namespace RepoTool.Extensions
         /// </summary>
         /// <param name="propertyInfo">The property information to inspect.</param>
         /// <returns>A <see cref="JsonSpecialModifier"/> value if relevant attributes are found; otherwise, null.</returns>
-        public static JsonSpecialModifier GetJsonSpecialFlag(this PropertyInfo propertyInfo)
+        public static JsonSpecialModifier GetJsonSpecialModifier(this PropertyInfo propertyInfo)
         {
             JsonSpecialModifier flag = JsonSpecialModifier.None;
 

@@ -8,7 +8,7 @@ namespace RepoTool.Models.Documentation
     /// <summary>
     /// Represents the documentation details for a specific member (field or property).
     /// </summary>
-    public record MemberDocumentation : BaseTypedDocumentation
+    internal sealed record MemberDocumentation : BaseTypedDocumentation
     {
         /// <summary>
         /// Name of the member.
@@ -22,7 +22,7 @@ namespace RepoTool.Models.Documentation
         public required string? Value { get; set; }
     }
 
-    public record StructDocumentation : BaseTypedDocumentation
+    internal sealed record StructDocumentation : BaseTypedDocumentation
     {
         public required List<MemberDocumentation>? Fields { get; set; }
     }
@@ -30,7 +30,7 @@ namespace RepoTool.Models.Documentation
     /// <summary>
     /// Represents the structured XML documentation extracted for a specific type.
     /// </summary>
-    public record TypeDocumentation : BaseTypedDocumentation
+    internal sealed record TypeDocumentation : BaseTypedDocumentation
     {
         /// <summary>
         /// List of types that this type derives from.

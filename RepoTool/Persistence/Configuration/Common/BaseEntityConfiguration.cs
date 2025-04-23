@@ -7,7 +7,7 @@ using RepoTool.Persistence.Entities.Common;
 
 namespace RepoTool.Persistence.Configuration.Common
 {
-    public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
+    internal abstract class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {

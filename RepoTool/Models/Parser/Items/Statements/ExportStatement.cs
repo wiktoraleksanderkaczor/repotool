@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record ExportStatement : StatementConstruct
+    internal sealed record ExportStatement : StatementConstruct
     {
         /// <summary>
         /// Path to the module being imported.
@@ -49,7 +49,7 @@ namespace RepoTool.Models.Parser.Items.Statements
     /// <summary>
     /// Represents information about a symbol being exported.
     /// </summary>
-    public record ExportedSymbolInfo
+    internal sealed record ExportedSymbolInfo
     {
         /// <summary>
         /// The name of the symbol being exported.

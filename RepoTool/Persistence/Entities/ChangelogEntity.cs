@@ -7,7 +7,7 @@ using RepoTool.Persistence.Entities.Common;
 
 namespace RepoTool.Persistence.Entities
 {
-    public record Change
+    internal sealed record Change
     {
         /// <summary>
         /// Description of the change
@@ -95,7 +95,7 @@ namespace RepoTool.Persistence.Entities
         }
     }
 
-    public class ChangelogEntity : BaseEntity
+    internal sealed class ChangelogEntity : BaseEntity
     {
         /// <summary>
         /// List of changes in a commit

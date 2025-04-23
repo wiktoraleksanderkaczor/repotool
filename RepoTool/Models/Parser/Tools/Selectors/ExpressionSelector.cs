@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Interfaces;
 
 namespace RepoTool.Models.Parser.Tools.Selectors
 {
-    public record ExpressionSelector : IToolSelector<EnExpressionType>
+    internal sealed record ExpressionSelector : IToolSelector<EnExpressionType>
     {
         /// <summary>
         /// The type of the expression.

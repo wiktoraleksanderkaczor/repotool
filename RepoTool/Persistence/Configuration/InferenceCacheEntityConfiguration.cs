@@ -7,7 +7,7 @@ using RepoTool.Persistence.Entities;
 
 namespace RepoTool.Persistence.Configuration
 {
-    public class InferenceCacheEntityConfiguration : BaseEntityConfiguration<InferenceCacheEntity>
+    internal sealed class InferenceCacheEntityConfiguration : BaseEntityConfiguration<InferenceCacheEntity>
     {
         public override void Configure(EntityTypeBuilder<InferenceCacheEntity> builder)
         {

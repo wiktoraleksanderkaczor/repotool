@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record LambdaExpression : ExpressionConstruct
+    internal sealed record LambdaExpression : ExpressionConstruct
     {
         /// <summary>
         /// Information about the callable (lambda function).

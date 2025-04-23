@@ -9,7 +9,7 @@ using RepoTool.Persistence.Entities;
 
 namespace RepoTool.Persistence.Configuration
 {
-    public class LanguageEntityConfiguration : BaseEntityConfiguration<LanguageEntity>
+    internal sealed class LanguageEntityConfiguration : BaseEntityConfiguration<LanguageEntity>
     {
         public override void Configure(EntityTypeBuilder<LanguageEntity> builder)
         {
@@ -26,7 +26,7 @@ namespace RepoTool.Persistence.Configuration
                 .Metadata.SetValueComparer(
                     new ValueComparer<List<string>>(
                         (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
-                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                        c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode(StringComparison.InvariantCulture))),
                         c => c.ToList()));
 
             _ = builder.HasIndex(x => x.Name)

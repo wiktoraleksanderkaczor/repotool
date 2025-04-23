@@ -13,14 +13,14 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Language.Available
 {
-    public class AddAvailableLanguageSettings : CommonSettings
+    internal sealed class AddAvailableLanguageSettings : CommonSettings
     {
         [CommandArgument(0, "<NAME>")]
         [Description("Language Name")]
         public required string Name { get; set; }
     }
 
-    public class AddAvailableLanguageCommand : AsyncCommand<AddAvailableLanguageSettings>
+    internal sealed class AddAvailableLanguageCommand : AsyncCommand<AddAvailableLanguageSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 
@@ -38,7 +38,7 @@ namespace RepoTool.Terminal.Commands.Language.Available
             LanguageEntry language = languages.First(l => l.Name.Equals(settings.Name, StringComparison.OrdinalIgnoreCase));
 
             LanguageEntity? existingLanguage = await _dbContext.Languages
-                .FirstOrDefaultAsync(l => l.Name == language.Name);
+                .FirstOrDefaultAsync(l => l.Name == language.Name).ConfigureAwait(false);
             if ( existingLanguage != null )
             {
                 AnsiConsole.WriteLine($"Language '{language.Name}' already exists.");
@@ -52,7 +52,7 @@ namespace RepoTool.Terminal.Commands.Language.Available
                 Patterns = language.Patterns
             };
             _ = _dbContext.Languages.Add(languageEntity);
-            _ = await _dbContext.SaveChangesAsync();
+            _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
             AnsiConsole.WriteLine($"Language '{language.Name}' added successfully.");
             return 0;
         }

@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
 {
-    public sealed class TypeRegistrar : ITypeRegistrar
+    internal sealed class TypeRegistrar : ITypeRegistrar
     {
         private IServiceCollection _builder;
 

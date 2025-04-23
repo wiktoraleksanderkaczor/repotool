@@ -10,7 +10,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Language
 {
-    public class AddLanguageSettings : CommonSettings
+    internal sealed class AddLanguageSettings : CommonSettings
     {
         [CommandArgument(0, "<NAME>")]
         [Description("Language name.")]
@@ -21,7 +21,7 @@ namespace RepoTool.Terminal.Commands.Language
         public required List<string> Patterns { get; set; }
     }
 
-    public class AddLanguageCommand : AsyncCommand<AddLanguageSettings>
+    internal sealed class AddLanguageCommand : AsyncCommand<AddLanguageSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 
@@ -35,7 +35,7 @@ namespace RepoTool.Terminal.Commands.Language
                 Patterns = settings.Patterns
             };
             _ = _dbContext.Languages.Add(languageEntity);
-            _ = await _dbContext.SaveChangesAsync();
+            _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
             AnsiConsole.WriteLine($"Added language '{settings.Name}'.");
             return 0;
         }

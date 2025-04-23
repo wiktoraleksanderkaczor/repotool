@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Tools.Selectors.Expressions
     /// <summary>
     /// Defines the possible types of operators.
     /// </summary>
-    public enum EnOperatorType
+    internal enum EnOperatorType
     {
         /// <summary>
         /// Represents a unary operator (e.g., -, !).

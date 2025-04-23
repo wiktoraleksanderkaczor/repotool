@@ -3,7 +3,7 @@
 
 namespace RepoTool.Options.Common
 {
-    public interface IOptionModel
+    internal interface IOptionModel
     {
         /// <summary>
         /// Gets the section name for the options model.

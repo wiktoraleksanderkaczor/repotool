@@ -10,7 +10,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// Represents a region preprocessor directive (also covers endregion).
     /// </summary>
     /// <inheritdoc />
-    public record RegionDirective : DirectiveConstruct
+    internal sealed record RegionDirective : DirectiveConstruct
     {
         /// <summary>
         /// The name/description of the region.

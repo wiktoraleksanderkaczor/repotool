@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Interfaces;
 
 namespace RepoTool.Models.Parser.Tools.Selectors
 {
-    public record BlockSelector : IToolSelector<EnBlockType>
+    internal sealed record BlockSelector : IToolSelector<EnBlockType>
     {
         /// <summary>
         /// The type of the block.

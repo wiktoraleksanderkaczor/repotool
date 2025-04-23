@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// <summary>
     /// Represents a preprocessor branching directive (#if, #elif, #else, #endif).
     /// </summary>
-    public record BranchingDirective : DirectiveConstruct
+    internal sealed record BranchingDirective : DirectiveConstruct
     {
         /// <summary>
         /// The condition expression for the branch.
@@ -34,7 +34,7 @@ namespace RepoTool.Models.Parser.Items.Directives
         public required List<DirectiveBranchComponent> Branches { get; init; }
     }
 
-    public record DirectiveBranchComponent
+    internal sealed record DirectiveBranchComponent
     {
         /// <summary>
         /// The condition expression for the branch.

@@ -12,7 +12,7 @@ namespace RepoTool.Models.Parser.Items.Declarations.Common
 {
     /// <inheritdoc />
     [ToolChoice(typeof(DeclarationSelector))]
-    public abstract record DeclarationConstruct : NamedConstruct
+    internal abstract record DeclarationConstruct : NamedConstruct
     {
         /// <summary>
         /// The type of the declaration.

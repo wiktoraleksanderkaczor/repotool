@@ -11,7 +11,7 @@ namespace RepoTool.Schemas
     /// in order to be compatible with Outlines's structured output feature.
     /// It reflects the capabilities and limitations documented for Outlines's schema processing.
     /// </summary>
-    public static class OutlinesOutputSchema
+    internal static class OutlinesOutputSchema
     {
         /// <summary>
         /// Creates and configures a <see cref="JsonSchemaBuilder"/> for the Outlines meta-schema.

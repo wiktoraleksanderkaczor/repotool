@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Inference.Contexts.Parser
 {
-    public record ActionWindow
+    internal sealed record ActionWindow
     {
         /// <summary>
         /// The actions performed in order, latest is last.
@@ -96,7 +96,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         }
     }
 
-    public record Action
+    internal sealed record Action
     {
         /// <summary>
         /// Indicates whether the action was successful.

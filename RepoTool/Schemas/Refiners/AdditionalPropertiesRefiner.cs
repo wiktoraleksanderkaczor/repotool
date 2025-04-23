@@ -7,7 +7,7 @@ using Json.Schema.Generation.Intents;
 
 namespace RepoTool.Schemas.Refiners
 {
-    public class AdditionalPropertiesRefiner : ISchemaRefiner
+    internal sealed class AdditionalPropertiesRefiner : ISchemaRefiner
     {
         public bool ShouldRun(SchemaGenerationContextBase context)
         {
@@ -21,7 +21,7 @@ namespace RepoTool.Schemas.Refiners
         public void Run(SchemaGenerationContextBase context) => context.Intents.Add(new AdditionalPropertiesIntent());
     }
 
-    public class AdditionalPropertiesIntent() : ISchemaKeywordIntent
+    internal sealed class AdditionalPropertiesIntent() : ISchemaKeywordIntent
     {
         public void Apply(JsonSchemaBuilder builder) => builder.AdditionalProperties(false);
     }

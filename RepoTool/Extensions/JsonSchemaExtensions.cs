@@ -13,7 +13,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Extension methods for <see cref="JsonSchema"/>.
     /// </summary>
-    public static class JsonSchemaExtensions
+    internal static class JsonSchemaExtensions
     {
         /// <summary>
         /// Removes the $schema key from the schema if it exists.

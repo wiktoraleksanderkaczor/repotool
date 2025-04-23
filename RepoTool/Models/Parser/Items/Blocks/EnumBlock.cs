@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record EnumBlock : BlockConstruct
+    internal sealed record EnumBlock : BlockConstruct
     {
         /// <summary>
         /// Values of the enum.
@@ -49,7 +49,7 @@ namespace RepoTool.Models.Parser.Items.Blocks
     /// <summary>
     /// Represents a definition of an enum value.
     /// </summary>
-    public record EnumValueDefinition : NamedConstruct
+    internal sealed record EnumValueDefinition : NamedConstruct
     {
         /// <summary>
         /// Literal value of the enum or expression for the enum value.

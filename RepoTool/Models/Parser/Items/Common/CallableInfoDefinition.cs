@@ -8,7 +8,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents information about a callable, such as a method or function.
     /// </summary>
-    public record CallableInfoDefinition
+    internal sealed record CallableInfoDefinition
     {
         /// <summary>
         /// Parameters for the callable.

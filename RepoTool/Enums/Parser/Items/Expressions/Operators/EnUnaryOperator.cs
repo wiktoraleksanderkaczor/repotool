@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Expressions.Operators
     /// <summary>
     /// Defines the possible unary operators.
     /// </summary>
-    public enum EnUnaryOperator
+    internal enum EnUnaryOperator
     {
         /// <summary>
         /// Represents the logical NOT operator (!).

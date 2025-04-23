@@ -12,7 +12,7 @@ namespace RepoTool.Schemas.Refiners
     /// Refines the schema generation process for enum types to ensure they are represented
     /// as strings with an explicit list of possible values (enum keyword).
     /// </summary>
-    public class EnumTypeRefiner : ISchemaRefiner
+    internal sealed class EnumTypeRefiner : ISchemaRefiner
     {
         /// <summary>
         /// Determines whether this refiner should run based on the generation context.

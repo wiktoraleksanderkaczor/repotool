@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents the definition of a parameter in a callable.
     /// </summary>
-    public record ParameterDefinition
+    internal sealed record ParameterDefinition
     {
         /// <summary>
         /// Type of the parameter.

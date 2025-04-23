@@ -5,7 +5,7 @@ using RepoTool.Models.Inference.Contexts.Parser;
 
 namespace RepoTool.Models.Inference.Contexts.Common
 {
-    public record InferenceContext
+    internal record InferenceContext
     {
         /// <summary>
         /// Item path of the section currently being parsed.

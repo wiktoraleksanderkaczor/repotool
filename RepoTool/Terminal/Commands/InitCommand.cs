@@ -17,7 +17,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands
 {
-    public class InitCommand : AsyncCommand<CommonSettings>
+    internal sealed class InitCommand : AsyncCommand<CommonSettings>
     {
         private readonly RepoToolDbContext _dbContext;
         public InitCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
@@ -33,13 +33,13 @@ namespace RepoTool.Terminal.Commands
             // Ensure database file exists
             if ( !File.Exists(PathConstants.DatabasePath) )
             {
-                File.Create(PathConstants.DatabasePath).Dispose();
+                await File.Create(PathConstants.DatabasePath).DisposeAsync().ConfigureAwait(false);
             }
 
             // Apply migrations
             // Ensure the database is created and migrated
             // dbContext.Database.EnsureCreated() does not work with SQLite    
-            _dbContext.Database.Migrate();
+            await _dbContext.Database.MigrateAsync().ConfigureAwait(false);
 
             // Find types implementing IOptionModel in the calling assembly
             Assembly callingAssembly = Assembly.GetExecutingAssembly();
@@ -66,7 +66,7 @@ namespace RepoTool.Terminal.Commands
                             ?? throw new InvalidOperationException($"Static property 'Section' not found on type {modelType.FullName}.");
 
 
-                    JsonSchema jsonSchemaSection = await JsonHelper.GetOrCreateJsonSchemaAsync(modelType);
+                    JsonSchema jsonSchemaSection = await JsonHelper.GetOrCreateJsonSchemaAsync(modelType).ConfigureAwait(false);
                     jsonSchema = jsonSchema.Merge(jsonSchemaSection, sectionName);
 
                 }
@@ -78,7 +78,7 @@ namespace RepoTool.Terminal.Commands
                 }
             }
 
-            await File.WriteAllTextAsync(PathConstants.SettingsSchemaPath, jsonSchema.ToJson());
+            await File.WriteAllTextAsync(PathConstants.SettingsSchemaPath, jsonSchema.ToJson()).ConfigureAwait(false);
 
             // Create settings.json file in repo tool folder pointing to settings-schema.json as $schema
             string schemaValue = $"{Path.GetFileName(PathConstants.SettingsSchemaPath)}";
@@ -93,7 +93,7 @@ namespace RepoTool.Terminal.Commands
                 try
                 {
                     // Read existing content
-                    string existingContent = await File.ReadAllTextAsync(PathConstants.SettingsPath);
+                    string existingContent = await File.ReadAllTextAsync(PathConstants.SettingsPath).ConfigureAwait(false);
                     JsonNode? jsonNode = JsonNode.Parse(existingContent, new JsonNodeOptions
                     {
                         PropertyNameCaseInsensitive = true
@@ -111,7 +111,7 @@ namespace RepoTool.Terminal.Commands
 
                         // Write the modified JSON back, preserving formatting if possible
                         string updatedContent = jsonObject.ToJson();
-                        await File.WriteAllTextAsync(PathConstants.SettingsPath, updatedContent);
+                        await File.WriteAllTextAsync(PathConstants.SettingsPath, updatedContent).ConfigureAwait(false);
                     }
                     else
                     {
@@ -133,7 +133,7 @@ namespace RepoTool.Terminal.Commands
             else
             {
                 // File doesn't exist, create it with minimal content
-                await File.WriteAllTextAsync(PathConstants.SettingsPath, minimalSettingsContent);
+                await File.WriteAllTextAsync(PathConstants.SettingsPath, minimalSettingsContent).ConfigureAwait(false);
             }
 
             return 0;

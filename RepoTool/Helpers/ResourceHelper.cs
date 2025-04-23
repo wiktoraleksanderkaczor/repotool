@@ -6,7 +6,7 @@ using RepoTool.Constants;
 
 namespace RepoTool.Helpers
 {
-    public static class ResourceHelper
+    internal static class ResourceHelper
     {
         public static string GetParserLanguagesJson()
         {
@@ -36,7 +36,7 @@ namespace RepoTool.Helpers
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 string? resourceName = assembly.GetManifestResourceNames()
-                    .FirstOrDefault(name => name.Contains(path));
+                    .FirstOrDefault(name => name.Contains(path, StringComparison.InvariantCulture));
 
                 if ( resourceName == null )
                 {

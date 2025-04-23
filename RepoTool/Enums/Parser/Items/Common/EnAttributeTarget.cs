@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Common
     /// <summary>
     /// Defines the possible targets for an attribute.
     /// </summary>
-    public enum EnAttributeTarget
+    internal enum EnAttributeTarget
     {
         /// <summary>
         /// The attribute target is an assembly.

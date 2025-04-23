@@ -27,7 +27,7 @@ namespace RepoTool.Helpers
     /// <summary>
     /// Helper class for interacting with the OpenAI API and caching inference results.
     /// </summary>
-    public class InferenceHelper
+    internal sealed class InferenceHelper
     {
         private readonly RepoToolDbContext _dbContext;
         private readonly DocumentationHelper _documentationHelper;
@@ -67,7 +67,7 @@ namespace RepoTool.Helpers
                 throw new ArgumentException("Output type cannot be nullable.");
             }
 
-            string output = await GetInferenceAsync(inferenceRequest);
+            string output = await GetInferenceAsync(inferenceRequest).ConfigureAwait(false);
             return typeof(TOutput) switch
             {
                 Type t when t == typeof(string) => output as TOutput
@@ -82,7 +82,7 @@ namespace RepoTool.Helpers
             where TContext : notnull, InferenceContext
         {
             // Get the item type
-            Type outputType = inferenceRequest.Context.ItemPath.GetLastObjectType();
+            Type outputType = inferenceRequest.Context.ItemPath.LastObjectType;
 
             // Check if TSchema is nullable
             if ( Nullable.GetUnderlyingType(outputType) != null )
@@ -93,12 +93,12 @@ namespace RepoTool.Helpers
 
 
             // Fetch inference model options for current reason
-            ModelOptions modelOptions = inferenceRequest.GetInferenceReason() switch
+            ModelOptions modelOptions = inferenceRequest.InferenceReason switch
             {
                 EnInferenceReason.Changelog => _options.Value.Configurations.Changelog,
                 EnInferenceReason.Summarization => _options.Value.Configurations.Summarization,
                 EnInferenceReason.Parsing => _options.Value.Configurations.Parsing,
-                _ => throw new InvalidOperationException("Model options not found.")
+                EnInferenceReason.Unknown or _ => throw new InvalidOperationException("Model options not found.")
             };
 
             // Get prompt output type
@@ -106,7 +106,7 @@ namespace RepoTool.Helpers
                 ?? throw new ArgumentNullException(nameof(inferenceRequest), "Output type derived from inferenceRequest.Context.ItemPath cannot have a null FullName.");
 
             // Determine the type to use for schema generation
-            EnSchemaOutput outputHandlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(outputType);
+            EnSchemaOutput outputHandlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(outputType).ConfigureAwait(false);
 
             // Wrap the output type if not object
             Type schemaGenerationType = outputHandlingType switch
@@ -120,7 +120,7 @@ namespace RepoTool.Helpers
             JsonSchema jsonSchema = await JsonHelper.GetOrCreateJsonSchemaAsync(
                 schemaGenerationType,
                 modelOptions.Provider,
-                modelOptions.Schema);
+                modelOptions.Schema).ConfigureAwait(false);
 
             // Get tool item type
             Type? toolType = ( inferenceRequest.Context.ItemPath.Components.LastOrDefault(c =>
@@ -158,7 +158,7 @@ namespace RepoTool.Helpers
 
                 int fileCount = Directory.GetFiles(logsFolder, "*.txt").Length;
                 string logFilePath = Path.Combine(logsFolder, $"{fileCount}.txt");
-                await File.WriteAllTextAsync(logFilePath, rawMessages);
+                await File.WriteAllTextAsync(logFilePath, rawMessages).ConfigureAwait(false);
             }
 
             // Generate a hashed prompt key
@@ -172,7 +172,7 @@ namespace RepoTool.Helpers
                         e.PromptHash == promptHash
                         && e.InferenceProvider == modelOptions.Provider
                         && e.InferenceModel == modelOptions.Model
-                        && e.OutputType == promptOutputType);
+                        && e.OutputType == promptOutputType).ConfigureAwait(false);
 
                 if ( cachedEntry != null )
                 {
@@ -194,7 +194,7 @@ namespace RepoTool.Helpers
             List<InferenceMessage> messages = ParseMessages(rawMessages);
 
             // Get inference provider response
-            string output = await inferenceProvider.GetInferenceAsync(messages, jsonSchema);
+            string output = await inferenceProvider.GetInferenceAsync(messages, jsonSchema).ConfigureAwait(false);
 
             // Check if output is null or empty
             if ( string.IsNullOrEmpty(output) )
@@ -219,7 +219,7 @@ namespace RepoTool.Helpers
                         ResponseContent = output
                     };
                     _ = _dbContext.InferenceCache.Add(cacheEntry);
-                    _ = await _dbContext.SaveChangesAsync();
+                    _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch ( DbUpdateException e )
                 {
@@ -291,7 +291,7 @@ namespace RepoTool.Helpers
         }
     }
 
-    public record InferenceValueWrapper<T>
+    internal sealed record InferenceValueWrapper<T>
     {
         /// <summary>
         /// Output of a single value.

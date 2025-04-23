@@ -13,7 +13,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Extension methods for <see cref="JsonDocument"/>.
     /// </summary>
-    public static class JsonDocumentExtensions
+    internal static class JsonDocumentExtensions
     {
         /// <summary>
         /// Removes the JSON element specified by the JSON Pointer.

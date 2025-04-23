@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record ComprehensionExpression : ExpressionConstruct
+    internal sealed record ComprehensionExpression : ExpressionConstruct
     {
         /// <summary>
         /// The expression that filters the collection.

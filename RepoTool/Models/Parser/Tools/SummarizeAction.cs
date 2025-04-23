@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Parser.Tools
 {
-    public record SummarizeAction
+    internal sealed record SummarizeAction
     {
         /// <summary>
         /// Human-readable summary of what was changed.

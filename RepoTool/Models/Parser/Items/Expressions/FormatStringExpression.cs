@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record FormatStringExpression : ExpressionConstruct
+    internal sealed record FormatStringExpression : ExpressionConstruct
     {
         /// <summary>
         /// The components of the format string.
@@ -33,7 +33,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     /// <summary>
     /// Represents a component of a format string.
     /// </summary>
-    public record FormatStringComponent
+    internal record FormatStringComponent
     {
         /// <summary>
         /// The type of the format string component.
@@ -63,7 +63,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     }
 
     /// <inheritdoc />
-    public record FormatStringTextComponent : FormatStringComponent
+    internal sealed record FormatStringTextComponent : FormatStringComponent
     {
         /// <summary>
         /// The text content of the component.
@@ -83,7 +83,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     }
 
     /// <inheritdoc />
-    public record FormatStringExpressionComponent : FormatStringComponent
+    internal sealed record FormatStringExpressionComponent : FormatStringComponent
     {
         /// <summary>
         /// The expression contained within the format string.
@@ -110,7 +110,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     /// <summary>
     /// Represents a pipe applied to an expression within a format string.
     /// </summary>
-    public record FormatStringExpressionPipe
+    internal sealed record FormatStringExpressionPipe
     {
         /// <summary>
         /// Specifies what the pipe is meant to do.

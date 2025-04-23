@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// Represents a custom preprocessor directive.
     /// </summary>
     /// <inheritdoc />
-    public record CustomDirective : DirectiveConstruct
+    internal sealed record CustomDirective : DirectiveConstruct
     {
         /// <summary>
         /// The raw content of the custom directive.

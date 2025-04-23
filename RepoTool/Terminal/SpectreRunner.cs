@@ -12,7 +12,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
 {
-    public static class SpectreRunner
+    internal static class SpectreRunner
     {
         public static async Task<int> RunSpectreCommands(this IHostBuilder hostBuilder, string[] args)
         {
@@ -98,7 +98,7 @@ namespace RepoTool.Terminal
                     .WithDescription("Initialize the application.");
             });
 
-            return await app.RunAsync(args);
+            return await app.RunAsync(args).ConfigureAwait(false);
         }
     }
 }

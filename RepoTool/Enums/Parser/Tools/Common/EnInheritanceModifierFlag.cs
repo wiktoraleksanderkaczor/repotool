@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Tools.Common
 {
-    public enum EnInheritanceModifier
+    internal enum EnInheritanceModifier
     {
         /// <summary>
         /// Indicates that the inheritance is abstract and cannot be instantiated

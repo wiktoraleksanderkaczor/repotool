@@ -11,7 +11,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents a path to an item in the parsed content.
     /// </summary>
-    public record ItemPath
+    internal sealed record ItemPath
     {
         /// <summary>
         /// The components that make up the item path.
@@ -33,25 +33,26 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         }));
 
         /// <summary>
-        /// Convenience to get the last component object type.
+        /// Convenience property to get the last component object type.
         /// </summary>
-        /// <returns>Type</returns>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="NotSupportedException"></exception>
-        public Type GetLastObjectType()
+        public Type LastObjectType
         {
-            // Get the last component type
-            return Components.Count > 0
+            get
+            {
+                // Get the last component type
+                return Components.Count > 0
                 ? Components[^1] switch
                 {
                     ItemPathRootComponent rootComponent => rootComponent.RecordType,
                     ItemPathIndexComponent indexComponent => indexComponent.ItemType,
                     ItemPathKeyComponent keyComponent => keyComponent.ItemType,
                     ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyInfo.PropertyType,
-                    ItemPathToolComponent toolComponent => toolComponent.ToolType,
                     _ => throw new NotSupportedException("Unknown component type.")
                 }
                 : throw new InvalidOperationException("No components in path.");
+            }
         }
 
         /// <summary>
@@ -107,23 +108,29 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         }
 
         /// <summary>
-        /// Get the parent component object.
+        /// Gets the parent component object.
         /// </summary>
-        /// <returns>ItemPathComponent?</returns>
-        public ItemPathComponent? GetParentComponent() =>
+        public ItemPathComponent? ParentComponent =>
             // Get the parent component for the last component
-            Components.Count > 0 ? Components[^2] : null;
+            Components.Count > 1 ? Components[^2] : null;
 
-        public JsonSpecialModifier GetJsonSpecialFlag()
+
+        /// <summary>
+        /// Gets the JSON special flag for the last component.
+        /// </summary>
+        public JsonSpecialModifier JsonSpecialModifier
         {
-            // Get the special flag for the last component
-            return Components.Count > 0
-                ? Components[^1] switch
-                {
-                    ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialFlag,
-                    _ => JsonSpecialModifier.None
-                }
-                : JsonSpecialModifier.None;
+            get
+            {
+                // Get the special flag for the last component
+                return Components.Count > 0
+                    ? Components[^1] switch
+                    {
+                        ItemPathPropertyComponent propertyComponent => propertyComponent.JsonSpecialModifier,
+                        _ => JsonSpecialModifier.None
+                    }
+                    : JsonSpecialModifier.None;
+            }
         }
 
         /// <summary>
@@ -143,7 +150,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         }
     }
 
-    public abstract record ItemPathComponent
+    internal abstract record ItemPathComponent
     {
         /// <summary>
         /// Represents the current object in the item path.
@@ -161,7 +168,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents an index in the item path for an iterable
     /// </summary>
-    public record ItemPathIndexComponent : ItemPathComponent
+    internal sealed record ItemPathIndexComponent : ItemPathComponent
     {
         private int _index;
 
@@ -187,7 +194,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents a key in the item path for a mapping
     /// </summary>
-    public record ItemPathKeyComponent : ItemPathComponent
+    internal sealed record ItemPathKeyComponent : ItemPathComponent
     {
         private string _key = null!;
 
@@ -210,7 +217,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public required Type ItemType { get; init; }
     }
 
-    public record ItemPathRootComponent : ItemPathComponent
+    internal sealed record ItemPathRootComponent : ItemPathComponent
     {
         public required Type RecordType { get; init; }
     }
@@ -218,7 +225,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents a property in the item path.
     /// </summary>
-    public record ItemPathPropertyComponent : ItemPathComponent
+    internal sealed record ItemPathPropertyComponent : ItemPathComponent
     {
         /// <summary>
         /// Represents the name of the property in the item path.
@@ -247,15 +254,15 @@ namespace RepoTool.Models.Inference.Contexts.Parser
         public required PropertyInfo PropertyInfo { get; init; }
 
         /// <summary>
-        /// Specifies the special flags associated with the property.
+        /// Specifies the special modifiers associated with the property.
         /// </summary>
-        public required JsonSpecialModifier JsonSpecialFlag { get; init; }
+        public required JsonSpecialModifier JsonSpecialModifier { get; init; }
     }
 
     /// <summary>
     /// Represents a tool used in the item path.
     /// </summary>
-    public record ItemPathToolComponent : ItemPathComponent
+    internal sealed record ItemPathToolComponent : ItemPathComponent
     {
         private Type _toolType = null!;
 

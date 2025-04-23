@@ -9,5 +9,5 @@ namespace RepoTool.Models.Parser.Items.Expressions.Common
 {
     /// <inheritdoc />
     [ToolChoice(typeof(ExpressionSelector))]
-    public abstract record ExpressionConstruct : Construct;
+    internal abstract record ExpressionConstruct : Construct;
 }

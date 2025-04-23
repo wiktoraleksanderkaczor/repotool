@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record LoopingStatement : StatementConstruct
+    internal sealed record LoopingStatement : StatementConstruct
     {
         /// <summary>
         /// Expression that is evaluated before the loop starts. e.g. int i = 0;

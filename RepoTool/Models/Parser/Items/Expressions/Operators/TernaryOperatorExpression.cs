@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Operators.Common;
 namespace RepoTool.Models.Parser.Items.Expressions.Operators
 {
     /// <inheritdoc />
-    public record TernaryOperatorExpression : OperatorExpression
+    internal sealed record TernaryOperatorExpression : OperatorExpression
     {
         /// <summary>
         /// The ternary operator.

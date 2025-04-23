@@ -10,11 +10,11 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Language
 {
-    public class ListLanguageSettings : CommonSettings
+    internal sealed class ListLanguageSettings : CommonSettings
     {
     }
 
-    public class ListLanguageCommand : Command<ListLanguageSettings>
+    internal sealed class ListLanguageCommand : Command<ListLanguageSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 

@@ -4,5 +4,5 @@
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record RecordBlock : ClassBlock;
+    internal sealed record RecordBlock : ClassBlock;
 }

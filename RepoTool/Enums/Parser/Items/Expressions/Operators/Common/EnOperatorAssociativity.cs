@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Expressions.Operators.Common
     /// <summary>
     /// Defines the possible associativities of operators.
     /// </summary>
-    public enum EnOperatorAssociativity
+    internal enum EnOperatorAssociativity
     {
         /// <summary>
         /// Left-to-right associativity.

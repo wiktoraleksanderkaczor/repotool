@@ -10,25 +10,21 @@ namespace RepoTool.Models.Inference
     /// <summary>
     /// Request for inference
     /// </summary>
-    public record InferenceRequest<T> where T : notnull, InferenceContext
+    internal sealed record InferenceRequest<T> where T : notnull, InferenceContext
     {
         /// <summary>
         /// Context for inference
         /// </summary>
         public required T Context { get; set; }
-
         /// <summary>
         /// Gets the inference reason based on the context type.
         /// </summary>
-        public EnInferenceReason GetInferenceReason()
+        public EnInferenceReason InferenceReason => Context switch
         {
-            return Context switch
-            {
-                ChangelogContext => EnInferenceReason.Changelog,
-                SummarizationContext => EnInferenceReason.Summarization,
-                ParserContext => EnInferenceReason.Parsing,
-                _ => throw new ArgumentOutOfRangeException(nameof(Context), Context, null),
-            };
-        }
+            ChangelogContext => EnInferenceReason.Changelog,
+            SummarizationContext => EnInferenceReason.Summarization,
+            ParserContext => EnInferenceReason.Parsing,
+            _ => EnInferenceReason.Unknown
+        };
     }
 }

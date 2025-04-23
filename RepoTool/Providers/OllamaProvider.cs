@@ -15,7 +15,7 @@ using RepoTool.Providers.Common;
 
 namespace RepoTool.Providers
 {
-    public class OllamaProvider : IInferenceProvider
+    internal sealed class OllamaProvider : IInferenceProvider
     {
         private readonly ModelOptions _modelOptions;
         public OllamaProvider(ModelOptions modelOptions) => _modelOptions = modelOptions;
@@ -24,8 +24,7 @@ namespace RepoTool.Providers
             List<InferenceMessage> messages,
             JsonSchema jsonSchema)
         {
-            Uri uri = new(_modelOptions.BaseUrl);
-            OllamaApiClient ollama = new(uri);
+            using OllamaApiClient ollama = new(_modelOptions.BaseUrl);
             ChatRequest chatRequest = new()
             {
                 Model = _modelOptions.Model,
@@ -59,7 +58,7 @@ namespace RepoTool.Providers
             try
             {
                 StringBuilder sb = new();
-                await foreach ( ChatResponseStream? response in ollama.ChatAsync(chatRequest) )
+                await foreach ( ChatResponseStream? response in ollama.ChatAsync(chatRequest).ConfigureAwait(false) )
                 {
                     if ( response != null )
                     {

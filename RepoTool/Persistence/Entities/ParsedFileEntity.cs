@@ -9,7 +9,7 @@ using RepoTool.Persistence.Entities.Common;
 
 namespace RepoTool.Persistence.Entities
 {
-    public class ParsedFileEntity : BaseEntity
+    internal sealed class ParsedFileEntity : BaseEntity
     {
         /// <summary>
         /// Path to the file being parsed.      
@@ -37,7 +37,7 @@ namespace RepoTool.Persistence.Entities
         public required ParsedData ParsedFile { get; init; }
     }
 
-    public record ParsedData
+    internal sealed record ParsedData
     {
         /// <summary>
         /// Top-level docstring of the file being parsed, not attached to any constructs, just the file itself.

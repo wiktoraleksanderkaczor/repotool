@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the specialization area of a change
     /// </summary>
-    public enum EnChangeSpecialization
+    internal enum EnChangeSpecialization
     {
         /// <summary>
         /// Changes to frontend code or user interface

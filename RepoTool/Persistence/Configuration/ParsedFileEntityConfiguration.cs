@@ -9,7 +9,7 @@ using RepoTool.Persistence.Entities;
 
 namespace RepoTool.Persistence.Configuration
 {
-    public class ParsedFileEntityConfiguration : BaseEntityConfiguration<ParsedFileEntity>
+    internal sealed class ParsedFileEntityConfiguration : BaseEntityConfiguration<ParsedFileEntity>
     {
         public override void Configure(EntityTypeBuilder<ParsedFileEntity> builder)
         {

@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Repository
 {
-    public record SourceChange
+    internal sealed record SourceChange
     {
         /// <summary>
         /// The old path of the file that was changed if renamed

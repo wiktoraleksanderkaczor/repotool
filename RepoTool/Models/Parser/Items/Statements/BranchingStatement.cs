@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record BranchingStatement : StatementConstruct
+    internal sealed record BranchingStatement : StatementConstruct
     {
         /// <summary>
         /// The condition of the branching statement, which is evaluated to determine which branch to execute.
@@ -29,7 +29,7 @@ namespace RepoTool.Models.Parser.Items.Statements
     /// <summary>
     /// Represents a component of a branching statement, such as an if, else if, or else block.
     /// </summary>
-    public record BranchComponent
+    internal sealed record BranchComponent
     {
         /// <summary>
         /// The condition that determines whether this branch should be executed.

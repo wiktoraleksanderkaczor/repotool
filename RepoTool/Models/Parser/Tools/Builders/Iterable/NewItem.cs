@@ -5,7 +5,7 @@ using RepoTool.Enums.Parser.Tools.Builders.Iterable;
 
 namespace RepoTool.Models.Parser.Tools.Builders.Iterable
 {
-    public record NewItem
+    internal sealed record NewItem
     {
         /// <summary>
         /// Indicates whether a new item has been created.

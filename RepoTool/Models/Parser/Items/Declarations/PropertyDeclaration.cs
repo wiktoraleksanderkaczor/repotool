@@ -9,7 +9,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Declarations
 {
     /// <inheritdoc />
-    public record PropertyDeclaration : DeclarationConstruct
+    internal sealed record PropertyDeclaration : DeclarationConstruct
     {
         /// <summary>
         /// Type of the property.

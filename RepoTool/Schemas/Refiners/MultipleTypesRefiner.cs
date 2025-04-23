@@ -14,7 +14,7 @@ namespace RepoTool.Schemas.Refiners
     /// It replaces the default <see cref="TypeIntent"/> with an <see cref="AnyOfIntent"/>
     /// containing individual <see cref="TypeIntent"/>s for each possible JSON type.
     /// </summary>
-    public class MultipleTypesRefiner : ISchemaRefiner
+    internal sealed class MultipleTypesRefiner : ISchemaRefiner
     {
         /// <summary>
         /// Determines whether this refiner should run based on the generation context.

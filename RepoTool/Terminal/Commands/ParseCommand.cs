@@ -11,7 +11,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands
 {
-    public class ParseSettings : CommonSettings
+    internal sealed class ParseSettings : CommonSettings
     {
         [CommandArgument(0, "<FILE_PATH>")]
         [Description("Path to the file to parse.")]
@@ -22,7 +22,7 @@ namespace RepoTool.Terminal.Commands
         // public string? Language { get; set; }
     }
 
-    public class ParseCommand : AsyncCommand<ParseSettings>
+    internal sealed class ParseCommand : AsyncCommand<ParseSettings>
     {
         private readonly ParserHelper _parserHelper;
 
@@ -31,9 +31,9 @@ namespace RepoTool.Terminal.Commands
         public override async Task<int> ExecuteAsync(CommandContext context, ParseSettings settings)
         {
             AnsiConsole.WriteLine("Parse file command executed.");
-            ParsedFileEntity entity = await _parserHelper.ParseFileAsync(settings.FilePath);
+            ParsedFileEntity entity = await _parserHelper.ParseFileAsync(settings.FilePath).ConfigureAwait(false);
             JsonHelper.SerializeToJson(entity).DisplayAsJson(Color.Green);
-            return await Task.FromResult(0);
+            return await Task.FromResult(0).ConfigureAwait(false);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Statements
     /// <summary>
     /// Defines the possible types of control flow statements.
     /// </summary>
-    public enum EnControlFlowStatementType
+    internal enum EnControlFlowStatementType
     {
         /// <summary>
         /// Represents a break statement.

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace RepoTool.Persistence
 {
-    public class RepoToolDbContextFactory : IDesignTimeDbContextFactory<RepoToolDbContext>
+    internal sealed class RepoToolDbContextFactory : IDesignTimeDbContextFactory<RepoToolDbContext>
     {
         public RepoToolDbContext CreateDbContext(string[] args)
         {
@@ -18,7 +18,7 @@ namespace RepoTool.Persistence
                 if ( !File.Exists(dbPath) )
                 {
                     _ = Directory.CreateDirectory(Path.GetDirectoryName(dbPath) ?? throw new InvalidOperationException());
-                    _ = File.Create(dbPath);
+                    File.Create(dbPath).Dispose();
                 }
                 connectionString = $"Data Source={dbPath}";
                 // connectionString = $"Data Source=:memory:";

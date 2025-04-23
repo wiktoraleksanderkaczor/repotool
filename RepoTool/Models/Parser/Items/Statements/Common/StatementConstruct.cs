@@ -10,7 +10,7 @@ namespace RepoTool.Models.Parser.Items.Statements.Common
 {
     /// <inheritdoc />
     [ToolChoice(typeof(StatementSelector))]
-    public abstract record StatementConstruct : Construct
+    internal abstract record StatementConstruct : Construct
     {
         /// <summary>
         /// The type of the statement.

@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the importance level of a change
     /// </summary>
-    public enum EnChangeImportance
+    internal enum EnChangeImportance
     {
         /// <summary>
         /// Minor change with minimal impact (formatting, comments, etc.)

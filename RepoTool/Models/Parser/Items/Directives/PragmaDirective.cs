@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// Represents a pragma preprocessor directive for compiler-specific instructions.
     /// </summary>
     /// <inheritdoc />
-    public record PragmaDirective : DirectiveConstruct
+    internal sealed record PragmaDirective : DirectiveConstruct
     {
         /// <summary>
         /// The specific pragma command (e.g., "warning", "once", etc.).

@@ -7,7 +7,7 @@ using RepoTool.Options.Common;
 
 namespace RepoTool.Options
 {
-    public record InferenceOptions : IOptionModel
+    internal sealed record InferenceOptions : IOptionModel
     {
         /// <summary>
         /// The section name for the inference options.
@@ -25,7 +25,7 @@ namespace RepoTool.Options
         public Configurations Configurations { get; set; } = new();
     }
 
-    public record Configurations
+    internal sealed record Configurations
     {
         [Required]
         public ModelOptions Summarization { get; set; } = new();
@@ -37,7 +37,7 @@ namespace RepoTool.Options
         public ModelOptions Changelog { get; set; } = new();
     }
 
-    public record ModelOptions
+    internal sealed record ModelOptions
     {
         /// <summary>
         /// The type of inference provider to use.
@@ -67,7 +67,7 @@ namespace RepoTool.Options
         /// <summary>
         /// The URL of the API server.
         /// </summary>
-        public string BaseUrl { get; set; } = "https://api.openai.com/v1/";
+        public Uri BaseUrl { get; set; } = new("https://api.openai.com/v1/");
 
         /// <summary>
         /// API key for the server.
@@ -78,7 +78,7 @@ namespace RepoTool.Options
     /// <summary>
     /// Represents the sampling options for text generation.
     /// </summary>
-    public record SamplingOptions
+    internal sealed record SamplingOptions
     {
         /// <summary>
         /// Number of tokens used for generating next token
@@ -111,7 +111,7 @@ namespace RepoTool.Options
         public float PresencePenalty { get; set; }
     }
 
-    public record LoggingOptions
+    internal sealed record LoggingOptions
     {
         /// <summary>
         /// The path to the log file.

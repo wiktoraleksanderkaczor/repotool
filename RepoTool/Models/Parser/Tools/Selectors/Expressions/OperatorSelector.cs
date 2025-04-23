@@ -5,7 +5,7 @@ using RepoTool.Enums.Parser.Tools.Selectors.Expressions;
 
 namespace RepoTool.Models.Parser.Tools.Selectors.Expressions
 {
-    public record OperatorSelector
+    internal sealed record OperatorSelector
     {
         /// <summary>
         /// The type of the operator.

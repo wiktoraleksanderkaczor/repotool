@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Items.Blocks.Common;
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record NamespaceBlock : BlockConstruct
+    internal sealed record NamespaceBlock : BlockConstruct
     {
         /// <summary>
         /// Fully qualified name of the namespace

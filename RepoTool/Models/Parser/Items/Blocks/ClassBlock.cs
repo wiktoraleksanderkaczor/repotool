@@ -11,7 +11,7 @@ namespace RepoTool.Models.Parser.Items.Blocks
     /// <summary>
     /// Represents information about inheritance for a class or interface.
     /// </summary>
-    public record InheritanceInfo
+    internal sealed record InheritanceInfo
     {
         // TODO: Might need to be path here?
         /// <summary>
@@ -59,7 +59,7 @@ namespace RepoTool.Models.Parser.Items.Blocks
     }
 
     /// <inheritdoc />
-    public record ClassBlock : BlockConstruct
+    internal record ClassBlock : BlockConstruct
     {
         /// <summary>
         /// Classes that this class inherits from or implements in case of interfaces.

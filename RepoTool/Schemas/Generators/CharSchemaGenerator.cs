@@ -8,7 +8,7 @@ using Json.Schema.Generation.Intents;
 
 namespace RepoTool.Schemas.Generators
 {
-    public class CharSchemaGenerator : ISchemaGenerator
+    internal sealed class CharSchemaGenerator : ISchemaGenerator
     {
         public bool Handles(Type type) => type == typeof(char);
 

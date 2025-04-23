@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Expressions.Operators
     /// <summary>
     /// Defines the possible ternary operators.
     /// </summary>
-    public enum EnTernaryOperator
+    internal enum EnTernaryOperator
     {
         /// <summary>
         /// Represents the conditional ternary operator (?:).

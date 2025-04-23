@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// Represents an include preprocessor directive.
     /// </summary>
     /// <inheritdoc />
-    public record IncludeDirective : DirectiveConstruct
+    internal sealed record IncludeDirective : DirectiveConstruct
     {
         /// <summary>
         /// The path of the file to include.

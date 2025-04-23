@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Blocks
     /// <summary>
     /// Defines the possible types of inheritance.
     /// </summary>
-    public enum EnInheritanceType
+    internal enum EnInheritanceType
     {
         /// <summary>
         /// Represents class inheritance.

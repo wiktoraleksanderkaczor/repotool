@@ -11,25 +11,25 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Language
 {
-    public class RemoveLanguageSettings : CommonSettings
+    internal sealed class RemoveLanguageSettings : CommonSettings
     {
         [CommandOption("--name")]
         [Description("Language name.")]
         public string Name { get; set; } = null!;
     }
 
-    public class RemoveLanguageCommand : AsyncCommand<RemoveLanguageSettings>
+    internal sealed class RemoveLanguageCommand : AsyncCommand<RemoveLanguageSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 
         public RemoveLanguageCommand(RepoToolDbContext dbContext) => _dbContext = dbContext;
         public override async Task<int> ExecuteAsync(CommandContext context, RemoveLanguageSettings settings)
         {
-            LanguageEntity? languageEntity = await _dbContext.Languages.FirstOrDefaultAsync(l => l.Name == settings.Name);
+            LanguageEntity? languageEntity = await _dbContext.Languages.FirstOrDefaultAsync(l => l.Name == settings.Name).ConfigureAwait(false);
             if ( languageEntity != null )
             {
                 _ = _dbContext.Languages.Remove(languageEntity);
-                _ = await _dbContext.SaveChangesAsync();
+                _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
                 AnsiConsole.WriteLine($"Removed language '{settings.Name}'.");
             }
             else

@@ -8,7 +8,7 @@ using RepoTool.Persistence.Entities;
 
 namespace RepoTool.Persistence.Configuration
 {
-    public class ChangelogEntityConfiguration : BaseEntityConfiguration<ChangelogEntity>
+    internal sealed class ChangelogEntityConfiguration : BaseEntityConfiguration<ChangelogEntity>
     {
         public override void Configure(EntityTypeBuilder<ChangelogEntity> builder)
         {

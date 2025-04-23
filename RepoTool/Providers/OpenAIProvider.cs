@@ -13,7 +13,7 @@ using RepoTool.Providers.Common;
 
 namespace RepoTool.Providers
 {
-    public class OpenAIProvider : IInferenceProvider
+    internal sealed class OpenAIProvider : IInferenceProvider
     {
         private readonly ModelOptions _modelOptions;
 
@@ -27,7 +27,7 @@ namespace RepoTool.Providers
             ChatClient chatClient = new(
                 _modelOptions.Model,
                 new ApiKeyCredential(_modelOptions.ApiKey ?? string.Empty),
-                new OpenAIClientOptions() { Endpoint = new Uri(_modelOptions.BaseUrl) }
+                new OpenAIClientOptions() { Endpoint = _modelOptions.BaseUrl }
             );
 
             List<ChatMessage> chatMessages = messages
@@ -57,7 +57,7 @@ namespace RepoTool.Providers
                         BinaryData.FromString(jsonSchema.ToJson()),
                         jsonSchemaIsStrict: true
                     )
-                });
+                }).ConfigureAwait(false);
 #pragma warning restore OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
             return response.Value.FinishReason != ChatFinishReason.Stop

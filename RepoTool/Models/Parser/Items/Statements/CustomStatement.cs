@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record CustomStatement : StatementConstruct
+    internal sealed record CustomStatement : StatementConstruct
     {
         /// <summary>
         /// Description of the logic for/within the statement

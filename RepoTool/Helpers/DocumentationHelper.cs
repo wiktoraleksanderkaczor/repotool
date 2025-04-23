@@ -20,7 +20,7 @@ namespace RepoTool.Helpers
     /// Provides helper methods for accessing XML documentation comments using the DocXml library.
     /// </summary>
     [ServiceLifetime(ServiceLifetime.Singleton)]
-    public class DocumentationHelper
+    internal sealed class DocumentationHelper
     {
         private readonly DocXmlReader _docXmlReader;
 
@@ -118,15 +118,15 @@ namespace RepoTool.Helpers
         public PropertyDocumentation GetPropertyDocumentation(PropertyInfo propertyInfo)
         {
             CommonComments? propertyComments = _docXmlReader.GetMemberComments(propertyInfo);
-            JsonSpecialModifier jsonSpecialFlag = propertyInfo.GetJsonSpecialFlag();
-            EnumComments? enumComments = jsonSpecialFlag != JsonSpecialModifier.None
+            JsonSpecialModifier jsonSpecialModifier = propertyInfo.GetJsonSpecialModifier();
+            EnumComments? enumComments = jsonSpecialModifier != JsonSpecialModifier.None
                 ? _docXmlReader.GetEnumComments(typeof(JsonSpecialModifier)) : null;
 
             return new PropertyDocumentation()
             {
                 PropertyName = propertyInfo.Name,
                 Handling = enumComments?.ValueComments
-                    .Where(x => jsonSpecialFlag.HasFlag((JsonSpecialModifier)x.Value) && x.Value != default)
+                    .Where(x => jsonSpecialModifier.HasFlag((JsonSpecialModifier)x.Value) && x.Value != default)
                     .Select(x =>
                         new HandlingDocumentation()
                         {
@@ -286,18 +286,13 @@ namespace RepoTool.Helpers
                                     _ = derivedTypes.Add(loadableType);
                                 }
                             }
-                            catch
+                            catch ( TargetInvocationException )
                             {
                                 // Skip if we can't get the interfaces
                                 continue;
                             }
                         }
                     }
-                }
-                catch ( Exception )
-                {
-                    // Silently continue if an assembly cannot be processed
-                    continue;
                 }
             }
 

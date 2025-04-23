@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Parser.Interfaces
 {
-    public interface IToolSelector<TEnum> where TEnum : struct
+    internal interface IToolSelector<TEnum> where TEnum : struct
     {
         public TEnum ToolSelection { get; init; }
     }

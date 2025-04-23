@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// <summary>
     /// Represents a line preprocessor directive (covers hidden, default and value).
     /// </summary>
-    public record LineDirective : DirectiveConstruct
+    internal sealed record LineDirective : DirectiveConstruct
     {
         /// <summary>
         /// The line number specified in the directive, if applicable.

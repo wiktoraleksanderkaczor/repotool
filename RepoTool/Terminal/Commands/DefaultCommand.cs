@@ -7,7 +7,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands
 {
-    public class DefaultCommand : AsyncCommand<CommonSettings>
+    internal sealed class DefaultCommand : AsyncCommand<CommonSettings>
     {
         private readonly IHostBuilder _hostBuilder;
 
@@ -15,7 +15,7 @@ namespace RepoTool.Terminal.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, CommonSettings settings)
         {
-            await _hostBuilder.Build().RunAsync();
+            await _hostBuilder.Build().RunAsync().ConfigureAwait(false);
             return 0;
         }
     }

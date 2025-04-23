@@ -3,9 +3,9 @@
 
 namespace RepoTool.Constants
 {
-    public static class ResourceConstants
+    internal static class ResourceConstants
     {
-        public static readonly string ParserLanguages = "parser-languages.json";
-        public static readonly string ModelDocumentation = "Models.xml";
+        public const string ParserLanguages = "parser-languages.json";
+        public const string ModelDocumentation = "Models.xml";
     }
 }

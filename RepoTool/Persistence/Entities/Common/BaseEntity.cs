@@ -3,7 +3,7 @@
 
 namespace RepoTool.Persistence.Entities.Common
 {
-    public class BaseEntity
+    internal abstract class BaseEntity
     {
         /// <summary>
         /// Unique identifier for entity

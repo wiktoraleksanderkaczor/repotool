@@ -8,7 +8,7 @@ using RepoTool.Options.Common;
 
 namespace RepoTool.Extensions
 {
-    public static class ServiceCollectionExtensions
+    internal static class ServiceCollectionExtensions
     {
         /// <summary>
         /// Scans the calling assembly for classes implementing <see cref="IOptionModel"/> and registers them

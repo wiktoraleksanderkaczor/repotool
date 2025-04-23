@@ -8,7 +8,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Extension methods for <see cref="object"/>.
     /// </summary>
-    public static class ObjectExtensions
+    internal static class ObjectExtensions
     {
         /// <summary>
         /// Converts the <see cref="object"/> to a JSON string.

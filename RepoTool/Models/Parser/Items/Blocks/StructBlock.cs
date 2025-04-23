@@ -6,7 +6,7 @@ using RepoTool.Enums.Parser.Items.Blocks;
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record StructBlock : ClassBlock
+    internal sealed record StructBlock : ClassBlock
     {
         /// <summary>
         /// List of all applicable modifier flags for this struct.

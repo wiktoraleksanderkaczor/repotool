@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Json
 {
-    public enum EnSchemaOutput
+    internal enum EnSchemaOutput
     {
         ObjectType,
         IterableType,

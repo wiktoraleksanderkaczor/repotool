@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Items.Blocks.Common;
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record CustomBlock : BlockConstruct
+    internal sealed record CustomBlock : BlockConstruct
     {
         /// <summary>
         /// Description of the logic for/within the statement

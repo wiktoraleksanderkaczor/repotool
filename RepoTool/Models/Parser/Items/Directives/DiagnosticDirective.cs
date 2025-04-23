@@ -10,7 +10,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// Represents a diagnostic preprocessor directive covering both warning and error directives.
     /// </summary>
     /// <inheritdoc />
-    public record DiagnosticDirective : DirectiveConstruct
+    internal sealed record DiagnosticDirective : DirectiveConstruct
     {
         /// <summary>
         /// The message associated with the diagnostic.

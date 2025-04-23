@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Expressions.Operators
     /// <summary>
     /// Assignment operators to be covered by translating to full assignment statements.
     /// </summary>
-    public enum EnBinaryOperator
+    internal enum EnBinaryOperator
     {
         /// <summary>
         /// Represents the addition operator (+).

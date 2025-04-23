@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Operators.Common;
 namespace RepoTool.Models.Parser.Items.Expressions.Operators
 {
     /// <inheritdoc />
-    public record BinaryOperatorExpression : OperatorExpression
+    internal sealed record BinaryOperatorExpression : OperatorExpression
     {
         /// <summary>
         /// The binary operator.

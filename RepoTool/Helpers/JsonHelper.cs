@@ -16,6 +16,7 @@ using RepoTool.Extensions;
 using RepoTool.Schemas;
 using RepoTool.Schemas.Generators;
 using RepoTool.Schemas.Refiners;
+using Spectre.Console;
 using PropertyNameResolvers = Json.Schema.Generation.PropertyNameResolvers;
 
 namespace RepoTool.Helpers
@@ -23,7 +24,7 @@ namespace RepoTool.Helpers
     /// <summary>
     /// Provides helper methods for JSON serialization, deserialization, and schema generation.
     /// </summary>
-    public static class JsonHelper
+    internal static class JsonHelper
     {
         public static JsonSerializerOptions DefaultJsonSerializerOptions { get; } = new()
         {
@@ -81,7 +82,7 @@ namespace RepoTool.Helpers
             {
                 try
                 {
-                    Console.WriteLine($"Using cached schema for {type.Name} from {schemaPath}"); // Use logger in production
+                    AnsiConsole.WriteLine($"Using cached schema for {type.Name} from {schemaPath}"); // Use logger in production
                     string schemaJson = await File.ReadAllTextAsync(schemaPath);
                     // Use JsonSchema.Net's FromText for deserialization
                     JsonSchema? schema = JsonSchema.FromText(schemaJson);
@@ -89,11 +90,11 @@ namespace RepoTool.Helpers
                     {
                         return schema;
                     }
-                    // Console.WriteLine($"Warning: Failed to deserialize cached schema from {schemaPath}. Regenerating."); // Use logger
+                    // AnsiConsole.WriteLine($"Warning: Failed to deserialize cached schema from {schemaPath}. Regenerating."); // Use logger
                 }
                 catch (Exception)
                 {
-                    // Console.WriteLine($"Warning: Error reading cached schema from {schemaPath}. Regenerating. Error: {ex.Message}"); // Use logger
+                    // AnsiConsole.WriteLine($"Warning: Error reading cached schema from {schemaPath}. Regenerating. Error: {ex.Message}"); // Use logger
                     // Attempt to delete the corrupted cache file
                     try { File.Delete(schemaPath); } catch { /* Ignore delete error */ }
                 }
@@ -155,7 +156,7 @@ namespace RepoTool.Helpers
             }
             catch ( Exception ex )
             {
-                Console.WriteLine($"Error: Failed to generate schema for {type.Name}. Error: {ex.Message}"); // Use logger
+                AnsiConsole.WriteLine($"Error: Failed to generate schema for {type.Name}. Error: {ex.Message}"); // Use logger
                 throw;
             }
 
@@ -164,13 +165,12 @@ namespace RepoTool.Helpers
             {
                 // Use System.Text.Json for serializing the JsonSchema.Net object
                 string schemaJsonOutput = SerializeToJson(generatedSchema);
-                await File.WriteAllTextAsync(schemaPath, schemaJsonOutput);
-                // Console.WriteLine($"Saved schema to {schemaPath}"); // Use logger
+                await File.WriteAllTextAsync(schemaPath, schemaJsonOutput).ConfigureAwait(false);
+                // AnsiConsole.WriteLine($"Saved schema to {schemaPath}"); // Use logger
             }
-            catch ( Exception )
+            catch ( NotSupportedException ex )
             {
-                // Console.WriteLine($"Error: Failed to save schema to {schemaPath}. Error: {ex.Message}"); // Use logger
-                // Optionally re-throw or handle the error appropriately
+                AnsiConsole.WriteLine($"Error: Failed to save schema to {schemaPath}. Error: {ex.Message}"); // Use logger
             }
 
             // Return the generated schema
@@ -258,7 +258,7 @@ namespace RepoTool.Helpers
         /// <exception cref="InvalidOperationException">Thrown if the schema type cannot be determined.</exception>
         public static async Task<EnSchemaOutput> GetItemSchemaHandlingTypeAsync(Type type)
         {
-            JsonSchema schema = await GetOrCreateJsonSchemaAsync(type);
+            JsonSchema schema = await GetOrCreateJsonSchemaAsync(type).ConfigureAwait(false);
             SchemaValueType? schemaValueType = schema.GetJsonType();
 
             if ( schemaValueType != null )

@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record MarkingStatement : StatementConstruct
+    internal sealed record MarkingStatement : StatementConstruct
     {
         /// <summary>
         /// The type of marking statement.

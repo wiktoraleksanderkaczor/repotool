@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Items.Directives
     /// <summary>
     /// Represents a preprocessor definition directive (#define, #undef).
     /// </summary>
-    public record DefinitionDirective : DirectiveConstruct
+    internal sealed record DefinitionDirective : DirectiveConstruct
     {
         /// <summary>
         /// The symbol being defined or undefined.

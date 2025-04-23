@@ -11,7 +11,7 @@ namespace RepoTool.Enums.Parser.Tools
     /// <summary>
     /// Defines the possible tool selections.
     /// </summary>
-    public enum EnConstructType
+    internal enum EnConstructType
     {
         /// <summary>
         /// Represents a scroll down action.

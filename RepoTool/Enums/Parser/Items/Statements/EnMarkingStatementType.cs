@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Statements
     /// <summary>
     /// Defines the possible types of marking statements.
     /// </summary>
-    public enum EnMarkingStatementType
+    internal enum EnMarkingStatementType
     {
         /// <summary>
         /// Represents a label.

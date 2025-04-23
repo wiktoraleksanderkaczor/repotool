@@ -27,7 +27,7 @@ using Action = RepoTool.Models.Inference.Contexts.Parser.Action;
 
 namespace RepoTool.Helpers
 {
-    public class ParserHelper
+    internal sealed class ParserHelper
     {
         private readonly RepositoryHelper _repositoryHelper;
         private readonly InferenceHelper _inferenceHelper;
@@ -45,12 +45,12 @@ namespace RepoTool.Helpers
 
         public async Task<ParsedFileEntity> ParseFileAsync(string filePath, string? reference = null)
         {
-            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference) ?? throw new FileNotFoundException($"File '{filePath}' not found.");
+            string? content = await _repositoryHelper.GetFileContentAsync(filePath, reference).ConfigureAwait(false) ?? throw new FileNotFoundException($"File '{filePath}' not found.");
 
             // Compute SHA256 hash of the string representation
             string contentHash = content.ToSha256Hash();
 
-            List<LanguageEntity> languageEntities = await _dbContext.Languages.ToListAsync();
+            List<LanguageEntity> languageEntities = await _dbContext.Languages.ToListAsync().ConfigureAwait(false);
 
             LanguageEntity? languageEntity = null;
             foreach ( LanguageEntity language in languageEntities )
@@ -103,7 +103,7 @@ namespace RepoTool.Helpers
                 ActionWindow = new ActionWindow { Actions = [] }
             };
 
-            JsonDocument parsedDataDocument = await ParseRecursively(parserContext);
+            JsonDocument parsedDataDocument = await ParseRecursively(parserContext).ConfigureAwait(false);
             string parsedDataDocumentJson = parsedDataDocument.ToString()
                 ?? throw new InvalidOperationException("Parsed data parsing failed");
             ParsedData parsedData = JsonHelper.DeserializeJsonToType<ParsedData>(parsedDataDocumentJson)
@@ -121,7 +121,7 @@ namespace RepoTool.Helpers
             try
             {
                 _dbContext.ParsedFiles.Add(parsedFileEntity);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
             catch ( Exception ex )
             {
@@ -143,8 +143,8 @@ namespace RepoTool.Helpers
             ParserContext parserContext)
         {
             // Get Handling Type (using the refined helper method)
-            Type objectType = parserContext.ItemPath.GetLastObjectType();
-            EnSchemaOutput handlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(objectType);
+            Type objectType = parserContext.ItemPath.LastObjectType;
+            EnSchemaOutput handlingType = await JsonHelper.GetItemSchemaHandlingTypeAsync(objectType).ConfigureAwait(false);
 
             // Branch Based on Handling Type
             switch ( handlingType )
@@ -155,10 +155,10 @@ namespace RepoTool.Helpers
                     {
                         case true:
                             // Handle collection types separately
-                            return await ParseMapping(parserContext);
+                            return await ParseMapping(parserContext).ConfigureAwait(false);
                         case false:
                             // Handle standard object types
-                            return await ParseRecord(parserContext);
+                            return await ParseRecord(parserContext).ConfigureAwait(false);
                     }
                 case EnSchemaOutput.IterableType:
                     // Assume ParseIterable handles its own relative path additions correctly.
@@ -168,12 +168,12 @@ namespace RepoTool.Helpers
                         // TODO: May still be okay, possible change to warning instead?
                         throw new NotSupportedException($"Type {objectType.Name} is not a recognized iterable type.");
                     }
-                    return await ParseIterable(parserContext);
+                    return await ParseIterable(parserContext).ConfigureAwait(false);
 
                 case EnSchemaOutput.ValueType:
                     // Directly infer the value
                     InferenceRequest<ParserContext> inferenceRequest = new() { Context = parserContext };
-                    return await _inferenceHelper.GetInferenceAsync<JsonDocument, ParserContext>(inferenceRequest)
+                    return await _inferenceHelper.GetInferenceAsync<JsonDocument, ParserContext>(inferenceRequest).ConfigureAwait(false)
                         ?? throw new InvalidOperationException($"Value inference failed for type {objectType.FullName} at path {parserContext.ItemPath}.");
 
                 default:
@@ -207,7 +207,7 @@ namespace RepoTool.Helpers
             {
                 // Infer the tool choice using the context
                 InferenceRequest<ParserContext> inferenceRequest = new() { Context = parserContext };
-                JsonDocument toolChoice = await ParseRecursively(parserContext)
+                JsonDocument toolChoice = await ParseRecursively(parserContext).ConfigureAwait(false)
                     ?? throw new InvalidOperationException($"Tool choice inference failed for type {toolComponent.ToolType.FullName} at path {parserContext.ItemPath}.");
 
                 // IMPORTANT: Remove the property component to restore the path
@@ -271,7 +271,7 @@ namespace RepoTool.Helpers
                             Message = $"Selected {toolChoiceEnumAttribute.ToolChoice} tool for {propertyComponent.PropertyInfo.PropertyType.Name} item.",
                             ItemPath = parserContext.ItemPath.DeepClone()
                         });
-                        return await ParseToolSelector(parserContext);
+                        return await ParseToolSelector(parserContext).ConfigureAwait(false);
                     default:
                         // Both attributes found, invalid
                         throw new InvalidOperationException($"Tool choice type {toolComponent.ToolType.Name} has both ToolChoice and ItemChoice attributes, which is not allowed.");
@@ -284,7 +284,7 @@ namespace RepoTool.Helpers
         private async Task<JsonDocument> ParseRecord(
             ParserContext parserContext)
         {
-            Type objectType = parserContext.ItemPath.GetLastObjectType();
+            Type objectType = parserContext.ItemPath.LastObjectType;
 
             // Check if type has ToolChoice attribute... for abstract items
 
@@ -298,7 +298,7 @@ namespace RepoTool.Helpers
                         ToolType = toolChoiceAttribute.ToolChoice,
                         CurrentObject = null,
                     });
-                objectType = await ParseToolSelector(parserContext);
+                objectType = await ParseToolSelector(parserContext).ConfigureAwait(false);
             }
 
             if ( objectType.IsAbstract || objectType.IsInterface )
@@ -329,14 +329,14 @@ namespace RepoTool.Helpers
                         PropertyName = property.Name,
                         PropertyInfo = property,
                         CurrentObject = null,
-                        JsonSpecialFlag = property.GetJsonSpecialFlag()
+                        JsonSpecialModifier = property.GetJsonSpecialModifier()
                     });
 
                 // Recursively parse the ignored field
-                using JsonDocument parsedFieldData = await ParseRecursively(parserContext);
+                using JsonDocument parsedFieldData = await ParseRecursively(parserContext).ConfigureAwait(false);
 
                 // Add the parsed field data to the parent object
-                JsonDocument? parentObject = parserContext.ItemPath.GetParentComponent()?.CurrentObject;
+                JsonDocument? parentObject = parserContext.ItemPath.ParentComponent?.CurrentObject;
                 JsonDocument? newParentObject = parentObject?.UpdateJsonDocument(property.Name, parsedFieldData);
 
                 // IMPORTANT: Remove the property component to restore the path
@@ -361,11 +361,11 @@ namespace RepoTool.Helpers
                     Context = new SummarizationContext
                     {
                         ItemPath = parserContext.ItemPath,
-                        Content = parserContext.ItemPath.GetParentComponent()?.CurrentObjectJson
+                        Content = parserContext.ItemPath.ParentComponent?.CurrentObjectJson
                             ?? throw new InvalidOperationException($"Current object is null at path {parserContext.ItemPath}.")
                     }
                 };
-                SummarizeAction summarizeAction = await _inferenceHelper.GetInferenceAsync<SummarizeAction, SummarizationContext>(summarizeInferenceRequest)
+                SummarizeAction summarizeAction = await _inferenceHelper.GetInferenceAsync<SummarizeAction, SummarizationContext>(summarizeInferenceRequest).ConfigureAwait(false)
                     ?? throw new InvalidOperationException($"Summarization failed for type {objectType.FullName} at path {parserContext.ItemPath}.");
 
                 // IMPORTANT: Remove the property component to restore the path
@@ -390,9 +390,9 @@ namespace RepoTool.Helpers
         private async Task<JsonDocument> ParseMapping(
             ParserContext parserContext)
         {
-            Type objectType = parserContext.ItemPath.GetLastObjectType();
+            Type objectType = parserContext.ItemPath.LastObjectType;
 
-            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
+            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialModifier
                 ?? JsonSpecialModifier.None;
 
             if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
@@ -421,7 +421,7 @@ namespace RepoTool.Helpers
                 // Type toolType = await ParseToolSelector(parserContext);
                 // TODO: Might be ParseRecursively?
                 object toolItem = await _inferenceHelper
-                    .GetInferenceAsync(selectorRequest)
+                    .GetInferenceAsync(selectorRequest).ConfigureAwait(false)
                         ?? throw new InvalidOperationException($"Object builder selection failed at path {parserContext.ItemPath}.");
 
                 switch ( toolItem )
@@ -441,7 +441,7 @@ namespace RepoTool.Helpers
                         try
                         {
                             // Recursively parse the property value using the updated context
-                            parsedValue = await ParseRecursively(parserContext);
+                            parsedValue = await ParseRecursively(parserContext).ConfigureAwait(false);
                         }
                         finally
                         {
@@ -538,7 +538,7 @@ namespace RepoTool.Helpers
         private async Task<JsonDocument> ParseIterable(
             ParserContext parserContext)
         {
-            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialFlag
+            JsonSpecialModifier jsonSpecialFlag = ( parserContext.ItemPath.GetLastComponent() as ItemPathPropertyComponent )?.JsonSpecialModifier
                 ?? JsonSpecialModifier.None;
 
             if ( jsonSpecialFlag.HasFlag(JsonSpecialModifier.FullContentScan) )
@@ -548,7 +548,7 @@ namespace RepoTool.Helpers
             }
 
             // Determine the element type (element type)
-            Type objectType = parserContext.ItemPath.GetLastObjectType();
+            Type objectType = parserContext.ItemPath.LastObjectType;
             Type? elementType = objectType.GetIterableElementType()
                 ?? throw new NotSupportedException($"Unable to determine element type for iterable type {objectType.Name} at path {parserContext.ItemPath}");
 
@@ -570,14 +570,14 @@ namespace RepoTool.Helpers
                         CurrentObject = null,
                     });
                 InferenceRequest<ParserContext> selectorRequest = new() { Context = parserContext };
-                Type toolType = await ParseToolSelector(parserContext);
+                Type toolType = await ParseToolSelector(parserContext).ConfigureAwait(false);
                 parserContext.ItemPath.AddComponent(
                     new ItemPathToolComponent
                     {
                         ToolType = toolType,
                         CurrentObject = null,
                     });
-                JsonDocument toolItemDocument = await ParseRecursively(parserContext);
+                JsonDocument toolItemDocument = await ParseRecursively(parserContext).ConfigureAwait(false);
                 object toolItem = JsonHelper.DeserializeJsonDocumentToType(toolItemDocument, toolType);
                 parserContext.ItemPath.RemoveLastComponent();
 
@@ -602,7 +602,7 @@ namespace RepoTool.Helpers
                         {
                             // Parse the new item using updated context
                             // Pass null for initialData
-                            parsedItem = await ParseRecursively(parserContext);
+                            parsedItem = await ParseRecursively(parserContext).ConfigureAwait(false);
                         }
                         finally
                         {

@@ -2,6 +2,7 @@
 // Licensed under the Business Source License
 
 using RepoTool.Constants;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
@@ -21,14 +22,14 @@ namespace RepoTool.Terminal
                 // Ensure the directory contains a git repo
                 if ( !Directory.Exists(PathConstants.GitFolder) )
                 {
-                    Console.WriteLine($"Directory '{PathConstants.CurrentDirectory}' does not contain git repository.");
+                    AnsiConsole.WriteLine($"Directory '{PathConstants.CurrentDirectory}' does not contain git repository.");
                     Environment.Exit(1);
                 }
 
                 if ( !Directory.Exists(PathConstants.RepoToolFolder)
                     || !File.Exists(PathConstants.DatabasePath) )
                 {
-                    Console.WriteLine("Must run initialization command first");
+                    AnsiConsole.WriteLine("Must run initialization command first");
                     Environment.Exit(1);
                 }
             }

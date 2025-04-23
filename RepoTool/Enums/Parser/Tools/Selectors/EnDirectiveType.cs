@@ -10,7 +10,7 @@ namespace RepoTool.Enums.Parser.Tools.Selectors
     /// <summary>
     /// Defines the possible types of preprocessor directives.
     /// </summary>
-    public enum EnDirectiveType
+    internal enum EnDirectiveType
     {
         /// <summary>
         /// Represents a scroll down action.

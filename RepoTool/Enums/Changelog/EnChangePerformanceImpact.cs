@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the performance impact of a change
     /// </summary>
-    public enum EnChangePerformanceImpact
+    internal enum EnChangePerformanceImpact
     {
         /// <summary>
         /// Change significantly improves performance

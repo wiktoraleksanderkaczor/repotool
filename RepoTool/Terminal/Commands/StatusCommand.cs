@@ -7,9 +7,9 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands
 {
-    public class StatusSettings : CommonSettings;
+    internal sealed class StatusSettings : CommonSettings;
 
-    public class StatusCommand : Command<StatusSettings>
+    internal sealed class StatusCommand : Command<StatusSettings>
     {
         public override int Execute(CommandContext context, StatusSettings settings)
         {

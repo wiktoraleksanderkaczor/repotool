@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Declarations.Common;
 namespace RepoTool.Models.Parser.Items.Declarations
 {
     /// <inheritdoc />
-    public record DelegateDeclaration : DeclarationConstruct
+    internal sealed record DelegateDeclaration : DeclarationConstruct
     {
         /// <summary>
         /// Information about the callable delegate.

@@ -6,7 +6,7 @@ using RepoTool.Enums.Json;
 
 namespace RepoTool.Extensions
 {
-    public static class SchemaValueTypeExtensions
+    internal static class SchemaValueTypeExtensions
     {
         public static EnSchemaOutput GetOutputHandlingType(this SchemaValueType schemaValueType)
         {

@@ -3,11 +3,11 @@
 
 namespace RepoTool.Constants
 {
-    public static class TemplateConstants
+    internal static class TemplateConstants
     {
-        public static readonly string TemplatePath = "RepoTool.Resources.Templates";
-        public static readonly string ChangelogTemplate = $"{TemplatePath}.changelog.sbn";
-        public static readonly string SummarizationTemplate = $"{TemplatePath}.summarization.sbn";
-        public static readonly string ParsingTemplate = $"{TemplatePath}.parsing.sbn";
+        public const string TemplatePath = "RepoTool.Resources.Templates";
+        public const string ChangelogTemplate = $"{TemplatePath}.changelog.sbn";
+        public const string SummarizationTemplate = $"{TemplatePath}.summarization.sbn";
+        public const string ParsingTemplate = $"{TemplatePath}.parsing.sbn";
     }
 }

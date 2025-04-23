@@ -7,7 +7,7 @@ namespace RepoTool.Attributes.Parser
     /// An attribute to indicate which tool to use for a specific selection.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class ToolChoiceAttribute : Attribute
+    internal sealed class ToolChoiceAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolChoiceAttribute"/> class.

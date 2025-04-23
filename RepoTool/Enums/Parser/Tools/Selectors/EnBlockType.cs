@@ -10,7 +10,7 @@ namespace RepoTool.Enums.Parser.Tools.Selectors
     /// <summary>
     /// Defines the possible types of code blocks.
     /// </summary>
-    public enum EnBlockType
+    internal enum EnBlockType
     {
         /// <summary>
         /// Represents a scroll down action.

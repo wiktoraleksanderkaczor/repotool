@@ -6,7 +6,7 @@ namespace RepoTool.Constants
     /// <summary>
     /// Defines constant values for file system paths used throughout the application.
     /// </summary>
-    public static class PathConstants
+    internal static class PathConstants
     {
         /// <summary>
         /// Gets the current working directory of the application.

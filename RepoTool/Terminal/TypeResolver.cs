@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal
 {
-    public sealed class TypeResolver : ITypeResolver
+    internal sealed class TypeResolver : ITypeResolver
     {
         private readonly IServiceProvider _provider;
 

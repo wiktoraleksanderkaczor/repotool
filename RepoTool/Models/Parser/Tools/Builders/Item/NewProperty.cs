@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Parser.Tools.Builders.Item
 {
-    public record NewProperty
+    internal sealed record NewProperty
     {
         /// <summary>
         /// Indicates the name of the property.

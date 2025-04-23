@@ -12,7 +12,7 @@ using RepoTool.Persistence;
 
 namespace RepoTool
 {
-    public static class DependencyInjection
+    internal static class DependencyInjection
     {
         public static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {

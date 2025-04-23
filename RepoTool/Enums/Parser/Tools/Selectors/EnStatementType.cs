@@ -11,7 +11,7 @@ namespace RepoTool.Enums.Parser.Tools.Selectors
     /// <summary>
     /// Defines the possible types of statements.
     /// </summary>
-    public enum EnStatementType
+    internal enum EnStatementType
     {
         /// <summary>
         /// Represents a scroll down action.

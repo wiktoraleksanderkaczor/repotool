@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Tools.Builders.Iterable
 {
-    public enum EnIterableInsertAt
+    internal enum EnIterableInsertAt
     {
         /// <summary>
         /// Indicates that the item should be inserted at the end of the iterable.

@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Directives
     /// <summary>
     /// Represents symbol definition directives (#define, #undef)
     /// </summary>
-    public enum EnDefinitionType
+    internal enum EnDefinitionType
     {
         /// <summary>
         /// Represents a #define directive.

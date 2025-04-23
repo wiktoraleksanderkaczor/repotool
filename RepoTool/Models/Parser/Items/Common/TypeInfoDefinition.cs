@@ -11,7 +11,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// - Handles generics and generic constraints
     /// - Works with wrapped types like lists, dictionaries, etc.
     /// </summary>
-    public record TypeInfoDefinition
+    internal sealed record TypeInfoDefinition
     {
         /// <summary>
         /// The type itself.
@@ -51,7 +51,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents a component of a type definition.
     /// </summary>
-    public record TypeInfoComponent
+    internal sealed record TypeInfoComponent
     {
         /// <summary>
         /// The type name, e.g. int, string, List, Dictionary etc.
@@ -184,7 +184,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents information about generic constraints.
     /// </summary>
-    public record GenericConstraintInfo
+    internal sealed record GenericConstraintInfo
     {
         /// <summary>
         /// Name accompanying constraint flag

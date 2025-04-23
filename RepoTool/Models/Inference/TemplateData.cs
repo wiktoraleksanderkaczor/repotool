@@ -6,7 +6,7 @@ using RepoTool.Models.Inference.Contexts.Common;
 
 namespace RepoTool.Models.Inference
 {
-    public record TemplateData<T> where T : notnull, InferenceContext
+    internal sealed record TemplateData<T> where T : notnull, InferenceContext
     {
         /// <summary>
         /// The inference request plus context.
@@ -28,12 +28,12 @@ namespace RepoTool.Models.Inference
     /// Configuration for the template.
     /// e.g. use full file context or window context. etc.
     /// </summary>
-    public record TemplateConfiguration;
+    internal sealed record TemplateConfiguration;
 
     /// <summary>
     /// Documentation for the inference request.
     /// </summary>
-    public record Documentation
+    internal sealed record Documentation
     {
         /// <summary>
         /// The JSON schema to be used for inference.

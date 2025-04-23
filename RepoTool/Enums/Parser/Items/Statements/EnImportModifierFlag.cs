@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Statements
     /// <summary>
     /// Defines the possible modifier flags for an import statement.
     /// </summary>
-    public enum EnImportModifier
+    internal enum EnImportModifier
     {
         /// <summary>
         /// Import is a system module.

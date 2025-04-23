@@ -9,7 +9,7 @@ namespace RepoTool.Models.Parser.Tools
     /// <summary>
     /// Represents a selection in the parser.
     /// </summary>
-    public record ConstructSelector : IToolSelector<EnConstructType>
+    internal sealed record ConstructSelector : IToolSelector<EnConstructType>
     {
         /// <summary>
         /// The selected tool.

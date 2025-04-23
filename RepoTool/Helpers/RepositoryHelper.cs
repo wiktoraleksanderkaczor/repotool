@@ -8,23 +8,23 @@ using Tree = LibGit2Sharp.Tree;
 
 namespace RepoTool.Helpers
 {
-    public class RepositoryHelper
+    internal sealed class RepositoryHelper
     {
         private Repository _repository { get; init; }
 
         public RepositoryHelper() => _repository = new Repository(".");
 
-        public static string DownloadRepository(string url, string path = ".")
+        public static string DownloadRepository(Uri url, string path = ".")
         {
             try
             {
-                return Repository.Clone(url, path);
+                return Repository.Clone(url.ToString(), path);
             }
             catch ( NameConflictException )
             {
                 return path;
             }
-            catch ( Exception e )
+            catch ( RecurseSubmodulesException e )
             {
                 AnsiConsole.WriteLine($"Failed to clone repository: {e.Message}");
                 return string.Empty;
@@ -69,7 +69,7 @@ namespace RepoTool.Helpers
                     return commit.Tree;
                 }
             }
-            catch ( Exception )
+            catch ( ArgumentException )
             {
                 // Not a valid commit hash
             }
@@ -83,7 +83,7 @@ namespace RepoTool.Helpers
                     return tagCommit.Tree;
                 }
             }
-            catch ( Exception )
+            catch ( ArgumentNullException )
             {
                 // Not a valid tag
             }
@@ -91,7 +91,7 @@ namespace RepoTool.Helpers
             return null;
         }
 
-        public async Task<string?> GetFileContentAsync(string filePath, string? reference = null) => reference is not null ? ( GetBlobForCommit(reference, filePath)?.GetContentText() ) : await File.ReadAllTextAsync(filePath);
+        public async Task<string?> GetFileContentAsync(string filePath, string? reference = null) => reference is not null ? ( GetBlobForCommit(reference, filePath)?.GetContentText() ) : await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
 
         private Dictionary<string, string?> GetOriginalFileContents(List<PatchEntryChanges> changes)
         {
@@ -110,7 +110,7 @@ namespace RepoTool.Helpers
                         return _repository.Lookup<Blob>(x.Oid).GetContentText();
                     }
                 }
-                catch ( Exception )
+                catch ( NotFoundException )
                 {
                     AnsiConsole.WriteLine($"Warning: Original content not found for {path}");
                 }

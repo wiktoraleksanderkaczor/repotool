@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Interfaces;
 
 namespace RepoTool.Models.Parser.Tools.Selectors
 {
-    public record DeclarationSelector : IToolSelector<EnDeclarationType>
+    internal sealed record DeclarationSelector : IToolSelector<EnDeclarationType>
     {
         /// <summary>
         /// The type of the declaration.

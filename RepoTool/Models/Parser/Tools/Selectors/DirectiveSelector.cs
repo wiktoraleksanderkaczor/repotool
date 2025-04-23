@@ -6,7 +6,7 @@ using RepoTool.Models.Parser.Interfaces;
 
 namespace RepoTool.Models.Parser.Tools.Selectors
 {
-    public record DirectiveSelector : IToolSelector<EnDirectiveType>
+    internal sealed record DirectiveSelector : IToolSelector<EnDirectiveType>
     {
         /// <summary>
         /// The type of the preprocessor directive.

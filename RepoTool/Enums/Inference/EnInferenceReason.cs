@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Inference
     /// <summary>
     /// Represents the reason that inference was called
     /// </summary>
-    public enum EnInferenceReason
+    internal enum EnInferenceReason
     {
         /// <summary>
         /// Determine changelog entries
@@ -21,6 +21,11 @@ namespace RepoTool.Enums.Inference
         /// <summary>
         /// Parse a file into a language-agnostic representation
         /// </summary>
-        Parsing
+        Parsing,
+
+        /// <summary>
+        /// Unknown reason
+        /// </summary>
+        Unknown
     }
 }

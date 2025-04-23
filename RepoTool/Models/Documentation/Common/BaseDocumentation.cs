@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Documentation.Common
 {
-    public abstract record BaseDocumentation
+    internal abstract record BaseDocumentation
     {
         /// <summary>
         /// Summary block documentation for the item. Can be null if not present.
@@ -21,7 +21,7 @@ namespace RepoTool.Models.Documentation.Common
         public required string? Example { get; set; }
     }
 
-    public abstract record BaseTypedDocumentation : BaseDocumentation
+    internal abstract record BaseTypedDocumentation : BaseDocumentation
     {
         /// <summary>
         /// Full name of the type, including namespace and generic types.

@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the functional area affected by a change
     /// </summary>
-    public enum EnChangeArea
+    internal enum EnChangeArea
     {
         /// <summary>
         /// Changes to API endpoints, controllers, or service interfaces

@@ -8,14 +8,14 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands
 {
-    public class SearchSettings : CommonSettings
+    internal sealed class SearchSettings : CommonSettings
     {
         [CommandOption("--query")]
         [Description("Search query.")]
         public string Query { get; set; } = null!;
     }
 
-    public class SearchCommand : Command<SearchSettings>
+    internal sealed class SearchCommand : Command<SearchSettings>
     {
         public override int Execute(CommandContext context, SearchSettings settings)
         {

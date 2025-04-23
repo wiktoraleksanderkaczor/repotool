@@ -6,7 +6,7 @@ using RepoTool.Persistence.Entities;
 
 namespace RepoTool.Persistence
 {
-    public class RepoToolDbContext : DbContext
+    internal sealed class RepoToolDbContext : DbContext
     {
         public DbSet<ChangelogEntity> Changelogs { get; set; }
         public DbSet<InferenceCacheEntity> InferenceCache { get; set; }

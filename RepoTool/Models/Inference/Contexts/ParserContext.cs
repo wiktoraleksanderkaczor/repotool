@@ -6,7 +6,7 @@ using RepoTool.Models.Inference.Contexts.Parser;
 
 namespace RepoTool.Models.Inference.Contexts
 {
-    public record ParserContext : InferenceContext
+    internal sealed record ParserContext : InferenceContext
     {
         /// <summary>
         /// Path to the file being parsed.      

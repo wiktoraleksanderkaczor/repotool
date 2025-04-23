@@ -14,14 +14,14 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Index
 {
-    public class UpdateIndexSettings : CommonSettings
+    internal sealed class UpdateIndexSettings : CommonSettings
     {
         [CommandOption("--commit")]
         [Description("Commit to change.")]
         public string? Commit { get; set; }
     }
 
-    public class UpdateIndexCommand : AsyncCommand<UpdateIndexSettings>
+    internal sealed class UpdateIndexCommand : AsyncCommand<UpdateIndexSettings>
     {
         private readonly RepositoryHelper _repositoryHelper;
         private readonly InferenceHelper _inferenceHelper;
@@ -59,12 +59,12 @@ namespace RepoTool.Terminal.Commands.Index
                         }
                     };
 
-                    ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest);
+                    ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest).ConfigureAwait(false);
 
                     if ( changelog != null )
                     {
                         _ = _dbContext.Changelogs.Add(changelog);
-                        _ = await _dbContext.SaveChangesAsync();
+                        _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
                     }
                 }
             }
@@ -96,12 +96,12 @@ namespace RepoTool.Terminal.Commands.Index
                             }
                         };
 
-                        ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest);
+                        ChangelogEntity? changelog = await _inferenceHelper.GetInferenceAsync<ChangelogEntity, ChangelogContext>(inferenceRequest).ConfigureAwait(false);
 
                         if ( changelog != null )
                         {
                             _ = _dbContext.Changelogs.Add(changelog);
-                            _ = await _dbContext.SaveChangesAsync();
+                            _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
                         }
                     }
                 }

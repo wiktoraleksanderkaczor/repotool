@@ -11,14 +11,14 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Cache
 {
-    public class ShowCacheSettings : CommonSettings
+    internal sealed class ShowCacheSettings : CommonSettings
     {
         [CommandOption("--show")]
         [Description("Show cache.")]
         public bool Show { get; set; }
     }
 
-    public class ShowCacheCommand : Command<ShowCacheSettings>
+    internal sealed class ShowCacheCommand : Command<ShowCacheSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 

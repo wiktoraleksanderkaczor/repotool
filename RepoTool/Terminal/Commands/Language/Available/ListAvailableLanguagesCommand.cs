@@ -8,7 +8,7 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Language.Available
 {
-    public class ListAvailableLanguagesCommand : Command<ListLanguageSettings>
+    internal sealed class ListAvailableLanguagesCommand : Command<ListLanguageSettings>
     {
         public ListAvailableLanguagesCommand()
         {

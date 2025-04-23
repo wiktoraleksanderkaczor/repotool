@@ -8,5 +8,5 @@ namespace RepoTool.Attributes.Parser
     /// Only applicable to iterable properties, it will be ignored for other types.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class FullContentScanAttribute : Attribute;
+    internal sealed class FullContentScanAttribute : Attribute;
 }

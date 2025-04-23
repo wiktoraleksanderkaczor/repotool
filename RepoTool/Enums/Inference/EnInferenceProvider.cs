@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Inference
     /// <summary>
     /// Represents the provider to use for inference.
     /// </summary>
-    public enum EnInferenceProvider
+    internal enum EnInferenceProvider
     {
         /// <summary>
         /// Use Ollama for inference.

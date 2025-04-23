@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Operators.Common;
 namespace RepoTool.Models.Parser.Items.Expressions.Operators
 {
     /// <inheritdoc />
-    public record UnaryOperatorExpression : OperatorExpression
+    internal sealed record UnaryOperatorExpression : OperatorExpression
     {
         /// <summary>
         /// The unary operator.

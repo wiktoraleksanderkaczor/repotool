@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the size of a change in a commit, rated against best-practice commit size
     /// </summary>
-    public enum EnChangeSize
+    internal enum EnChangeSize
     {
         /// <summary>
         /// Excellent - Very small, focused change

@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Common
 {
-    public enum EnTypeInfoModifier
+    internal enum EnTypeInfoModifier
     {
         /// <summary>
         /// Indicates that the type is nullable

@@ -9,7 +9,7 @@ namespace RepoTool.Attributes.Helpers
     /// An attribute to indicate that the full content of the code must be scanned to answer.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class ServiceLifetimeAttribute : Attribute
+    internal sealed class ServiceLifetimeAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceLifetimeAttribute"/> class.

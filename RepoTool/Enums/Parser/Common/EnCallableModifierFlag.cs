@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Common
     /// <summary>
     /// Unified flag enum for callable modifiers
     /// </summary>
-    public enum EnCallableModifier
+    internal enum EnCallableModifier
     {
         /// <summary>
         /// Indicates that a callable is static (class-level)

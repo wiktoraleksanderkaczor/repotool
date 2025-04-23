@@ -11,7 +11,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// Represents a base construct in the code.
     /// </summary>
     [ToolChoice(typeof(ConstructSelector))]
-    public abstract record Construct
+    internal abstract record Construct
     {
         /// <summary>
         /// Top-level docstring for the item if applicable.
@@ -44,7 +44,7 @@ namespace RepoTool.Models.Parser.Items.Common
     /// <summary>
     /// Represents a construct that has a name.
     /// </summary>
-    public abstract record NamedConstruct : Construct
+    internal abstract record NamedConstruct : Construct
     {
         /// <summary>
         /// Name of the item.

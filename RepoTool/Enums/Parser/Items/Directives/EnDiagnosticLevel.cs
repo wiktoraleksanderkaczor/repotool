@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Items.Directives
 {
-    public enum EnDiagnosticLevel
+    internal enum EnDiagnosticLevel
     {
         /// <summary>
         /// Represents a warning diagnostic.

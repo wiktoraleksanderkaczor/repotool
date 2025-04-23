@@ -12,7 +12,7 @@ namespace RepoTool.Models.Parser.Items.Blocks.Common
 {
     /// <inheritdoc />
     [ToolChoice(typeof(BlockSelector))]
-    public abstract record BlockConstruct : NamedConstruct
+    internal abstract record BlockConstruct : NamedConstruct
     {
         /// <summary>
         /// The type of the block.

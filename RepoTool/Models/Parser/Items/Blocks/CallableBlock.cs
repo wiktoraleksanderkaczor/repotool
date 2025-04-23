@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Common;
 namespace RepoTool.Models.Parser.Items.Blocks
 {
     /// <inheritdoc />
-    public record CallableBlock : BlockConstruct
+    internal sealed record CallableBlock : BlockConstruct
     {
         /// <summary>
         /// Information about the callable.

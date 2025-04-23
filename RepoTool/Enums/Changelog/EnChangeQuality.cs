@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the quality assessment of a change
     /// </summary>
-    public enum EnChangeQuality
+    internal enum EnChangeQuality
     {
         /// <summary>
         /// Very Poor quality (unacceptable, severe issues)

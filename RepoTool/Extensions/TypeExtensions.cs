@@ -9,7 +9,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Provides extension methods for the <see cref="Type"/> class.
     /// </summary>
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         /// <summary>
         /// Recursively searches the inheritance hierarchy and implemented interfaces of a type

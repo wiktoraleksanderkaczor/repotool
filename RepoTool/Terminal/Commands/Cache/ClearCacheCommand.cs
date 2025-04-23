@@ -9,14 +9,14 @@ using Spectre.Console.Cli;
 
 namespace RepoTool.Terminal.Commands.Cache
 {
-    public class ClearCacheSettings : CommonSettings
+    internal sealed class ClearCacheSettings : CommonSettings
     {
         [CommandOption("--clear")]
         [Description("Clear cache.")]
         public bool Clear { get; set; }
     }
 
-    public class ClearCacheCommand : AsyncCommand<ClearCacheSettings>
+    internal sealed class ClearCacheCommand : AsyncCommand<ClearCacheSettings>
     {
         private readonly RepoToolDbContext _dbContext;
 
@@ -24,7 +24,7 @@ namespace RepoTool.Terminal.Commands.Cache
         public override async Task<int> ExecuteAsync(CommandContext context, ClearCacheSettings settings)
         {
             _dbContext.InferenceCache.RemoveRange(_dbContext.InferenceCache);
-            _ = await _dbContext.SaveChangesAsync();
+            _ = await _dbContext.SaveChangesAsync().ConfigureAwait(false);
             AnsiConsole.WriteLine("Cache cleared.");
             return 0;
         }

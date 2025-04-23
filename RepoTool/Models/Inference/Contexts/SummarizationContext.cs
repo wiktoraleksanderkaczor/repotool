@@ -5,7 +5,7 @@ using RepoTool.Models.Inference.Contexts.Common;
 
 namespace RepoTool.Models.Inference.Contexts
 {
-    public record SummarizationContext : InferenceContext
+    internal sealed record SummarizationContext : InferenceContext
     {
         /// <summary>
         /// Content to be summarized.

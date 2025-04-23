@@ -5,7 +5,7 @@ using Json.Schema;
 
 namespace RepoTool.Extensions
 {
-    public static class EvaluationResultsExtensions
+    internal static class EvaluationResultsExtensions
     {
         public static void DisplayErrors(this List<EvaluationResults> evaluationResults)
         {

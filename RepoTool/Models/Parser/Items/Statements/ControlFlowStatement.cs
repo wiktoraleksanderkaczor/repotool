@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record ControlFlowStatement : StatementConstruct
+    internal sealed record ControlFlowStatement : StatementConstruct
     {
         /// <summary>
         /// Type of the control flow.

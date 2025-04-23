@@ -6,8 +6,7 @@ namespace RepoTool.Enums.Parser
     /// <summary>
     /// Represents the programming paradigm of a language.
     /// </summary>
-    [Flags]
-    public enum EnLanguageParadigm
+    internal enum EnLanguageParadigm
     {
         /// <summary>
         /// Object-oriented programming paradigm.

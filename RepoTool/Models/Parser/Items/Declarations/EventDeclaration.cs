@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Declarations.Common;
 namespace RepoTool.Models.Parser.Items.Declarations
 {
     /// <inheritdoc />
-    public record EventDeclaration : DeclarationConstruct
+    internal sealed record EventDeclaration : DeclarationConstruct
     {
         /// <summary>
         /// The type of the event.

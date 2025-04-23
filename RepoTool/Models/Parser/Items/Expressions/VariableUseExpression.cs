@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record VariableUseExpression : ExpressionConstruct
+    internal sealed record VariableUseExpression : ExpressionConstruct
     {
         /// <summary>
         /// Name of the variable.
@@ -48,7 +48,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     /// <summary>
     /// Represents a component of a variable path.
     /// </summary>
-    public record VariablePathComponent
+    internal sealed record VariablePathComponent
     {
         /// <summary>
         /// The value of this path component.

@@ -11,7 +11,7 @@ namespace RepoTool.Schemas
     /// in order to be compatible with Ollama's structured output feature.
     /// It reflects the capabilities and limitations documented for Ollama's schema processing.
     /// </summary>
-    public static class OllamaOutputSchema
+    internal static class OllamaOutputSchema
     {
         /// <summary>
         /// Creates and configures a <see cref="JsonSchemaBuilder"/> for the Ollama meta-schema.

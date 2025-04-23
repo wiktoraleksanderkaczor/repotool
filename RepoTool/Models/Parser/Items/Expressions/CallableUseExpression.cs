@@ -13,7 +13,7 @@ namespace RepoTool.Models.Parser.Items.Expressions
     /// <remarks>
     /// Must call expression builder for all [named] arguments
     /// </remarks>
-    public record CallableUseExpression : ExpressionConstruct
+    internal sealed record CallableUseExpression : ExpressionConstruct
     {
         /// <summary>
         /// Name of the function being called.

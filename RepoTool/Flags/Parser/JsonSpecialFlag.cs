@@ -7,7 +7,7 @@ namespace RepoTool.Flags.Parser
     /// Defines special flags for JSON schema generation related to properties.
     /// </summary>
     [Flags]
-    public enum JsonSpecialModifier
+    internal enum JsonSpecialModifier
     {
         /// <summary>
         /// Indicates that no special flags are set.

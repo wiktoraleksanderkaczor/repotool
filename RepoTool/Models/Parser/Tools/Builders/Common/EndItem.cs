@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Parser.Tools.Builders.Common
 {
-    public enum EnItemTerminationReason
+    internal enum EnItemTerminationReason
     {
         /// <summary>
         /// Indicates that the iterable has been terminated due to a parsing error.
@@ -16,7 +16,7 @@ namespace RepoTool.Models.Parser.Tools.Builders.Common
         Finished
     }
 
-    public record EndItem
+    internal sealed record EndItem
     {
         /// <summary>
         /// Indicates why the end of the item has been reached.

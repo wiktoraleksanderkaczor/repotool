@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Tools.Navigation;
 
 namespace RepoTool.Enums.Parser.Tools.Builders
 {
-    public enum EnItemBuilderTool
+    internal enum EnItemBuilderTool
     {
         /// <summary>
         /// Represents a scroll down action.

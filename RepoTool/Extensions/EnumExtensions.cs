@@ -3,7 +3,7 @@
 
 namespace RepoTool.Extensions
 {
-    public static class EnumExtensions
+    internal static class EnumExtensions
     {
         public static bool HasMultipleFlags<T>(this T value) where T : struct, Enum
         {

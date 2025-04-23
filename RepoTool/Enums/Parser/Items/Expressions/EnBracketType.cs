@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Parser.Items.Expressions
     /// <summary>
     /// Defines the possible types of brackets.
     /// </summary>
-    public enum EnBracketType
+    internal enum EnBracketType
     {
         /// <summary>
         /// Represents square brackets [].

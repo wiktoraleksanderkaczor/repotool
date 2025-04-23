@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions.Operators.Common
 {
     /// <inheritdoc />
-    public abstract record OperatorExpression : ExpressionConstruct
+    internal abstract record OperatorExpression : ExpressionConstruct
     {
         /// <summary>
         /// The type of the operator.

@@ -6,7 +6,7 @@ using RepoTool.Models.Repository;
 
 namespace RepoTool.Models.Inference.Contexts
 {
-    public record ChangelogContext : InferenceContext
+    internal sealed record ChangelogContext : InferenceContext
     {
         /// <summary>
         /// Model containing original and changed data for a particular path

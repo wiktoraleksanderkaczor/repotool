@@ -11,7 +11,7 @@ namespace RepoTool.Extensions
     /// <summary>
     /// Provides extension methods for the <see cref="string"/> class.
     /// </summary>
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         /// <summary>
         /// Computes the SHA256 hash of the string.
@@ -24,7 +24,7 @@ namespace RepoTool.Extensions
             ArgumentNullException.ThrowIfNull(input);
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
             byte[] hashBytes = SHA256.HashData(inputBytes);
-            string hashString = Convert.ToHexString(hashBytes).ToLowerInvariant();
+            string hashString = Convert.ToHexString(hashBytes).ToUpperInvariant();
             return hashString;
         }
 

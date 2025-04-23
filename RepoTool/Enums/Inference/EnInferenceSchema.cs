@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Inference
     /// <summary>
     /// Represents the JSON schema type to use for structured inference
     /// </summary>
-    public enum EnInferenceSchema
+    internal enum EnInferenceSchema
     {
         /// <summary>
         /// Use Ollama.

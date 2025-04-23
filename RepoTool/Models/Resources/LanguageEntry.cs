@@ -3,7 +3,7 @@
 
 namespace RepoTool.Models.Resources
 {
-    public record LanguageEntry
+    internal sealed record LanguageEntry
     {
         /// <summary>
         /// The language name.

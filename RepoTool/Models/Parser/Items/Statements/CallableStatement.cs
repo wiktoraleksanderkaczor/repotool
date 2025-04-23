@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record CallableStatement : StatementConstruct
+    internal sealed record CallableStatement : StatementConstruct
     {
         /// <summary>
         /// The callable block

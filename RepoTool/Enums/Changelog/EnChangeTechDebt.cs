@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the technical debt impact of a change
     /// </summary>
-    public enum EnChangeTechDebt
+    internal enum EnChangeTechDebt
     {
         /// <summary>
         /// Change reduces existing technical debt

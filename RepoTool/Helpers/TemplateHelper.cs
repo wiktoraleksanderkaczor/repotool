@@ -14,12 +14,12 @@ using Spectre.Console;
 
 namespace RepoTool.Helpers
 {
-    public static class TemplateHelper
+    internal static class TemplateHelper
     {
         public static string FillMessageTemplateWithContext<TContext>(TemplateData<TContext> data)
             where TContext : notnull, InferenceContext
         {
-            string messageTemplate = GetMessageTemplateForReason(data.Request.GetInferenceReason());
+            string messageTemplate = GetMessageTemplateForReason(data.Request.InferenceReason);
             Template template = Template.Parse(messageTemplate);
             TemplateContext context = new()
             {
@@ -64,12 +64,12 @@ namespace RepoTool.Helpers
                                         ?? throw new FileNotFoundException("Summarization message template file not found."),
                 EnInferenceReason.Parsing => ResourceHelper.GetResourceContent(TemplateConstants.ParsingTemplate)
                                         ?? throw new FileNotFoundException("Parsing message template file not found."),
-                _ => throw new ArgumentException("Invalid inference reason"),
+                EnInferenceReason.Unknown or _ => throw new ArgumentException("Invalid inference reason"),
             };
         }
     }
 
-    public class TemplateLoader : ITemplateLoader
+    internal sealed class TemplateLoader : ITemplateLoader
     {
         public string GetPath(TemplateContext context, SourceSpan callerSpan, string templateName)
         {

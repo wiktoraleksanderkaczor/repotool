@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Tools.Common
 {
-    public enum EnVariableModifier
+    internal enum EnVariableModifier
     {
         /// <summary>
         /// Indicates that a variable is constant/final and cannot be changed after initialization

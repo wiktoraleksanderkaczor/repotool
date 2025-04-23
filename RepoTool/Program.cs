@@ -54,12 +54,13 @@ namespace RepoTool
                         logging = logging.AddConsole();
                     });
 
-                return await builder.RunSpectreCommands(args);
+                return await builder.RunSpectreCommands(args).ConfigureAwait(false);
             }
             catch ( Exception ex )
             {
                 AnsiConsole.WriteException(ex);
                 return 1;
+                throw;
             }
         }
     }

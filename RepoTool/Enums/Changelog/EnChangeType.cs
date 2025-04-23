@@ -6,7 +6,7 @@ namespace RepoTool.Enums.Changelog
     /// <summary>
     /// Represents the type of change
     /// </summary>
-    public enum EnChangeType
+    internal enum EnChangeType
     {
         /// <summary>
         /// New feature or functionality

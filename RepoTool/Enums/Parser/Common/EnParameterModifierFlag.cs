@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Common
 {
-    public enum EnParameterModifier
+    internal enum EnParameterModifier
     {
         /// <summary>
         /// Indicates that a parameter is optional

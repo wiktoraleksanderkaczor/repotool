@@ -8,7 +8,7 @@ namespace RepoTool.Models.Parser.Tools.Navigation
     /// <summary>
     /// Represents a page down action in the parser, indicating how many lines to scroll.
     /// </summary>
-    public record PageDown
+    internal sealed record PageDown
     {
         /// <summary>
         /// The number of overlapping lines for next page to current page.

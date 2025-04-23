@@ -7,7 +7,7 @@ using RepoTool.Models.Parser.Items.Expressions.Common;
 namespace RepoTool.Models.Parser.Items.Expressions
 {
     /// <inheritdoc />
-    public record BracketExpression : ExpressionConstruct
+    internal sealed record BracketExpression : ExpressionConstruct
     {
         /// <summary>
         /// Type of the brackets.

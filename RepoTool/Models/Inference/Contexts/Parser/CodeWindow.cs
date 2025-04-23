@@ -12,7 +12,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// The window size is 0-based.
     /// The window size is the number of lines to show below the start line.
     /// </summary>
-    public record CodeWindowData
+    internal record CodeWindowData
     {
         /// <summary>
         /// The center line number for the code window. Starts from 1.
@@ -29,7 +29,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents a view into a file's content, centered around a specific line.
     /// </summary>
-    public record CodeWindow : CodeWindowData
+    internal sealed record CodeWindow : CodeWindowData
     {
         /// <summary>
         /// Stashed code windows for later use.
@@ -246,7 +246,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
     /// <summary>
     /// Represents a line of code in the code window.
     /// </summary>
-    public record CodeLine
+    internal sealed record CodeLine
     {
         /// <summary>
         /// The line number of the code line.

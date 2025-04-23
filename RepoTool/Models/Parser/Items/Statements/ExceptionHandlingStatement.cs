@@ -8,7 +8,7 @@ using RepoTool.Models.Parser.Items.Statements.Common;
 namespace RepoTool.Models.Parser.Items.Statements
 {
     /// <inheritdoc />
-    public record ExceptionHandlingStatement : StatementConstruct
+    internal sealed record ExceptionHandlingStatement : StatementConstruct
     {
         /// <summary>
         /// The list of constructs to execute in the try block.
@@ -31,7 +31,7 @@ namespace RepoTool.Models.Parser.Items.Statements
     /// <summary>
     /// Represents a catch block in a try-catch-finally statement.
     /// </summary>
-    public record CatchComponent
+    internal sealed record CatchComponent
     {
         /// <summary>
         /// The variable that will hold the exception object.

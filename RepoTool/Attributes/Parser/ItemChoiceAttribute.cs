@@ -7,7 +7,7 @@ namespace RepoTool.Attributes.Parser
     /// An attribute to indicate which item to instantiate for a specific choice in a selection.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-    public class ItemChoiceAttribute : Attribute
+    internal sealed class ItemChoiceAttribute : Attribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemChoiceAttribute"/> class.

@@ -3,7 +3,7 @@
 
 namespace RepoTool.Enums.Parser.Common
 {
-    public enum EnGenericConstraintType
+    internal enum EnGenericConstraintType
     {
         NotNull,
         Unmanaged,
