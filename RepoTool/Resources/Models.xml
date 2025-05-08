@@ -5176,6 +5176,16 @@
             The top-p sampling parameter.
             </summary>
         </member>
+        <member name="P:RepoTool.Options.SamplingOptions.MinP">
+            <summary>
+            The min-p sampling parameter.
+            </summary>
+        </member>
+        <member name="P:RepoTool.Options.SamplingOptions.TopK">
+            <summary>
+            The top-k sampling parameter.
+            </summary>
+        </member>
         <member name="P:RepoTool.Options.SamplingOptions.FrequencyPenalty">
             <summary>
             The frequency penalty for generated text.

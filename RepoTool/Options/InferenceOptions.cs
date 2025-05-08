@@ -101,6 +101,16 @@ namespace RepoTool.Options
         public float TopP { get; set; } = 0.5f;
 
         /// <summary>
+        /// The min-p sampling parameter.
+        /// </summary>
+        public float? MinP { get; set; }
+
+        /// <summary>
+        /// The top-k sampling parameter.
+        /// </summary>
+        public int? TopK { get; set; }
+
+        /// <summary>
         /// The frequency penalty for generated text.
         /// </summary>
         public float FrequencyPenalty { get; set; }

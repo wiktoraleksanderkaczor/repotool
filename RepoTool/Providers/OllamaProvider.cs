@@ -47,8 +47,10 @@ namespace RepoTool.Providers
                     NumKeep = -1, // TODO: Wut dis?
                     NumThread = Environment.ProcessorCount,
                     NumPredict = -1, // -1 means no limit, -2 means fill context
+                    TopK = _modelOptions.SamplingOptions.TopK,
                     Temperature = _modelOptions.SamplingOptions.Temperature,
                     TopP = _modelOptions.SamplingOptions.TopP,
+                    MinP = _modelOptions.SamplingOptions.MinP,
                     PresencePenalty = _modelOptions.SamplingOptions.PresencePenalty,
                     FrequencyPenalty = _modelOptions.SamplingOptions.FrequencyPenalty
                 },
