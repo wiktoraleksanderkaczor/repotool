@@ -5341,6 +5341,18 @@
         <member name="M:RepoTool.Persistence.Migrations.UpdateInferenceCache.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:RepoTool.Persistence.Migrations.AddInferenceModelCacheUnique">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.AddInferenceModelCacheUnique.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.AddInferenceModelCacheUnique.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:RepoTool.Persistence.Migrations.AddInferenceModelCacheUnique.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:RepoTool.Schemas.OllamaOutputSchema">
             <summary>
             Provides functionality to build the JSON Meta-Schema that validates schemas intended for Ollama.

@@ -33,7 +33,7 @@ namespace RepoTool.Persistence.Configuration
             _ = builder.HasIndex(x => x.InferenceProvider);
 
             // Composite key unique index
-            _ = builder.HasIndex(x => new { x.PromptHash, x.OutputType, x.InferenceProvider })
+            _ = builder.HasIndex(x => new { x.PromptHash, x.OutputType, x.InferenceProvider, x.InferenceModel })
                 .IsUnique();
         }
     }

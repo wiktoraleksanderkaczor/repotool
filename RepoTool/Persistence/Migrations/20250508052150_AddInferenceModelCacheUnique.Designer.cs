@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepoTool.Persistence;
 
@@ -10,9 +11,11 @@ using RepoTool.Persistence;
 namespace RepoTool.Persistence.Migrations
 {
     [DbContext(typeof(RepoToolDbContext))]
-    partial class RepoToolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250508052150_AddInferenceModelCacheUnique")]
+    partial class AddInferenceModelCacheUnique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
