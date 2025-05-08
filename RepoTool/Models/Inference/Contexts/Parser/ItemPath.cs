@@ -49,6 +49,7 @@ namespace RepoTool.Models.Inference.Contexts.Parser
                     ItemPathIndexComponent indexComponent => indexComponent.ItemType,
                     ItemPathKeyComponent keyComponent => keyComponent.ItemType,
                     ItemPathPropertyComponent propertyComponent => propertyComponent.PropertyInfo.PropertyType,
+                    ItemPathToolComponent toolComponent => toolComponent.ToolType,
                     _ => throw new NotSupportedException("Unknown component type.")
                 }
                 : throw new InvalidOperationException("No components in path.");
