@@ -21,9 +21,9 @@ namespace RepoTool.Models.Inference.Contexts.Parser
 
         /// <summary>
         /// The number of lines to show below the start line. 
-        /// Must be at least 1 and has a default of 25.
+        /// Must be at least 1 and has a default of 100.
         /// </summary>
-        public int WindowSize { get; set; } = 25;
+        public int WindowSize { get; set; } = 100;
     }
 
     /// <summary>

@@ -2381,7 +2381,7 @@
         <member name="P:RepoTool.Models.Inference.Contexts.Parser.CodeWindowData.WindowSize">
             <summary>
             The number of lines to show below the start line. 
-            Must be at least 1 and has a default of 25.
+            Must be at least 1 and has a default of 100.
             </summary>
         </member>
         <member name="T:RepoTool.Models.Inference.Contexts.Parser.CodeWindow">
