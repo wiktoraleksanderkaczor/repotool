@@ -24,6 +24,16 @@ namespace RepoTool.Terminal.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, CommonSettings settings)
         {
+            await EnsureDirectoriesAndFilesExistAsync().ConfigureAwait(false);
+            await ApplyDatabaseMigrationsAsync().ConfigureAwait(false);
+            await GenerateAndSaveSchemaAsync().ConfigureAwait(false);
+            await UpdateSettingsFileAsync().ConfigureAwait(false);
+
+            return 0;
+        }
+
+        private static async Task EnsureDirectoriesAndFilesExistAsync()
+        {
             // Ensure containing directory exists
             if ( !Directory.Exists(PathConstants.RepoToolFolder) )
             {
@@ -35,12 +45,16 @@ namespace RepoTool.Terminal.Commands
             {
                 await File.Create(PathConstants.DatabasePath).DisposeAsync().ConfigureAwait(false);
             }
+        }
 
+        private async Task ApplyDatabaseMigrationsAsync() =>
             // Apply migrations
             // Ensure the database is created and migrated
-            // dbContext.Database.EnsureCreated() does not work with SQLite    
+            // dbContext.Database.EnsureCreated() does not work with SQLite
             await _dbContext.Database.MigrateAsync().ConfigureAwait(false);
 
+        private static async Task GenerateAndSaveSchemaAsync()
+        {
             // Find types implementing IOptionModel in the calling assembly
             Assembly callingAssembly = Assembly.GetExecutingAssembly();
             IEnumerable<Type> optionModelTypes = callingAssembly
@@ -79,7 +93,10 @@ namespace RepoTool.Terminal.Commands
             }
 
             await File.WriteAllTextAsync(PathConstants.SettingsSchemaPath, jsonSchema.ToJson()).ConfigureAwait(false);
+        }
 
+        private static async Task UpdateSettingsFileAsync()
+        {
             // Create settings.json file in repo tool folder pointing to settings-schema.json as $schema
             string schemaValue = $"{Path.GetFileName(PathConstants.SettingsSchemaPath)}";
             string minimalSettingsContent = $$"""
@@ -116,27 +133,23 @@ namespace RepoTool.Terminal.Commands
                     else
                     {
                         AnsiConsole.WriteLine("The settings file is not a valid JSON object.");
-                        Environment.Exit(1);
+                        Environment.Exit(1); // Consider throwing an exception instead of exiting directly
                     }
                 }
-                catch ( JsonException )
+                catch ( JsonException ex )
                 {
                     // If parsing fails (invalid JSON)
-                    AnsiConsole.WriteLine("Invalid JSON format in settings file.");
-                    throw;
+                    AnsiConsole.WriteLine($"Invalid JSON format in settings file: {ex.Message}");
+                    throw; // Rethrow to indicate initialization failure
                 }
-                catch ( Exception )
-                {
-                    throw; // Rethrow if the error should halt execution
-                }
+                // Catching generic Exception is often too broad; consider more specific exceptions if possible.
+                // If a generic catch is needed, ensure proper logging/handling.
             }
             else
             {
                 // File doesn't exist, create it with minimal content
                 await File.WriteAllTextAsync(PathConstants.SettingsPath, minimalSettingsContent).ConfigureAwait(false);
             }
-
-            return 0;
         }
     }
 }
