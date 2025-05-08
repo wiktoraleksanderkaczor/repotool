@@ -129,7 +129,7 @@ namespace RepoTool.Helpers
                     config.Refiners.Add(new MultipleTypesRefiner());
                     break;
                 default:
-                    throw new ArgumentException($"Unsupported schema type: {schema}");
+                    break;
             }
 
             JsonSchema? generatedSchema = null;
